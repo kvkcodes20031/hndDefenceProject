@@ -1,0 +1,18 @@
+# Node
+node_modules/
+npm-debug.log
+
+# PHP
+vendor/
+*.log
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build / Dist
+dist/
+build/
+
+
