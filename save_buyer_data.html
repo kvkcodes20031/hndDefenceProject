@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Details | AgriLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-light min-h-screen flex items-center justify-center py-10 px-4">
+  <div class="bg-white shadow-lg rounded-lg w-full max-w-md p-8">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-primary">Buyer Details</h1>
+      <p class="text-gray-500 text-sm">Tell us about your business</p>
+    </div>
+    <form id="buyerForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Business Name</label>
+        <input type="text" name="business_name" placeholder="e.g. Fresh Market Ltd" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Buyer Type</label>
+        <input type="text" name="buyer_type" placeholder="e.g. Wholesaler, Retailer" required class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <button type="submit" class="w-full bg-primary text-white py-3 rounded hover:bg-secondary transition mt-4">Save Details</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById('buyerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+
+      fetch('save_buyer_data.php', { method: 'POST', body: new FormData(this) })
+      .then(r => r.json())
+      .then(d => {
+        if(d.success) {
+          alert('Data saved successfully!');
+        } else {
+          alert(d.errors.join('\n') + (d.pdoError ? '\n\nDatabase Error: ' + d.pdoError : ''));
+          btn.disabled = false;
+          btn.textContent = 'Save Details';
+        }
+      })
+      .catch(e => {
+        console.error(e);
+        btn.disabled = false;
+        btn.textContent = 'Save Details';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -16,9 +16,9 @@
     <label for="">email</label>
     <input type="text" name="email" id=""><br><br>
     <label for="">password</label>
-    <input type="password_hash" name="password_hash" id=""><br><br>
-    
-    <input type="password_hash" name="confirm_password" id=""><br>
+    <input type="password" name="password" id="password"><br><br>
+    <label for="confirm_password">Confirm Password</label>
+    <input type="password" name="confirm_password" id="confirm_password"><br><br>
     <label for="">Role</label>
     <input type="text" name="role" list="roles" Id="role">
     <datalist id="roles">

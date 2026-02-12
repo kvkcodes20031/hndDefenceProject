@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles/custom.css">
+</head>
+<body>
+  <section class="max-w-7xl mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-6 text-orange-700">Buyer Dashboard</h2>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-4 rounded shadow">
+      <p class="text-sm text-gray-500">Orders Placed</p>
+      <p class="text-2xl font-bold">18</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <p class="text-sm text-gray-500">Active Orders</p>
+      <p class="text-2xl font-bold">4</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <p class="text-sm text-gray-500">Total Spend</p>
+      <p class="text-2xl font-bold">2,750,000 XAF</p>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <p class="text-sm text-gray-500">Suppliers</p>
+      <p class="text-2xl font-bold">9</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Orders -->
+    <div class="bg-white p-4 rounded shadow">
+      <h3 class="font-semibold mb-3">Recent Orders</h3>
+      <ul class="space-y-2 text-sm">
+        <li>Rice – 2 MT – In Transit</li>
+        <li>Fresh Tomatoes – 800 kg – Delivered</li>
+        <li>Maize – 1 MT – Pending</li>
+      </ul>
+    </div>
+
+    <!-- Market Trends Placeholder -->
+    <div class="bg-white p-4 rounded shadow flex items-center justify-center">
+      <p class="text-gray-400">
+        📊 Market Price Trends (Placeholder)
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Supplier Suggestions -->
+  <div class="bg-white p-4 rounded shadow mt-6">
+    <h3 class="font-semibold mb-3">Recommended Suppliers</h3>
+    <ul class="space-y-2 text-sm">
+      <li>Green Harvest Cooperative – Maize</li>
+      <li>North Rice Farmers Group – Rice</li>
+      <li>FreshGrow Farms – Vegetables</li>
+    </ul>
+  </div>
+</section>
+  
+</body>
+</html>

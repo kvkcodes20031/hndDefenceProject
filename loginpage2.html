@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLink - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .bg-hero-field {
+            background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('https://via.placeholder.com/1200x600');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="font-[Inter] bg-hero-field min-h-screen flex flex-col">
+    <nav class="p-6 flex items-center gap-2">
+        <img src="https://via.placeholder.com/30/064E3B/FFFFFF?text=A" alt="Logo" class="rounded">
+        <span class="text-xl font-extrabold text-[#064E3B]">AgriLink</span>
+        <span class="hidden md:block text-xs text-gray-500 ml-4">Connecting Farmers, Buyers, Logistics & Inputs</span>
+    </nav>
+
+    <div class="flex-grow flex flex-col items-center justify-center px-6">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-[#064E3B] mb-2">Welcome Back to AgriLink</h1>
+            <p class="text-gray-600 max-w-md mx-auto">Log in to access farmers, buyers, logistics, and input suppliers in one platform.</p>
+        </div>
+
+        <div class="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl w-full max-w-md border border-white">
+            <div class="flex items-center gap-2 mb-6">
+                 <img src="https://via.placeholder.com/24/064E3B/FFFFFF?text=A" alt="Logo">
+                 <h2 class="text-xl font-bold text-gray-800">Login</h2>
+            </div>
+
+            <form class="space-y-4">
+                <div class="flex gap-2">
+                    <div class="flex items-center gap-1 bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-sm">
+                        🇨🇲 <span class="text-gray-500">+237</span>
+                    </div>
+                    <input type="text" placeholder="Enter phone or email" class="flex-grow bg-gray-50 border border-gray-200 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-800">
+                </div>
+
+                <div class="relative">
+                    <input type="password" placeholder="Enter your password" class="w-full bg-gray-50 border border-gray-200 px-4 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-800">
+                    <span class="absolute right-3 top-2.5 text-gray-400">🔒</span>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                    <label class="flex items-center gap-2 text-gray-600">
+                        <input type="checkbox" class="rounded text-green-800"> Remember Me
+                    </label>
+                    <a href="#" class="text-gray-500 underline">Forgot Password?</a>
+                </div>
+
+                <button class="w-full bg-[#2D5A47] text-white py-3 rounded-lg font-bold hover:bg-[#1E3D30] transition shadow-lg">
+                    Login
+                </button>
+            </form>
+
+            <p class="text-center text-sm text-gray-600 mt-8">
+                Don't have an account? <a href="#" class="text-[#064E3B] font-bold underline">Register now</a>
+            </p>
+        </div>
+    </div>
+
+    </body>
+</html>

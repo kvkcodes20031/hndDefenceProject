@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLink - A Smarter Way to Move Farm Produce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; color: #1A2E26; }
+        .bg-agri-green { background-color: #064E3B; }
+        .text-agri-green { color: #064E3B; }
+        .bg-agri-orange { background-color: #E67E22; }
+        .bg-cream-soft { background-color: #F5F1E6; }
+        .border-agri-green { border-color: #064E3B; }
+    </style>
+</head>
+<body>
+
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-agri-green rounded-sm flex items-center justify-center text-white font-bold italic">A</div>
+            <span class="text-xl font-extrabold text-agri-green">AgriLink</span>
+            <span class="hidden lg:block text-xs text-gray-500 ml-4">Connecting Farmers, Buyers, Logistics & Inputs</span>
+        </div>
+        <div class="flex gap-4">
+            <button class="px-6 py-2 border border-agri-green text-agri-green rounded-md font-semibold text-sm">Register</button>
+            <button class="px-6 py-2 bg-agri-green text-white rounded-md font-semibold text-sm">Login</button>
+        </div>
+    </nav>
+
+    <section class="relative h-[500px] md:h-[600px] flex items-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1920&q=80" class="w-full h-full object-cover" alt="Farm field">
+            <div class="absolute inset-0 bg-white/20"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full grid md:grid-cols-2 gap-8 items-center">
+            <div class="bg-white/60 backdrop-blur-sm p-8 rounded-2xl max-w-xl">
+                <h2 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-agri-green">
+                    A Smarter Way to Buy, Sell, and Move Farm Produce
+                </h2>
+                <p class="text-lg text-gray-700 mb-8 font-medium">
+                    Connecting Farmers, Cooperatives, Buyers, Logistics Providers, and Input Suppliers in One Platform.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <button class="bg-agri-green text-white px-6 py-3 rounded-md font-bold text-sm">Get Started as a Farmer</button>
+                    <button class="bg-agri-green text-white px-6 py-3 rounded-md font-bold text-sm">Buy as a Business</button>
+                    <button class="bg-agri-orange text-white px-6 py-3 rounded-md font-bold text-sm">Join as Logistics Agent</button>
+                </div>
+            </div>
+            <div class="hidden md:flex justify-end">
+                <div class="w-80 h-96 bg-gray-200 rounded-3xl border-4 border-white shadow-2xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1594235342410-2384a2408931?w=500" class="object-cover h-full" alt="Smiling farmer">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-16 text-center">
+        <h3 class="text-2xl font-bold text-agri-green mb-10 flex items-center justify-center gap-4">
+            <span class="h-px w-12 bg-agri-green opacity-30"></span>
+            Who Can Use the Platform?
+            <span class="h-px w-12 bg-agri-green opacity-30"></span>
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="bg-white border border-gray-100 rounded-xl p-2 shadow-sm">
+                <div class="h-32 bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1595113316349-9fa4eb24f884?w=200" class="w-full h-full object-cover" alt="Farmer">
+                </div>
+                <p class="font-bold text-sm text-agri-green">Farmers</p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-xl p-2 shadow-sm">
+                <div class="h-32 bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=200" class="w-full h-full object-cover" alt="Buyer">
+                </div>
+                <p class="font-bold text-sm text-agri-green">Buyers</p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-xl p-2 shadow-sm">
+                <div class="h-32 bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200" class="w-full h-full object-cover" alt="Logistics">
+                </div>
+                <p class="font-bold text-sm text-agri-green">Logistics Providers</p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-xl p-2 shadow-sm">
+                <div class="h-32 bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=200" class="w-full h-full object-cover" alt="Cooperatives">
+                </div>
+                <p class="font-bold text-sm text-agri-green">Cooperatives</p>
+            </div>
+            <div class="bg-white border border-gray-100 rounded-xl p-2 shadow-sm">
+                <div class="h-32 bg-gray-100 rounded-lg mb-3 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1622383529357-374211246944?w=200" class="w-full h-full object-cover" alt="Input Suppliers">
+                </div>
+                <p class="font-bold text-sm text-agri-green">Input Suppliers</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-cream-soft py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold text-agri-green mb-12">How It Works</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="relative group">
+                    <div class="bg-white p-2 rounded-2xl shadow-md">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-agri-orange text-white rounded-full flex items-center justify-center font-bold">1</div>
+                        <img src="https://images.unsplash.com/photo-1592419044706-39796d40f98c?w=400" class="rounded-xl h-48 w-full object-cover" alt="Step 1">
+                        <p class="py-4 font-semibold text-xs text-agri-green italic">1. Farmers list their produce</p>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <div class="bg-white p-2 rounded-2xl shadow-md">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-agri-orange text-white rounded-full flex items-center justify-center font-bold">2</div>
+                        <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=400" class="rounded-xl h-48 w-full object-cover" alt="Step 2">
+                        <p class="py-4 font-semibold text-xs text-agri-green italic">2. Buyers place orders</p>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <div class="bg-white p-2 rounded-2xl shadow-md">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-agri-orange text-white rounded-full flex items-center justify-center font-bold">3</div>
+                        <img src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=400" class="rounded-xl h-48 w-full object-cover" alt="Step 3">
+                        <p class="py-4 font-semibold text-xs text-agri-green italic">3. Logistics deliver to buyers</p>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <div class="bg-white p-2 rounded-2xl shadow-md">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-8 bg-agri-orange text-white rounded-full flex items-center justify-center font-bold">4</div>
+                        <img src="https://images.unsplash.com/photo-1554224155-1696413565d3?w=400" class="rounded-xl h-48 w-full object-cover" alt="Step 4">
+                        <p class="py-4 font-semibold text-xs text-agri-green italic">4. Payment released on delivery</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 py-16 text-center">
+        <h3 class="text-2xl font-bold text-agri-green mb-8">Why Choose AgriLink?</h3>
+        <ul class="space-y-4 inline-block text-left">
+            <li class="flex items-center gap-3 font-bold text-agri-green">
+                <span class="text-green-500">✔</span> Aggregated Orders for Lower Costs
+            </li>
+            <li class="flex items-center gap-3 font-bold text-agri-green">
+                <span class="text-green-500">✔</span> Full Cooperative Integration
+            </li>
+            <li class="flex items-center gap-3 font-bold text-agri-green">
+                <span class="text-green-500">✔</span> Local Logistics & Market Runners
+            </li>
+            <li class="flex items-center gap-3 font-bold text-agri-green">
+                <span class="text-green-500">✔</span> Secure Payments with Escrow
+            </li>
+        </ul>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 mb-16">
+        <div class="border-t-2 border-agri-orange/30 pt-8 text-center mb-10">
+            <h4 class="text-xl font-bold text-agri-green italic">Join the Future of Agriculture in Cameroon</h4>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                <div class="bg-agri-orange/90 p-3 text-center text-white font-bold">For Farmers</div>
+                <div class="p-6 space-y-2">
+                    <p class="text-sm font-semibold">✔ Better Prices</p>
+                    <p class="text-sm font-semibold">✔ Less Wastage</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                <div class="bg-agri-green p-3 text-center text-white font-bold">For Buyers</div>
+                <div class="p-6 space-y-2">
+                    <p class="text-sm font-semibold">✔ Reliable Supply</p>
+                    <p class="text-sm font-semibold">✔ Lower Costs</p>
+                </div>
+            </div>
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+                <div class="bg-agri-orange/90 p-3 text-center text-white font-bold">For Logistics</div>
+                <div class="p-6 space-y-2">
+                    <p class="text-sm font-semibold">✔ More Delivery Jobs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex flex-wrap justify-center gap-6 pb-20">
+        <button class="bg-agri-green text-white px-12 py-3 rounded-md font-bold">Create an Account</button>
+        <button class="bg-agri-orange text-white px-12 py-3 rounded-md font-bold">Contact Us</button>
+    </div>
+
+    <footer class="bg-white border-t border-gray-200 py-10 text-center">
+        <div class="flex flex-wrap justify-center gap-6 text-sm text-agri-green font-bold mb-6">
+            <a href="#">About Us</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="flex justify-center gap-4 text-agri-green mb-4">
+            <span>🔵</span> <span>🐦</span> <span>📸</span>
+        </div>
+    </footer>
+
+</body>
+</html>

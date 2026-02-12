@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriLink – Create Account</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Custom Colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            lightBg: '#f4f7f5',
+            'agri-green': '#064E3B',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-lightBg text-gray-800">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <!-- LOGO PLACEHOLDER -->
+      <div class="w-8 h-8 bg-primary rounded"></div>
+      <span class="font-bold text-xl text-primary">AgriLink</span>
+    </div>
+    <a href="login.html" class="text-primary font-medium">Login</a>
+  </div>
+</header>
+
+  <!-- ========== CONTENT ========== -->
+  <main class="flex-1 flex flex-col items-center justify-center py-12 px-4">
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-agri-green">
+      <!-- BACKGROUND IMAGE PLACEHOLDER -->
+      <div class="absolute inset-0 bg-gray-300 bg-[url('images/image.png')] h-80 w-full bg-cover bg-center" ></div>
+
+      <div class="relative max-w-10xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            Create Your AgriLink Account
+          </h1>
+          <p class="text-gray-700 text-base mb-8">
+            Join Cameroon’s unified agricultural platform connecting farmers,
+            buyers, logistics & input suppliers.
+          </p>
+        </div>
+
+        <!-- IMAGE PLACEHOLDER -->
+        <!-- <div class="w-full h-64 bg-gray-400 rounded-lg bg-[url('images/tomatoes.jpg')] h-64 w-full bg-cover bg-center" ></div> -->
+      </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="max-w-4xl mx-auto mt-20 xl:mt-28 px-4 pb-20">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h3 class="font-semibold mb-6">Please enter your details</h3>
+
+        <form id="registerForm" class="grid md:grid-cols-2 gap-4">
+          <input name="phone_number" type="tel" class="border p-2 rounded" placeholder="Phone Number" required />
+
+          <input name="email" type="email" class="border p-2 rounded" placeholder="Email" required />
+
+          <input name="password" type="password" class="border p-2 rounded" placeholder="Password" required />
+          <input name="confirm_password" type="password" class="border p-2 rounded" placeholder="Confirm Password" required />
+
+          <select name="role" class="border p-2 rounded md:col-span-2" required>
+            <option value="" disabled selected>Select your role</option>
+            <option value="farmer">Farmer</option>
+            <option value="buyer">Buyer</option>
+            <option value="logistic operator">Logistic Operator</option>
+            <option value="input supplier">Input Supplier</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <div id="response" class="md:col-span-2 text-red-600 text-sm"></div>
+
+          <button type="submit" class="md:col-span-2 mt-4 w-full bg-primary text-white py-3 rounded hover:bg-secondary transition">
+            Create Account
+          </button>
+        </form>
+
+        <p class="text-xs text-center text-gray-500 mt-4">
+          By creating an account, you agree to our Terms & Conditions and Privacy Policy
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const form = document.getElementById('registerForm');
+const responseDiv = document.getElementById('response');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent page reload
+
+    const formData = new FormData(form);
+
+    try {
+        const res = await fetch('userRgistration.php', {  // Replace with your PHP file path
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success === false) {
+            // Display all errors
+            responseDiv.innerHTML = '<strong>Error:</strong> ' + data.errors.join('<br>');
+        } else {
+            responseDiv.classList.remove('text-red-600');
+            responseDiv.classList.add('text-green-600');
+            responseDiv.innerHTML = '<strong>Success!</strong> Registration successful. Redirecting to login...';
+            form.reset(); // Clear the form
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        }
+
+    } catch (err) {
+        responseDiv.innerHTML = 'A server error occurred. Please try again later. ' + err.message;
+    }
+});
+
+  </script>
+    
+</body>
+</html>

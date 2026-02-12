@@ -1,5 +1,5 @@
 <?php
-header("content-type: application/json");
+header("Content-Type: application/json");
 
 try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
@@ -7,75 +7,49 @@ try {
 
     $errors = [];
 
-    // Required fields check (EMPTY, not isset)
-     $first_name = trim($_POST['first_name'] ?? '');
-    if ($first_name=='') {
-        $errors[] = "First name is required";
+    $phone = trim($_POST['phone_number'] ?? '');
+    $email_raw = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $confirm = $_POST['confirm_password'] ?? '';
+    $role = $_POST['role'] ?? '';
+
+    if ($phone === '') $errors[] = "Phone number is required";
+    if ($email_raw === '') $errors[] = "Email is required";
+    if ($password === '') $errors[] = "Password is required";
+    if ($confirm === '') $errors[] = "Confirm password is required";
+    if ($password !== '' && $password !== $confirm) $errors[] = "Passwords do not match";
+    if ($role === '') $errors[] = "Role is required";
+
+    $email = filter_var($email_raw, FILTER_VALIDATE_EMAIL);
+    if ($email === false) $errors[] = "Invalid email";
+
+    if (!empty($errors)) {
+        echo json_encode(['success'=>false,'errors'=>$errors]);
+        exit;
     }
 
-    $last_name = trim($_POST['last_name'] ?? '');
-    if ($last_name=='') {
-        $errors[] = "Last name is required";
+    // Check if email or phone already exists
+    $checkStmt = $connect->prepare("SELECT user_id FROM userstable WHERE email = ? OR phone_number = ? LIMIT 1");
+    $checkStmt->execute([$email, $phone]);
+    if ($checkStmt->fetch()) {
+        echo json_encode(['success'=>false,'errors'=>['Account with this email or phone number already exists']]);
+        exit;
     }
 
-    
-    if (empty($_POST['phone_number'])) {
-        $errors[] = "Phone number is required";
-    }
-
-
-
-
-    // Email validation
-    $email = trim($_POST['email'] ?? '');
-    if ($email=='') {
-        $errors[] = "Email is required";
-    }
-
-   else {
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-        if ($email === false) {
-            $errors[] = "Please enter a valid email";
-        }
-    }
-
-    // Password
-    if (empty($_POST['password_hash'])) {
-        $errors[] = "Password is required";
-    }
-
-    // Role
-    if (empty($_POST['role'])) {
-        $errors[] = "Role is required";
-    }
-
-    // display errors if any
-    if ($errors) {
-        foreach ($errors as $error) {
-             echo json_encode(['success'=>false,'errors'=>$errors]);
-        }
-        exit; 
-    }
-
-    //Insert only if validation passed
-    $sql = $connect->prepare("
-        INSERT INTO userstable 
-        (first_name, last_nam, phone_number, email, password_hash, role) 
-        VALUES (?, ?, ?, ?, ?, ?)
+    // Insert ONLY account data
+    $stmt = $connect->prepare("
+        INSERT INTO userstable (phone_number, email, password_hash, role)
+        VALUES (?, ?, ?, ?)
     ");
-
-    $sql->execute([
-        $first_name,
-        $last_name,
-        $_POST['phone_number'],
+    $stmt->execute([
+        $phone,
         $email,
-        password_hash($_POST['password_hash'], PASSWORD_BCRYPT),
-        $_POST['role']
+        password_hash($password, PASSWORD_BCRYPT),
+        $role
     ]);
 
-    echo "New record created successfully";
+    echo json_encode(['success'=>true]);
 
 } catch (PDOException $e) {
-    echo json_encode(["Connection failed: " . $e->getMessage()]);
+    echo json_encode(['success'=>false,'errors'=>['Account creation failed']]);
 }
-    ?>
