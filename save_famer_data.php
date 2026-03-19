@@ -27,7 +27,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $stmt = $connect->prepare("
-        INSERT INTO farmers (user_id, farm_name, farming_type, experienced_year)
+        INSERT INTO famers (farmer_id, farm_name, farming_type, experienced_year)
         VALUES (?, ?, ?, ?)
     ");
     $stmt->execute([
@@ -44,5 +44,5 @@ try {
     echo json_encode(['success'=>true]);
 
 } catch (PDOException $e) {
-    echo json_encode(['success'=>false,'errors'=>['Failed to save farmer data']]);
+    echo json_encode(['success'=>false,'errors'=>['Failed to save farmer data: ' . $e->getMessage()]]);
 }

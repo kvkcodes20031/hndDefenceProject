@@ -47,7 +47,13 @@
       fetch('save_logistic_data.php', { method: 'POST', body: new FormData(this) })
       .then(r => r.json())
       .then(d => {
-        if(d.success) alert('Data saved successfully!');
+        
+        if(d.success) {
+     
+          document.location.href = 'logistics_dashboard.html';
+          document.getElementById('logisticForm').reset();
+
+      }
         else alert(d.errors.join('\n'));
       })
       .catch(e => console.error(e));

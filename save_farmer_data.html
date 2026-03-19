@@ -52,7 +52,9 @@
       .then(r => r.json())
       .then(d => {
         if(d.success) {
-          alert('Data saved successfully!');
+          document.location.href = 'famerdashboard.html';
+          btn.disabled = false;
+          btn.textContent = 'Save Details';
         } else {
           alert(d.errors.join('\n'));
           btn.disabled = false;

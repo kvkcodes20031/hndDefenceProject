@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Define New Product | AgriLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-light text-gray-800">
+
+  <!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-sm">
+  <div class="position:fixed top-0 left-0 right-0 z-10 mx-autoz-10 mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <!-- LOGO PLACEHOLDER -->
+      <div class="w-8 h-8 bg-primary rounded"></div>
+      <span class="font-bold text-xl text-primary">AgriLink</span>
+    </div>
+  
+    
+
+    <div class="flex gap-3 items-center">
+      <a href="famerdashboard.html" class="text-gray-600 hover:text-primary font-medium">Back</a>
+      <a href="#" class="mx-4 text-gray-700 hover:text-primary font-medium">Home</a>
+      <a href="#" class="text-gray-700 hover:text-primary font-medium">Logistics</a>
+      <a href="#" class="text-gray-700 hover:text-primary font-medium">Supplier</a>
+
+      <a href="Registration.html" class="px-4 py-2 bg-primary text-white rounded">Register</a>
+      <a href="login.html" class="px-4 py-2 border border-primary text-primary rounded">Login</a>
+    </div>
+  </div>
+</header>
+
+<div class="flex min-h-screen">
+
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="hidden lg:block w-64 bg-primary text-white p-6">
+    <div class="flex items-center gap-2 mb-8">
+        <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
+        <span class="font-bold text-xl">AgriLink</span>
+    </div>
+    <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
+    <ul class="space-y-4">
+      <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
+      <li class="hover:text-gray-200 cursor-pointer"><a href="famerdashboard.html">Dashboard</a></li>
+      <li class="hover:text-gray-200 cursor-pointer">My Produce</li>
+      <li class="hover:text-gray-200 cursor-pointer">Orders</li>
+      <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
+      <li class="hover:text-gray-200 cursor-pointer">Supplier</li>
+      <li class="mt-6">
+        <a href="productListing.html" class="block w-full bg-accent text-white text-center py-2 rounded font-bold shadow-md">
+            + List Product 
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="flex-1 p-6 md:p-10">
+    <form id="productForm">
+    <div class="max-w-3xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-2xl font-bold text-primary">Define New Product</h1>
+        </div>
+
+        <!-- PRODUCT LISTING CONTAINER (Not a form) -->
+        <div class="bg-white rounded-xl shadow-lg p-8 space-y-8">
+            
+            <!-- Product Name -->
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-gray-700">Product Name</label>
+                <input type="text" placeholder="e.g. Fresh Organic Tomatoes" 
+                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50" name="product_name">
+            </div>
+
+            <!-- Category and Unit -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Category</label>
+                    <select name="category" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50">
+                        <option value="" name="category">Select Category</option>
+                        <option value="Vegetables" name="category">Vegetables</option>
+                        <option value="Fruits" name="category">Fruits</option>
+                        <option value="Grains" name="category">Grains</option>
+                        <option value="Tubers" name="category">Tubers</option>
+                        <option value="Inputs" name="category">Inputs</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Unit</label>
+                    <select name="unit" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50">
+                        <option value="Kg" name="unit">Kg</option>
+                        <option value="Bag" name="unit">Bag</option>
+                        <option value="Ton" name="unit">Ton</option>
+                        <option value="Crate" name="unit">Crate</option>
+                        <option value="Unit" name="unit">Unit</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-gray-700">Description</label>
+                <textarea name="description" rows="3" placeholder="Detailed description of the product..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50"></textarea>
+            </div>
+
+            <!-- Action Button -->
+            <button class="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-secondary transition shadow-md mt-4">
+                Save Product Definition
+            </button>
+
+        </div>
+    </div>
+    </form>
+  </main>
+</div>
+
+<script>
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('save_product.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Product defined successfully! Now you can list it.');
+            window.location.href = 'productListing.html';
+        } else {
+            alert('Error: ' + data.errors.join('\n'));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+</body>
+</html>

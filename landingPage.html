@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriLink – Smart Agriculture Platform</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-light text-gray-800">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <!-- LOGO PLACEHOLDER -->
+      <div class="w-8 h-8 bg-primary rounded"></div>
+      <span class="font-bold text-xl text-primary">AgriLink</span>
+    </div>
+
+    <div class="flex gap-3">
+      <a href="Registration.html" class="px-4 py-2 bg-primary text-white rounded">Register</a>
+      <a href="login.html" class="px-4 py-2 border border-primary text-primary rounded">Login</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MAIN LAYOUT ================= -->
+<div class="flex min-h-screen">
+
+  <!-- ========== SIDEBAR (Desktop only) ========== -->
+  <aside class="hidden lg:block w-64 bg-primary text-white p-6">
+    <h3 class="font-semibold mb-6">Explore</h3>
+    <ul class="space-y-4">
+      <li class="hover:text-gray-200 cursor-pointer">Home</li>
+      <li class="hover:text-gray-200 cursor-pointer">How It Works</li>
+      <li class="hover:text-gray-200 cursor-pointer">Who Can Join</li>
+      <li class="hover:text-gray-200 cursor-pointer">Contact</li>
+    </ul>
+  </aside>
+
+  <!-- ================= CONTENT ================= -->
+  <main class="flex-1">
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-gray-200">
+      <!-- BACKGROUND IMAGE PLACEHOLDER -->
+      <div class="absolute inset-0 bg-gray-300"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            A Smarter Way to Buy, Sell, and Move Farm Produce
+          </h1>
+          <p class="mb-6 text-gray-700">
+            Connecting Farmers, Cooperatives, Buyers, Logistics Providers,
+            and Input Suppliers in one platform.
+          </p>
+
+          <div class="flex flex-wrap gap-3">
+            <button class="bg-primary text-white px-5 py-3 rounded">
+              Get Started as a Farmer
+            </button>
+            <button class="bg-secondary text-white px-5 py-3 rounded">
+              Buy as a Business
+            </button>
+            <button class="bg-accent text-white px-5 py-3 rounded">
+              Join as Logistics Agent
+            </button>
+          </div>
+        </div>
+
+        <!-- IMAGE PLACEHOLDER -->
+        <div class="h-72 bg-gray-400 rounded-lg"></div>
+      </div>
+    </section>
+
+    <!-- WHO CAN USE -->
+    <section class="max-w-7xl mx-auto px-4 py-14">
+      <h2 class="text-center font-semibold text-xl mb-8">
+        Who Can Use the Platform?
+      </h2>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div class="bg-white p-4 rounded shadow text-center">
+          <div class="h-20 bg-gray-300 rounded mb-2"></div>
+          <p>Farmers</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <div class="h-20 bg-gray-300 rounded mb-2"></div>
+          <p>Buyers</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <div class="h-20 bg-gray-300 rounded mb-2"></div>
+          <p>Logistics Providers</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <div class="h-20 bg-gray-300 rounded mb-2"></div>
+          <p>Cooperatives</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <div class="h-20 bg-gray-300 rounded mb-2"></div>
+          <p>Input Suppliers</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="bg-white py-14">
+      <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-center font-semibold text-xl mb-10">How It Works</h2>
+
+        <div class="grid md:grid-cols-4 gap-6 text-center">
+          <div>
+            <div class="h-24 bg-gray-300 rounded mb-3"></div>
+            <p>Farmers list their produce</p>
+          </div>
+          <div>
+            <div class="h-24 bg-gray-300 rounded mb-3"></div>
+            <p>Buyers place orders</p>
+          </div>
+          <div>
+            <div class="h-24 bg-gray-300 rounded mb-3"></div>
+            <p>Logistics deliver products</p>
+          </div>
+          <div>
+            <div class="h-24 bg-gray-300 rounded mb-3"></div>
+            <p>Secure payment released</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE -->
+    <section class="max-w-4xl mx-auto px-4 py-14">
+      <h2 class="text-center font-semibold text-xl mb-6">
+        Why Choose AgriLink?
+      </h2>
+
+      <ul class="space-y-3 text-center">
+        <li>✅ Aggregated orders for lower costs</li>
+        <li>✅ Full cooperative integration</li>
+        <li>✅ Local logistics & market runners</li>
+        <li>✅ Secure payments with escrow</li>
+      </ul>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-primary text-white py-14">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-2xl font-bold mb-8">
+          Join the Future of Agriculture in Cameroon
+        </h2>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-10">
+          <div class="bg-white text-gray-800 p-4 rounded">
+            <h3 class="font-semibold">For Farmers</h3>
+            <p>Better prices & less wastage</p>
+          </div>
+          <div class="bg-white text-gray-800 p-4 rounded">
+            <h3 class="font-semibold">For Buyers</h3>
+            <p>Reliable supply & lower costs</p>
+          </div>
+          <div class="bg-white text-gray-800 p-4 rounded">
+            <h3 class="font-semibold">For Logistics</h3>
+            <p>More delivery jobs</p>
+          </div>
+        </div>
+
+        <div class="flex justify-center gap-4">
+          <button class="bg-white text-primary px-6 py-3 rounded">
+            Create an Account
+          </button>
+          <button class="bg-accent px-6 py-3 rounded">
+            Contact Us
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-white py-6 text-center text-sm">
+      <div class="flex justify-center gap-6 mb-3">
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+      </div>
+      <p class="text-gray-500">© 2026 AgriLink</p>
+    </footer>
+
+  </main>
+</div>
+
+</body>
+</html>

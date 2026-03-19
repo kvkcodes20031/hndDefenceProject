@@ -29,7 +29,7 @@ try {
 
     // Insert data into logistic_operators table
     $stmt = $connect->prepare("
-        INSERT INTO logistic_operators (user_id, company_name, vehicle_capacity, vehicle_type)
+        INSERT INTO logistics_providers (provider_id, company_name, vehicle_capacity, vehicle_type)
         VALUES (?, ?, ?, ?)
     ");
     $stmt->execute([
@@ -47,5 +47,6 @@ try {
     echo json_encode(['success'=>true]);
 
 } catch (PDOException $e) {
-    echo json_encode(['success'=>false,'errors'=>['Failed to save logistic operator data']]);
+    echo json_encode(['success'=>false,'errors'=>['Failed to save logistic operator data: ' . $e->getMessage()]]);
+    
 }

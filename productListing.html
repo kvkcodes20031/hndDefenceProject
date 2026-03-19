@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List New Product | AgriLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-light text-gray-800">
+
+  <!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-sm">
+  <div class="position:fixed top-0 left-0 right-0 z-10 mx-autoz-10 mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-2">
+      <!-- LOGO PLACEHOLDER -->
+      <div class="w-8 h-8 bg-primary rounded"></div>
+      <span class="font-bold text-xl text-primary">AgriLink</span>
+    </div>
+  
+    
+
+    <div class="flex gap-3 items-center">
+      <a href="famerdashboard.html" class="text-gray-600 hover:text-primary font-medium">Back</a>
+      <a href="#" class="mx-4 text-gray-700 hover:text-primary font-medium">Home</a>
+      <a href="#" class="text-gray-700 hover:text-primary font-medium">Logistics</a>
+      <a href="#" class="text-gray-700 hover:text-primary font-medium">Supplier</a>
+
+      <a href="Registration.html" class="px-4 py-2 bg-primary text-white rounded">Register</a>
+      <a href="login.html" class="px-4 py-2 border border-primary text-primary rounded">Login</a>
+    </div>
+  </div>
+</header>
+
+<div class="flex min-h-screen">
+
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="hidden lg:block w-64 bg-primary text-white p-6">
+    <div class="flex items-center gap-2 mb-8">
+        <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
+        <span class="font-bold text-xl">AgriLink</span>
+    </div>
+    <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
+    <ul class="space-y-4">
+      <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
+      <li class="hover:text-gray-200 cursor-pointer"><a href="famerdashboard.html">Dashboard</a></li>
+      <li class="hover:text-gray-200 cursor-pointer">My Produce</li>
+      <li class="hover:text-gray-200 cursor-pointer">Orders</li>
+      <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
+      <li class="hover:text-gray-200 cursor-pointer">Supplier</li>
+      <li class="mt-6">
+        <a href="#" class="block w-full bg-accent text-white text-center py-2 rounded font-bold shadow-md">
+            + List Product
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="flex-1 p-6 md:p-10">
+    <form id="productForm">
+    <div class="max-w-3xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-2xl font-bold text-primary">List New Product</h1>
+        </div>
+
+        <!-- PRODUCT LISTING CONTAINER (Not a form) -->
+        <div class="bg-white rounded-xl shadow-lg p-8 space-y-8">
+            
+            <!-- Image Upload Section -->
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-gray-700">Product Image</label>
+                <label class="border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition cursor-pointer group">
+                    <div class="w-12 h-12 bg-green-100 text-primary rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                        </svg>
+                    </div>
+                    <span class="text-sm text-gray-500 font-medium">Click to upload or drag and drop</span>
+                    <span class="text-xs text-gray-400 mt-1">SVG, PNG, JPG or GIF (max. 800x400px)</span>
+                    <input type="file" class="hidden" name="productPicture">
+                </label>
+            </div>
+
+            <!-- Select Product -->
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-gray-700">Select Product</label>
+                <select id="productSelect" name="product_id" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50">
+                    <option value="">Loading products...</option>
+                </select>
+                <p class="text-sm text-gray-500">Don't see your product? <a href="save_product.html" class="text-primary font-bold hover:underline">Create a new product definition</a></p>
+            </div>
+
+            <!-- Price and Quantity Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Price -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Price per Unit (XAF)</label>
+                    <div class="relative">
+                        <input type="number" placeholder="0.00" 
+                               class="w-full pl-4 pr-12 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50" 
+                               name="price_per_unit">
+                        <span class="absolute right-4 top-3 text-gray-400 text-sm font-bold">XAF</span>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Quantity Available</label>
+                    <div class="relative">
+                        <input type="number" placeholder="0" 
+                               class="w-full pl-4 pr-16 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50"
+                               name="quantity_available">
+                        <span class="absolute right-4 top-3 text-gray-400 text-sm font-bold">Units</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Harvest Date and Status Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Harvest Date</label>
+                    <input type="date" name="harvest_date" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50">
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="font-bold text-gray-700">Status</label>
+                    <select name="status" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50">
+                        <option value="Available">Available</option>
+                        <option value="Sold Out">Sold Out</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Seller Note -->
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-gray-700">Seller Note</label>
+                <textarea name="seller_note" rows="4" placeholder="Describe the quality, origin, or specific details about your produce..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition bg-gray-50"></textarea>
+            </div>
+
+            <!-- Action Button -->
+            <button class="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-secondary transition shadow-md mt-4">
+                Publish Listing
+            </button>
+
+        </div>
+    </div>
+    </form>
+  </main>
+</div>
+
+<script>
+// Fetch product definitions for the dropdown
+fetch('get_products.php')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('productSelect');
+        if (data.success && data.products.length > 0) {
+            select.innerHTML = '<option value="">Select a Product</option>';
+            data.products.forEach(p => {
+                const option = document.createElement('option');
+                option.value = p.product_id;
+                option.setAttribute('data-product-name', p.product_name);
+                const name = p.product_name || p.name;
+                option.textContent = `${name} (${p.category} - ${p.unit})`;
+                select.appendChild(option);
+            });
+        } else {
+            select.innerHTML = '<option value="">No products defined</option>';
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('productSelect').innerHTML = '<option value="">Error loading products</option>';
+    });
+
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('productListing.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Product listed successfully!');
+            window.location.href = 'homepage.html';
+        } else {
+            alert('Error: ' + data.errors.join('\n'));
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
+</body>
+</html> 
