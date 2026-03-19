@@ -18,10 +18,13 @@
 
     <header class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 mb-8">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-agri-green rounded-full flex items-center justify-center text-white font-bold italic">A</div>
-            <h1 class="text-2xl font-bold text-agri-green">AgriLink</h1>
+            <div class="w-8 h-8 bg-agri-green rounded-full flex items-center justify-center text-white font-bold italic">FG</div>
+            <h1 class="text-2xl font-bold text-agri-green">FarmGlobe</h1>
             <span class="hidden md:block text-sm text-gray-500 ml-4 italic">Connecting Farmers, Buyers, Logistics & Inputs</span>
         </div>
+        <button id="sidebarToggleBtn" class="lg:hidden mr-4">
+                    ☰
+                </button>
         <div class="flex items-center gap-3">
             <button class="px-4 py-2 bg-agri-green text-white rounded-md text-sm font-medium">Support</button>
             <button class="px-4 py-2 bg-agri-green text-white rounded-md text-sm font-medium">Orders</button>
@@ -35,7 +38,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto">
-        <nav class="flex gap-6 border-b border-gray-200 mb-8 pb-2 overflow-x-auto whitespace-nowrap">
+        <nav id="cartSidebar" class="flex gap-6 border-b border-gray-200 mb-8 pb-2 overflow-x-auto whitespace-nowrap">
             <a href="#" class="px-4 py-2 bg-agri-green text-white rounded-md font-medium">Dashboard</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Orders</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Wallet</a>
@@ -46,7 +49,7 @@
             <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80')"></div>
             <div class="absolute inset-0 bg-black/30"></div>
             <div class="relative z-10 p-8 h-full flex flex-col justify-center text-white">
-                <h2 class="text-4xl font-bold mb-2">Welcome, Alpha Logistics!</h2>
+                <h2 class="text-4xl font-bold mb-2">Welcome, <span id="username"></span> Logistics!</h2>
                 <p class="max-w-md opacity-90">Log in to access farmers, buyers, logistics, and input suppliers in one platform.</p>
             </div>
         </section>
@@ -149,5 +152,36 @@
         </div>
     </footer>
 
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('cartSidebar');
+            const toggleButton = document.getElementById('sidebarToggleBtn');
+
+            toggleButton.addEventListener('click', function () {
+                sidebar.classList.toggle('translate-x-full');
+            });
+
+            fetch('fetchUser.php')
+        .then(response=>response.json())
+        .then(data=>{ 
+            document.getElementById('username').textContent =  `${data.first_name} ${data.last_name}`;
+            console.log(data)
+            console.log('User data fetched successfully:', data.user_id, data.role, data.last_name, data.first_name);
+            if(data.role !== 'farmer') {
+                alert('Access denied. Redirecting to homepage.');
+                window.location.href = 'homepage.html';
+                console.warn('Unauthorized access attempt by user with role:', data.role, 'User ID:', data.user_id);
+
+            }
+            console.log('User data fetched successfully:', data.user_id, data.role);
+        })
+        .catch(err=>{
+            console.error('Error fetching user data:', err);
+            alert('An error occurred. Redirecting to homepage.');
+            // window.location.href = 'homepage.html';
+        });
+
+        });
+        </script>
 </body>
 </html>

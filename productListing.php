@@ -7,6 +7,16 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+
+// if (!$user || strtolower($user['role']) !== 'farmer') {
+//         echo json_encode([
+
+//             "success" => false,
+//             "errors" => ["You are not eligible to list a product."]
+//         ]);
+//         exit;
+//     }
+
 $productDefinitionId = trim($_POST['product_id'] ?? '');
 $pricePerUnit = trim($_POST['price_per_unit'] ?? '');
 $quantityAvailable = trim($_POST['quantity_available'] ?? '');
@@ -48,7 +58,7 @@ try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $connect->prepare("INSERT INTO product_listing(farmer_id, product_id, price_per_unit, quantity_available, harvest_date, status, sellernote, image_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $connect->prepare("INSERT INTO product_listing(seller_id, product_id, price_per_unit, quantity_available, harvest_date, status, sellernote, image_path) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([
         $_SESSION['user_id'],
         $productDefinitionId,

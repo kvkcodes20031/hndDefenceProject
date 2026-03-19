@@ -6,8 +6,13 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // Fetch products, newest first
-    $sql = "SELECT * FROM product
-            ORDER BY product_id DESC";
+    $sql = "SELECT * FROM product 
+
+            -- join product_listing pl on p.product_id = pl.product_id
+            -- join userstable u on pl.user_id = u.user_id
+
+            where type = 'input' ";
+
             
     $stmt = $connect->query($sql);
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);

@@ -48,7 +48,7 @@
       .then(r => r.json())
       .then(d => {
         if(d.success) {
-          alert('Data saved successfully!');
+          document.location.href = 'buyer_dashboard.html';
         } else {
           alert(d.errors.join('\n') + (d.pdoError ? '\n\nDatabase Error: ' + d.pdoError : ''));
           btn.disabled = false;

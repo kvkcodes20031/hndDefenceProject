@@ -34,7 +34,7 @@
     
 
     <div class="flex gap-3 items-center">
-      <a href="farmerdashboard.html" class="text-gray-600 hover:text-primary font-medium">Back</a>
+      <a href="inputsupplier_dashboard.html" class="text-gray-600 hover:text-primary font-medium">Back</a>
       <a href="#" class="mx-4 text-gray-700 hover:text-primary font-medium">Home</a>
       <a href="#" class="text-gray-700 hover:text-primary font-medium">Logistics</a>
       <a href="#" class="text-gray-700 hover:text-primary font-medium">Supplier</a>
@@ -166,25 +166,8 @@
 </div>
 
 <script>
-// Check if user is a Farmer
-fetch('fetchUser.php')
-    .then(response => response.json())
-    .then(data => {
-        if (!data.role || data.role.toLowerCase() !== 'farmer') {
-            alert("Access Denied: Only users registered as a 'Farmer' can list produce.");
-            // window.location.href = 'homepage.html';
-            console.warn('Unauthorized access attempt to product listing page by user with role:', data.role);
-        }
-
-        
-    })
-    .catch(error => {
-        console.error('Auth check error:', error);
-        
-    });
-
 // Fetch product definitions for the dropdown
-fetch('get_products.php')
+fetch('get_inputs.php')
     .then(response => response.json())
     .then(data => {
         const select = document.getElementById('productSelect');
@@ -196,7 +179,8 @@ fetch('get_products.php')
                 option.setAttribute('data-product-name', p.product_name);
                 const name = p.product_name || p.name;
                 option.textContent = `${name} (${p.category} - ${p.unit})`;
-                    select.appendChild(option);
+                select.appendChild(option);
+                console.log(`Added product option: ${option.value} - ${option.textContent}`); // Debug log
             });
         } else {
             select.innerHTML = '<option value="">No products defined</option>';
@@ -227,6 +211,26 @@ document.getElementById('productForm').addEventListener('submit', function(e) {
     })
     .catch(error => console.error('Error:', error));
 });
+
+// Check if user is an Input Supplier
+fetch('fetchUser.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success === false) {
+            alert("Access Denied: Only users registered as an 'Input Supplier' can list inputs. Please log in.");
+            window.location.href = 'login.html';
+            return;
+        }
+        if (!data.role || data.role.toLowerCase() !== 'input supplier') {
+            alert("Access Denied: Only users registered as an 'Input Supplier' can list inputs.");
+            window.location.href = 'homepage.html';
+        }
+    })
+    .catch(error => {
+        console.error('Auth check error:', error);
+        alert('An error occurred while verifying your session. Please try logging in again.');
+        window.location.href = 'login.html';
+    });
 </script>
 </body>
 </html> 

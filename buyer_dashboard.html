@@ -3,66 +3,398 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="styles/custom.css">
-</head>
-<body>
-  <section class="max-w-7xl mx-auto p-6">
-  <h2 class="text-2xl font-bold mb-6 text-orange-700">Buyer Dashboard</h2>
-
-  <!-- Stats -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">Orders Placed</p>
-      <p class="text-2xl font-bold">18</p>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">Active Orders</p>
-      <p class="text-2xl font-bold">4</p>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">Total Spend</p>
-      <p class="text-2xl font-bold">2,750,000 XAF</p>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <p class="text-sm text-gray-500">Suppliers</p>
-      <p class="text-2xl font-bold">9</p>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-    <!-- Orders -->
-    <div class="bg-white p-4 rounded shadow">
-      <h3 class="font-semibold mb-3">Recent Orders</h3>
-      <ul class="space-y-2 text-sm">
-        <li>Rice – 2 MT – In Transit</li>
-        <li>Fresh Tomatoes – 800 kg – Delivered</li>
-        <li>Maize – 1 MT – Pending</li>
-      </ul>
-    </div>
-
-    <!-- Market Trends Placeholder -->
-    <div class="bg-white p-4 rounded shadow flex items-center justify-center">
-      <p class="text-gray-400">
-        📊 Market Price Trends (Placeholder)
-      </p>
-    </div>
-
-  </div>
-
-  <!-- Supplier Suggestions -->
-  <div class="bg-white p-4 rounded shadow mt-6">
-    <h3 class="font-semibold mb-3">Recommended Suppliers</h3>
-    <ul class="space-y-2 text-sm">
-      <li>Green Harvest Cooperative – Maize</li>
-      <li>North Rice Farmers Group – Rice</li>
-      <li>FreshGrow Farms – Vegetables</li>
-    </ul>
-  </div>
-</section>
   
+  <title>Buyer Dashboard | AgriLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+      html, body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-light text-gray-800">
+
+<!-- Header -->
+<header class="bg-white shadow-sm z-10 sticky top-0">
+  <div class="max-w-7xl mx-auto px-4 py-4 md:py-5 flex justify-between items-center">
+
+    <button id="menue" class="md:hidden text-primary text-xl">☰</button>
+    
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 bg-primary rounded"></div>
+      <span class="font-bold text-xl lg:text-2xl text-primary">AgriLink</span>
+    </div>
+    
+    <div class="flex gap-3 items-center">
+      <div class="hidden md:flex gap-4 lg:gap-8 mr-4">
+        <a href="homepage.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Home</a>
+        <a href="allgoods.html" class="text-gray-600 hover:text-primary font-medium transition-colors">Marketplace</a>
+      </div>
+
+      <button id="cartToggleBtn" class="flex items-center gap-1 text-gray-600 hover:text-primary font-medium p-2">
+        <span>🛒</span>
+        <span class="hidden sm:inline">Cart (<span id="cartCount">0</span>)</span>
+      </button>
+
+      <div class="hidden sm:flex gap-2">
+            <button class="px-4 py-1.5 bg-primary text-white rounded text-xs font-bold">Support</button>
+      </div>
+      <a href="login.html" class="px-4 py-2 border border-primary text-primary rounded text-sm font-bold hover:bg-primary hover:text-white transition-all">Logout</a>
+    </div>
+  </div>
+</header>
+
+<div class="flex min-h-screen">
+
+    <aside class="hidden md:block w-64 lg:w-72 bg-primary text-white p-6 lg:p-8 sticky top-[72px] h-[calc(100vh-72px)] overflow-y-auto" id="sidebar">
+        <div class="flex items-center gap-8 mb-8">
+            <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
+            <span class="font-bold text-xl">AgriLink</span>
+        </div>
+        <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
+        <ul class="space-y-4">
+            <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
+            <li class="text-white font-bold cursor-pointer">Dashboard</li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="allgoods.html">Browse Produce</a></li>
+            <li class="hover:text-gray-200 cursor-pointer">My Orders</li>
+            <li class="hover:text-gray-200 cursor-pointer">Transactions</li>
+            <li class="hover:text-gray-200 cursor-pointer">Settings</li>
+        </ul>
+        <!-- Sidebar -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10 2xl:p-16">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl 2xl:text-4xl font-bold mb-8 text-primary">Buyer Dashboard</h2>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-10 mb-10">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Orders Placed</p>
+                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">18</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Active Orders</p>
+                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">4</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Total Spend</p>
+                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">2,750k <span class="text-xs font-bold opacity-50">XAF</span></p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Suppliers</p>
+                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">9</p>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 2xl:gap-12">
+                <!-- Orders -->
+                <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2">
+                        <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recent Orders
+                    </h3>
+                    <ul class="space-y-4 text-sm 2xl:text-base">
+                        <li class="flex justify-between border-b pb-3 border-gray-50"><span>Rice – 2 MT</span> <span class="text-accent font-bold">In Transit</span></li>
+                        <li class="flex justify-between border-b pb-3 border-gray-50"><span>Fresh Tomatoes – 800 kg</span> <span class="text-primary font-bold">Delivered</span></li>
+                        <li class="flex justify-between"><span>Maize – 1 MT</span> <span class="text-gray-400 font-bold">Pending</span></li>
+                    </ul>
+                </div>
+
+                <!-- Market Trends Placeholder -->
+                <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[200px]">
+                    <p class="text-gray-400 font-medium 2xl:text-lg">
+                        📊 Market Price Trends
+                    </p>
+                </div>
+            </div>
+
+            <!-- Supplier Suggestions -->
+            <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 mt-8 2xl:mt-12">
+                <h3 class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2">
+                    <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recommended Suppliers
+                </h3>
+                <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm 2xl:text-base">
+                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">Green Harvest Cooperative – Maize</li>
+                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">North Rice Farmers Group – Rice</li>
+                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">FreshGrow Farms – Vegetables</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="payment">
+    
+</div>
+
+<!-- Cart -->
+<div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity"></div>
+<div id="cartSidebar" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+    <div class="p-4 border-b flex justify-between items-center bg-primary text-white">
+        <h2 class="font-bold text-lg">Your Cart</h2>
+        <button id="closeCartBtn" class="text-white hover:text-gray-200 text-xl font-bold">✕</button>
+    </div>
+    
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <p class="text-gray-500 text-center mt-10">Your cart is empty.</p>
+    </div>
+
+    <div class="p-4 border-t bg-gray-50">
+        <div class="flex justify-between font-bold text-lg mb-4">
+            <span>Total:</span>
+            <span id="cartTotalDisplay">0 XAF</span>
+        </div>
+        <button onclick="checkout()" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition shadow-md">Checkout</button>
+    </div>
+
+</div>
+
+
+<footer class="mt-16 py-12 border-t border-gray-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex gap-6 text-[10px] 2xl:text-xs font-bold text-gray-500 uppercase tracking-widest">
+            <a href="#" class="hover:text-primary">Need Help?</a>
+            <a href="#" class="hover:text-primary">Contact Us</a>
+            <a href="#" class="hover:text-primary">Terms & Conditions</a>
+            <a href="#" class="hover:text-primary">Privacy Policy</a>
+        </div>
+        <div class="flex justify-center gap-4 text-primary opacity-70">
+            <span class="hover:opacity-100 cursor-pointer transition-opacity">Facebook</span>
+            <span class="hover:opacity-100 cursor-pointer transition-opacity">Twitter</span>
+            <span class="hover:opacity-100 cursor-pointer transition-opacity">Instagram</span>
+        </div>
+    </div>
+</footer>
+<script>
+    // Cart Logic
+    let cart = JSON.parse(localStorage.getItem('agriLinkCart')) || [];
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const cartCountSpan = document.getElementById('cartCount');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartTotalDisplay = document.getElementById('cartTotalDisplay');
+
+    // Toggle Cart
+    function toggleCart() {
+        const isClosed = cartSidebar.classList.contains('translate-x-full');
+        if (isClosed) {
+            cartSidebar.classList.remove('translate-x-full');
+            cartOverlay.classList.remove('hidden');
+        } else {
+            cartSidebar.classList.add('translate-x-full');
+            cartOverlay.classList.add('hidden');
+        }
+    }
+
+    document.getElementById('cartToggleBtn').addEventListener('click', toggleCart);
+    document.getElementById('closeCartBtn').addEventListener('click', toggleCart);
+    cartOverlay.addEventListener('click', toggleCart);
+
+    // Add to Cart Function
+    function addToCart(name, price, unit, listingId) {
+        if (!listingId) {
+            console.error('addToCart on buyer dashboard called without id');
+            return;
+        }
+        // Check if item exists
+        const existingItem = cart.find(item => item.name === name);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ name, price, unit, quantity: 1, id: listingId });
+        }
+
+        updateCartUI();
+
+        // Submit cart data to database
+        const formData = new FormData();
+        formData.append('status', 'Active');
+        fetch('submit_cart_data.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success && data.errors && data.errors.includes('User not logged in')) {
+                alert("You must be logged in to submit your cart.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            if (data.success && data.cart_id) {
+                console.log('Cart synced:', data);
+
+                // Submit item data now that we have cart_id
+                const itemData = new FormData();
+                itemData.append('cart_id', data.cart_id);
+                itemData.append('listing_id', listingId);
+                itemData.append('quantity', 1); // Add 1 item
+                itemData.append('price_at_time', price);
+
+                fetch('submit_cart_item_data.php', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    body: itemData
+                })
+                
+                .then(r => r.text())
+                .then(text => {
+                    console.log('Raw Server Response:', text);
+                    try {
+                        const d = JSON.parse(text);
+                        if (!d.success) {
+                            console.error('Item sync server error:', d.errors || d);
+                            alert('Error adding item: ' + (d.errors ? d.errors.join(', ') : 'Unknown error'));
+                        } else {
+                            console.log('Item synced:', d);
+                        }
+                    } catch (e) {
+                        console.error('JSON Parse Error. Server sent:', text);
+                        alert('Server Error: ' + text);
+                    }
+                })
+                .catch(e => console.error('Item sync error:', e));
+            } else {
+                console.error('Cart sync server error:', data.errors || data);
+                alert('Error syncing cart: ' + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+            }
+        
+        })
+        .catch(error => {
+            console.error('Error syncing cart:', error);
+            alert('System Error: ' + error.message + '. Check console for details.');
+        });
+    }
+
+    // Checkout Function
+   function checkout() {
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+    const orderData = {
+        total_amount: totalAmount,
+        order_status: "Pending",
+        items: cart
+    };
+
+    fetch('submit_order_data.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Order placed successfully!");
+
+            cart = [];
+            localStorage.removeItem("agriLinkCart");
+
+            updateCartUI();
+            toggleCart();
+        } else {
+            alert("Checkout failed: " + data.errors.join(", "));
+        }
+    })
+    .catch(err => console.error("Checkout error:", err));
+}
+
+    // Remove from Cart Function
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        localStorage.setItem('agriLinkCart', JSON.stringify(cart));
+        if(cartCountSpan) cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        let total = 0;
+        if(cartItemsContainer) {
+            cartItemsContainer.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <p class="text-xs text-gray-500">${item.quantity} x ${item.price} XAF / ${item.unit}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-primary">${itemTotal.toLocaleString()} XAF</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
+            }
+        }
+
+        if(cartTotalDisplay) cartTotalDisplay.textContent = total.toLocaleString() + ' XAF';
+    }
+
+    // Initial render
+    updateCartUI();
+
+    // toggle sidebar on smaller screens
+    let sideBar = document.getElementById("sidebar");
+    let togglebtn = document.getElementById("menue");
+    togglebtn.addEventListener("click", function() {
+          const clickedInsideSidebar = sidebar.contains(event.target);
+        const clickedMenuButton = menuBtn.contains(event.target);
+
+        if (window.innerWidth < 768) {
+        
+        sideBar.classList.toggle("hidden");
+    } else {
+        // desktop collapse
+        sideBar.classList.toggle("w-64");
+        sideBar.classList.toggle("w-0");
+    }
+    
+
+    });
+
+    window.addEventListener("click", function(event) {
+        const clickedInsideSidebar = sideBar.contains(event.target);
+        const clickedMenuButton = togglebtn.contains(event.target);
+
+        sideBar.classList.add("hidden");
+    }
+)
+</script>
+  
+
+
+
+
 </body>
 </html>

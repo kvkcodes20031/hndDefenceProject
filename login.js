@@ -20,8 +20,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
         // Define role-based redirection paths
         const rolePaths = {
-          'farmer': { setup: 'save_farmer_data.html', dashboard: 'famerdashboard.html' },
-          'logistic_operator': { setup: 'save_logistic_data.html', dashboard: '' },
+          'farmer': { setup: 'save_farmer_data.html', dashboard: 'farmerdashboard.html' },
+          'logistic_operator': { setup: 'save_logistic_data.html', dashboard: 'logistics_dashboard.html' },
           'logistic operator': { setup: 'save_logistic_data.html', dashboard: 'logistics_dashboard.html' },
           'supplier': { setup: 'save_inputsupplier_data.html', dashboard: 'inputsupplier_dashboard.html' },
           'input supplier': { setup: 'save_inputsupplier_data.html', dashboard: 'inputsupplier_dashboard.html' },

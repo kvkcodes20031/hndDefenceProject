@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>AgriLink Marketplace - Browse Produce</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -31,9 +32,9 @@
             </div>
 
             <div class="flex items-center gap-6">
-                <button class="relative p-2">
+                <button id="cartToggleBtn" class="relative p-2">
                     <span class="text-xl">🛒</span>
-                    <span class="absolute -top-1 -right-1 bg-agri-orange text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    <span id="cartCount" class="absolute -top-1 -right-1 bg-agri-orange text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
                 </button>
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 bg-gray-200 rounded-full overflow-hidden border border-agri-green">
@@ -82,77 +83,8 @@
         </aside>
 
         <section class="lg:col-span-3">
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                    <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400" class="w-full h-full object-cover" alt="Maize">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-extrabold text-agri-green uppercase">
-                            West Region
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow">
-                        <div class="flex justify-between items-start mb-1">
-                            <h4 class="font-extrabold text-agri-green">White Maize</h4>
-                            <span class="text-xs font-bold text-agri-orange">250 kg</span>
-                        </div>
-                        <p class="text-[11px] text-gray-500 mb-4 italic">Sold by Menoua Agro-Coop</p>
-                        <div class="flex items-baseline gap-1 mb-4">
-                            <span class="text-xl font-extrabold text-agri-green">12,000</span>
-                            <span class="text-[10px] font-bold text-gray-400">XAF / bag</span>
-                        </div>
-                        <button class="w-full bg-agri-green text-white py-3 rounded-xl font-bold text-xs hover:bg-opacity-90 transition shadow-md">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                    <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=400" class="w-full h-full object-cover" alt="Cassava">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-extrabold text-agri-green uppercase">
-                            Centre Region
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow">
-                        <div class="flex justify-between items-start mb-1">
-                            <h4 class="font-extrabold text-agri-green">Fresh Cassava</h4>
-                            <span class="text-xs font-bold text-agri-orange">350 kg</span>
-                        </div>
-                        <p class="text-[11px] text-gray-500 mb-4 italic">Sold by Central Farm Coop</p>
-                        <div class="flex items-baseline gap-1 mb-4">
-                            <span class="text-xl font-extrabold text-agri-green">15,000</span>
-                            <span class="text-[10px] font-bold text-gray-400">XAF / bag</span>
-                        </div>
-                        <button class="w-full bg-agri-green text-white py-3 rounded-xl font-bold text-xs hover:bg-opacity-90 transition shadow-md">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                    <div class="h-48 relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=400" class="w-full h-full object-cover" alt="Tomatoes">
-                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-extrabold text-agri-green uppercase">
-                            South Region
-                        </div>
-                    </div>
-                    <div class="p-4 flex-grow">
-                        <div class="flex justify-between items-start mb-1">
-                            <h4 class="font-extrabold text-agri-green">Red Tomatoes</h4>
-                            <span class="text-xs font-bold text-agri-orange">500 kg</span>
-                        </div>
-                        <p class="text-[11px] text-gray-500 mb-4 italic">Sold by Ocean Green</p>
-                        <div class="flex items-baseline gap-1 mb-4">
-                            <span class="text-xl font-extrabold text-agri-green">8,500</span>
-                            <span class="text-[10px] font-bold text-gray-400">XAF / basket</span>
-                        </div>
-                        <button class="w-full bg-agri-green text-white py-3 rounded-xl font-bold text-xs hover:bg-opacity-90 transition shadow-md">
-                            Add to Cart
-                        </button>
-                    </div>
-                </div>
-
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <p class="text-gray-500 col-span-full text-center">Loading products...</p>
             </div>
 
             <div class="mt-12 flex justify-center gap-2">
@@ -177,6 +109,254 @@
             <span class="text-agri-green opacity-70">📸</span>
         </div>
     </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity"></div>
+    <div id="cartSidebar" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-agri-green text-white">
+            <h2 class="font-bold text-lg">Your Cart</h2>
+            <button id="closeCartBtn" class="text-white hover:text-gray-200 text-xl font-bold">✕</button>
+        </div>
+        
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+            <p class="text-gray-500 text-center mt-10">Your cart is empty.</p>
+        </div>
+
+        <div class="p-4 border-t bg-gray-50">
+            <div class="flex justify-between font-bold text-lg mb-4">
+                <span>Total:</span>
+                <span id="cartTotalDisplay">0 XAF</span>
+            </div>
+        <button onclick="checkout()" class="w-full bg-agri-green text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition shadow-md">Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        // Fetch and display products
+        fetch('get_product_listing.php')
+        .then(response => response.json())
+        .then(data => {
+            const grid = document.getElementById('productsGrid');
+            if (data.success && data.products.length > 0) {
+                grid.innerHTML = data.products.map(product => `
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
+                        <div class="h-48 relative overflow-hidden">
+                            ${product.image_path 
+                                ? `<img src="${product.image_path}" alt="${product.product_name}" class="w-full h-full object-cover">`
+                                : `<div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">No Image</div>`
+                            }
+                            <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-extrabold text-agri-green uppercase">
+                                ${product.location || 'N/A'}
+                            </div>
+                        </div>
+                        <div class="p-4 flex-grow flex flex-col">
+                            <div class="flex justify-between items-start mb-1">
+                                <h4 class="font-extrabold text-agri-green">${product.product_name || 'Unnamed Product'}</h4>
+                                <span class="text-xs font-bold text-agri-orange">${product.quantity_available} ${product.unit}</span>
+                            </div>
+                            <p class="text-[11px] text-gray-500 mb-4 italic">Sold by ${product.farm_name || 'Unknown Farmer'}</p>
+                            <div class="flex-grow"></div>
+                            <div class="flex items-baseline gap-1 mb-4">
+                                <span class="text-xl font-extrabold text-agri-green">${(parseFloat(product.price_per_unit) || 0).toLocaleString()}</span>
+                                <span class="text-[10px] font-bold text-gray-400">XAF / ${product.unit}</span>
+                            </div>
+                            <button 
+                                onclick="addToCart(this)"
+                                data-name="${(product.product_name || 'Unknown').replace(/"/g, '&quot;')}"
+                                data-price="${product.price_per_unit || 0}"
+                                data-unit="${product.unit || ''}"
+                                data-id="${product.listing_id}"
+                                class="w-full bg-agri-green text-white py-3 rounded-xl font-bold text-xs hover:bg-opacity-90 transition shadow-md">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                grid.innerHTML = '<p class="text-gray-500 col-span-3 text-center">No products found.</p>';
+                if (data && !data.success) {
+                    console.error('Server reported error:', data.errors);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error loading products:', error);
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '<p class="text-red-500 col-span-3 text-center">Error loading products. Please try again later.</p>';
+        });
+
+        // Cart Logic
+        let cart = JSON.parse(localStorage.getItem('agriLinkCart')) || [];
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartCountSpan = document.getElementById('cartCount');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartTotalDisplay = document.getElementById('cartTotalDisplay');
+
+        // Toggle Cart
+        function toggleCart() {
+            const isClosed = cartSidebar.classList.contains('translate-x-full');
+            if (isClosed) {
+                cartSidebar.classList.remove('translate-x-full');
+                cartOverlay.classList.remove('hidden');
+            } else {
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('cartToggleBtn').addEventListener('click', toggleCart);
+        document.getElementById('closeCartBtn').addEventListener('click', toggleCart);
+        cartOverlay.addEventListener('click', toggleCart);
+
+        // Add to Cart Function
+        function addToCart(btn) {
+            const name = btn.getAttribute('data-name');
+            const price = parseFloat(btn.getAttribute('data-price'));
+            const unit = btn.getAttribute('data-unit');
+            const listingId = btn.getAttribute('data-id');
+
+            if (!listingId) {
+                console.error('addToCart called without a valid listing id', btn);
+                return;
+            }
+
+            const existingItem = cart.find(item => item.id === listingId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, unit, quantity: 1, id: listingId });
+            }
+
+            updateCartUI();
+
+            const formData = new FormData();
+            formData.append('status', 'Active');
+            fetch('submit_cart_data.php', { method: 'POST', credentials: 'same-origin', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success && data.errors && data.errors.includes('User not logged in')) {
+                    alert("You must be logged in to add items to your cart.");
+                    window.location.href = "login.html";
+                    return;
+                }
+
+                if (data.success && data.cart_id) {
+                    const itemData = new FormData();
+                    itemData.append('cart_id', data.cart_id);
+                    itemData.append('product_id', listingId);
+                    itemData.append('quantity', 1);
+                    itemData.append('price_at_time', price);
+
+                    fetch('submit_cart_item_data.php', { method: 'POST', credentials: 'same-origin', body: itemData })
+                    .then(r => r.text())
+                    .then(text => {
+                        try {
+                            const d = JSON.parse(text);
+                            if (!d.success) console.error('Item sync server error:', d.errors || d);
+                            else console.log('Item synced:', d);
+                        } catch (e) {
+                            console.error('JSON Parse Error. Server sent:', text);
+                        }
+                    })
+                    .catch(e => console.error('Item sync error:', e));
+                } else {
+                    console.error('Cart sync server error:', data.errors || data);
+                }
+            })
+            .catch(error => console.error('Error syncing cart:', error));
+        }
+
+        // Checkout Function
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // 1. Create the Order Header
+            const orderData = new FormData();
+            orderData.append('total_amount', totalAmount);
+            orderData.append('order_status', 'Pending');
+
+            fetch('submit_order_data.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: orderData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.order_id) {
+                    const orderId = data.order_id;
+                    
+                    // 2. Submit each item to order_item table
+                    const itemPromises = cart.map(item => {
+                        const itemData = new FormData();
+                        itemData.append('order_id', orderId);
+                        itemData.append('listing_id', item.id);
+                        itemData.append('quantity', item.quantity);
+                        itemData.append('agreed_price', item.price);
+                        
+                        return fetch('submit_order_item_data.php', {
+                            method: 'POST',
+                            credentials: 'same-origin',
+                            body: itemData
+                        });
+                    });
+
+                    Promise.all(itemPromises).then(() => {
+                        alert("Order placed successfully!");
+                        cart = [];
+                        updateCartUI();
+                        toggleCart();
+                    });
+                } else {
+                    alert("Checkout failed: " + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+                }
+            })
+            .catch(error => console.error('Error during checkout:', error));
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            localStorage.setItem('agriLinkCart', JSON.stringify(cart));
+            cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            let total = 0;
+            cartItemsContainer.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <div>
+                            <h4 class="font-bold text-sm">${item.name}</h4>
+                            <p class="text-xs text-gray-500">${item.quantity} x ${item.price.toLocaleString()} XAF / ${item.unit}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="font-bold text-agri-green">${itemTotal.toLocaleString()} XAF</span>
+                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
+            }
+
+            cartTotalDisplay.textContent = total.toLocaleString() + ' XAF';
+        }
+
+        updateCartUI();
+    </script>
 
 </body>
 </html>

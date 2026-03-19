@@ -19,21 +19,41 @@ if (empty($unit)) $errors[] = "Unit is required";
 
 if (!empty($errors)) {
     echo json_encode(['success' => false, 'errors' => $errors]);
+
     exit;
 }
 
+
+    
 try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $connect->prepare("INSERT INTO product ( product_name, category, unit, description) VALUES ( ?, ?, ?, ?)");
+    $checkuser = $connect->prepare("SELECT role FROM userstable WHERE user_id = ?");
+    $checkuser->execute([$_SESSION['user_id']]);
+    $user = $checkuser->fetch(PDO::FETCH_ASSOC);
+    if ( $user['role'] == 'input supplier') {
+        $stmt = $connect->prepare("INSERT INTO product ( product_name, category, unit, description, type) VALUES ( ?, ?, ?, ?, ?)");
+        $stmt->execute([
+        $productName,
+        $category,
+        $unit,
+        $description,
+        'input'
+    ]);
+       
+    }
+     if ( $user['role'] == 'farmer') {
+        
+    $stmt = $connect->prepare("INSERT INTO product ( product_name, category, unit, description, type) VALUES ( ?, ?, ?, ?, ?)");
     $stmt->execute([
         $productName,
         $category,
         $unit,
-        $description
+        $description,
+        'produce'
     ]);
-
+     }
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'errors' => ['Database error: ' . $e->getMessage()]]);
