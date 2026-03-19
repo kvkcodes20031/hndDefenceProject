@@ -27,27 +27,64 @@
 <body class="bg-light text-gray-800 position-relative">
     
     <!-- Header -->
-    <header class="bg-white shadow-sm z-10 sticky top-0">
-        <div class="mx-auto px-4 py-4 flex justify-between items-center max-w-7xl">
-            <div class="flex items-center gap-3">
-                <button id="mobileMenuBtn" class="lg:hidden text-gray-600 text-2xl focus:outline-none">☰</button>
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-primary rounded"></div>
-                    <span class="font-bold text-xl text-primary">AgriLink</span>
-                </div>
-                <div class="hidden md:flex items-center gap-2">
-                    <span class="text-xs text-gray-500">Connecting Farmers, Buyers, Logistics & Inputs</span>
+    <header class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center gap-4">
+                <button id="mobileMenuBtn" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
+                    ☰
+                </button>
+                <a href="homepage.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
+                    <span class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search..." class="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm">
+                    <button class="absolute right-2 top-1.5 p-1 bg-primary text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-secondary transition-colors">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
                 </div>
             </div>
-            
-            <div class="flex gap-3 items-center">
-                <div class="hidden lg:flex gap-4 items-center">
-                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-medium">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-primary font-medium">Farmers</a>
+
+            <div class="flex items-center gap-2 sm:gap-4">
+                 <div class="hidden lg:flex items-center gap-6 mr-2">
+                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
                 </div>
-                <a href="login.html" class="px-4 py-2 border border-primary text-primary rounded text-sm font-bold">Logout</a>
+                
+                <!-- Notification Button -->
+                <div class="relative">
+                    <button id="notificationBtn" onclick="toggleNotifications()" class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm hidden">0</span>
+                    </button>
+                    
+                    <div id="notificationDropdown" class="hidden absolute top-12 right-0 w-80 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden">
+                        <div class="p-3 border-b bg-gray-50 font-bold text-gray-700 text-sm">
+                            Notifications
+                        </div>
+                        <ul id="notificationList" class="max-h-80 overflow-y-auto text-sm">
+                            <li class="p-4 text-center text-gray-500">Loading...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <button class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </button>
+                
+                <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+                     <a href="logout.php" class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold shadow hover:bg-gray-200 transition-all">Logout</a>
+                </div>
             </div>
         </div>
+    </div>
     </header>
 
     <!-- Sidebar Overlay -->
@@ -70,6 +107,7 @@
             <li class="hover:text-gray-200 cursor-pointer">My Inventory</li>
             <li class="hover:text-gray-200 cursor-pointer">Orders</li>
             <li class="hover:text-gray-200 cursor-pointer">Farmer Requests</li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
             <!-- Mobile only links -->
             <li class="lg:hidden pt-4 border-t border-green-700 mt-4"></li>
             <li class="lg:hidden hover:text-gray-200 cursor-pointer">Profile</li>
@@ -254,7 +292,65 @@
 
         // Initialize product fetch
         fetchProducts();
-    } 
+    }
+    
+    // ================= NOTIFICATION LOGIC =================
+    function toggleNotifications() {
+        const dropdown = document.getElementById('notificationDropdown');
+        dropdown.classList.toggle('hidden');
+        if (!dropdown.classList.contains('hidden')) {
+            fetchNotifications();
+        }
+    }
+
+    function fetchNotifications() {
+        fetch('get_notifications.php')
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('notificationList');
+            const countBadge = document.getElementById('notificationCount');
+            
+            if (data.success && data.notifications.length > 0) {
+                const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
+                
+                if (unreadCount > 0) {
+                    countBadge.textContent = unreadCount;
+                    countBadge.classList.remove('hidden');
+                } else {
+                    countBadge.classList.add('hidden');
+                }
+
+                list.innerHTML = data.notifications.map(n => `
+                    <li onclick="markNotificationRead(${n.id}, this)" 
+                        class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
+                        <p class="text-xs font-medium text-gray-800">${n.message}</p>
+                        <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
+                    </li>
+                `).join('');
+            } else {
+                list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
+                countBadge.classList.add('hidden');
+            }
+        })
+        .catch(err => console.error('Error loading notifications:', err));
+    }
+
+    function markNotificationRead(id, element) {
+        fetch('mark_notification_read.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        }).then(res => res.json()).then(data => {
+            if(data.success) {
+                element.classList.remove('bg-blue-50', 'opacity-100');
+                element.classList.add('bg-white', 'opacity-60');
+                // Optionally refresh count
+                fetchNotifications();
+            }
+        });
+    }
+
+    fetchNotifications();
 
 
     

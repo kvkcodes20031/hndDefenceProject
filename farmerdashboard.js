@@ -210,28 +210,62 @@ let checkoutBtn = document.getElementById('checkoutBtn');
                 if (data.success && data.orders.length > 0) {
                     ordersGrid.innerHTML = data.orders.map(item => {
                         const statusColor = item.order_status === 'Pending' ? 'bg-orange-100 text-orange-600' : 'bg-green-100 text-green-600';
+                        
+                        // Action Buttons Logic
+                        let actionButtons = '';
+                        if (item.order_status === 'Pending') {
+                            actionButtons = `
+                                <div class="flex gap-1 w-full sm:w-auto">
+                                    <button onclick="updateOrderStatus(${item.order_id}, 'Awaiting Payment')" class="bg-blue-500 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-blue-600">Req. Pre-Pay</button>
+                                    <button onclick="updateOrderStatus(${item.order_id}, 'Accepted')" class="bg-gray-500 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-gray-600">Allow Post-Pay</button>
+                                </div>
+                            `;
+                        } else if (item.order_status === 'Paid') {
+                            // If buyer paid (likely via pre-pay flow), farmer ships it
+                            actionButtons = `
+                                <div class="flex gap-1 w-full sm:w-auto">
+                                    <span class="text-xs font-bold text-green-600 mr-2">Paid</span>
+                                    <button onclick="updateOrderStatus(${item.order_id}, 'In Transit')" class="bg-agri-orange text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-orange-600">Ship Order</button>
+                                </div>
+                            `;
+                        } else if (item.order_status === 'Accepted' || item.order_status === 'In Transit') {
+                             // If accepted (post-pay flow) or in transit, waiting for payment confirmation
+                             actionButtons = `
+                                <div class="flex gap-1 w-full sm:w-auto">
+                                    <button onclick="updateOrderStatus(${item.order_id}, 'Completed')" class="bg-primary text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-green-700">Confirm Payment Received</button>
+                                </div>
+                            `;
+                        } else if (item.order_status === 'Completed') {
+                            actionButtons = `<span class="text-primary font-bold text-xs">Completed</span>`;
+                        } else if (item.order_status === 'Awaiting Payment') {
+                            actionButtons = `<span class="text-orange-500 font-bold text-xs">Waiting for Buyer Payment...</span>`;
+                        }
+
                         return `
-                        <div class="bg-white p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <div class="bg-white p-3 rounded-xl border border-gray-100 flex  sm:flex-row items-start sm:items-center gap-4">
                             <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden shrink-0">
-                                <img src="${item.image_path || 'uploads/default_product.png'}" alt="${item.product_name}" class="w-full h-full object-cover">
+                                ${item.image_path 
+                                    ? `<img src="${item.image_path}" alt="${item.product_name}" class="w-full h-full object-cover">`
+                                    : `<div class="w-full h-full flex items-center justify-center text-xs">📦</div>`
+                                }
                             </div>
                             <div class="flex-grow w-full">
                                 <p class="text-xs font-bold">${item.buyer_name}</p>
                                 <p class="text-[10px] text-gray-400">Produce: ${item.product_name}, Qty: ${item.quantity} ${item.unit}</p>
                                 <p class="text-[10px] font-bold">Total: ${item.total_amount} XAF</p>
                                 <p class="text-[10px] text-gray-400">Ordered on: ${new Date(item.order_date).toLocaleDateString()}</p>
+                                <p class="text-[10px] font-bold text-primary">Status: ${item.order_status}</p>
                                 <button class="text-[10px] text-blue-500 mt-1" id="viewDetails_${item.order_id}">View Details</button>
 
                                 <div class="flex items-center gap-2 mt-2 hidden" id="Details_${item.order_id}"> 
                                 <p class="text-[10px] text-gray-400">From ${item.first_name} ${item.last_name}</p>
                                 <p class="text-[10px] text-gray-400">Price: ${item.agreed_price} XAF/${item.unit}</p>
+                                <p class="text-[10px] text-gray-400">Phone: ${item.seller_phone || 'N/A'}</p>
                                     
                                 </div>
                             </div>
-                            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                                <button class="bg-gray-100 px-4 py-1 rounded text-[10px] font-bold">Invoice</button>
-                                <button class="text-[10px] font-bold text-gray-400  py-1 rounded w-full bg-gray-100 sm:w-auto">confirm payment</button>
-                                <span class="${statusColor} px-3 py-1 rounded text-[10px] font-bold uppercase">${item.order_status}</span>
+                            <div class="flex flex-col items-end gap-2 w-full sm:w-auto">
+                                ${actionButtons}
                             </div>
                         </div>
 
@@ -259,6 +293,26 @@ let checkoutBtn = document.getElementById('checkoutBtn');
         
         // Initialize orders fetch
         fetchSellerOrders();
+
+        // Global function to update order status
+        window.updateOrderStatus = function(orderId, status) {
+            if(!confirm(`Are you sure you want to change status to "${status}"?`)) return;
+
+            fetch('update_order_status.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: orderId, status: status })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    fetchSellerOrders(); // Refresh list
+                } else {
+                    alert('Error updating status: ' + data.errors.join(', '));
+                }
+            })
+            .catch(err => console.error(err));
+        };
 
         // fetching from the users table to get the user details and display them on the dashboard
         

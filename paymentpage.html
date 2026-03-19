@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-xl bg-white rounded-2xl shadow-lg p-6">
+    <h2 class="text-2xl font-bold text-center mb-6">Select Payment Method</h2>
+
+    <!-- Payment Options -->
+    <div class="space-y-4">
+
+      <!-- MTN MoMo -->
+      <div onclick="selectMethod('momo')" class="flex items-center justify-between border rounded-xl p-4 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+        <div class="flex items-center gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/MTN_Logo.svg" class="w-10 h-10" />
+          <span class="font-semibold">MTN Mobile Money</span>
+        </div>
+        <input type="radio" name="payment" />
+      </div>
+
+      <!-- Orange Money -->
+      <div onclick="selectMethod('orange')" class="flex items-center justify-between border rounded-xl p-4 cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition">
+        <div class="flex items-center gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg" class="w-10 h-10" />
+          <span class="font-semibold">Orange Money</span>
+        </div>
+        <input type="radio" name="payment" />
+      </div>
+
+      <!-- PayPal -->
+      <div onclick="selectMethod('paypal')" class="flex items-center justify-between border rounded-xl p-4 cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition">
+        <div class="flex items-center gap-4">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="w-10 h-10" />
+          <span class="font-semibold">PayPal</span>
+        </div>
+        <input type="radio" name="payment" />
+      </div>
+
+    </div>
+
+    <!-- Form Section -->
+    <div id="formSection" class="hidden mt-6">
+      <h3 class="text-lg font-semibold mb-4">Payment Details</h3>
+
+      <!-- Recipient Contact -->
+      <input type="text" placeholder="Recipient Phone / Email" class="w-full mb-3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+      <!-- Sender Contact -->
+      <input type="text" placeholder="Your Phone / Email" class="w-full mb-3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+      <!-- Amount -->
+      <input type="number" placeholder="Amount" class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+
+      <button onclick="processPayment()" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold transition">
+        Pay Now
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Get Order ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('order_id');
+
+    function selectMethod(method) {
+      document.getElementById('formSection').classList.remove('hidden');
+    }
+
+    function processPayment() {
+        if(!orderId) {
+            alert("No order ID found. Payment processed (Simulated).");
+            window.location.href = 'homepage.html';
+            return;
+        }
+
+        // Update order status to 'Paid' in database
+        fetch('update_order_status.php', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                order_id: orderId,
+                status: 'Paid'
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                alert("Payment Successful! The seller has been notified.");
+                window.location.href = 'buyer_dashboard.html';
+            } else {
+                alert("Error processing payment: " + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+            }
+        })
+        .catch(err => console.error("Payment error:", err));
+    }
+  </script>
+
+</body>
+</html>
