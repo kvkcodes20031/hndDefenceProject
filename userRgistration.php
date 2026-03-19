@@ -1,11 +1,14 @@
 <?php
+session_start();
 header("Content-Type: application/json");
 
 try {
+
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $errors = [];
+
 
     $phone = trim($_POST['phone_number'] ?? '');
     $email_raw = trim($_POST['email'] ?? '');
@@ -53,3 +56,6 @@ try {
 } catch (PDOException $e) {
     echo json_encode(['success'=>false,'errors'=>['Account creation failed']]);
 }
+
+    ?>
+

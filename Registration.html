@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AgriLink – Create Account</title>
@@ -97,6 +98,39 @@
     </section>
 
   </main>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form action="userRgistration.php" method="post">
+    <label for="">first name</label>
+    <input type="text" name="first_name"><br><br>
+    <label for="last_name">last name</label>
+    <input type="text" name="last_name" id="last_name"><br><br>
+    <label for="">phone Number</label>
+    <input type="tel" name="phone_number"><br><br>
+    <label for="">email</label>
+    <input type="text" name="email" id=""><br><br>
+    <label for="">password</label>
+    <input type="password_hash" name="password_hash" id=""><br><br>
+    
+    <input type="password_hash" name="confirm_password" id=""><br>
+    <label for="">Role</label>
+    <input type="text" name="role" list="roles" Id="role">
+    <datalist id="roles">
+      
+      <option value="Farmer" ></option>
+      <option value="Buyer"></option>
+      <option value="Admin"></option>
+      <option value="input supplyer"></option>
+      <option value="logistic operator"></option>
+    </datalist><br><br>
+    <button type="submit">submit</button>
+  </form>
+
+>>>>>>> c25c4cd584fc0381fd0f18e76beca5dfee04101e
 
   <script>
     const form = document.getElementById('registerForm');
@@ -108,7 +142,11 @@ form.addEventListener('submit', async (e) => {
     const formData = new FormData(form);
 
     try {
+<<<<<<< HEAD
         const res = await fetch('userRgistration.php', {  // Replace with your PHP file path
+=======
+        const res = await fetch('register.php', {  // Replace with your PHP file path
+>>>>>>> c25c4cd584fc0381fd0f18e76beca5dfee04101e
             method: 'POST',
             body: formData
         });
@@ -117,6 +155,7 @@ form.addEventListener('submit', async (e) => {
 
         if (data.success === false) {
             // Display all errors
+<<<<<<< HEAD
             responseDiv.innerHTML = '<strong>Error:</strong> ' + data.errors.join('<br>');
         } else {
             responseDiv.classList.remove('text-red-600');
@@ -130,6 +169,15 @@ form.addEventListener('submit', async (e) => {
 
     } catch (err) {
         responseDiv.innerHTML = 'A server error occurred. Please try again later. ' + err.message;
+=======
+            responseDiv.innerHTML = data.errors.join('<br>');
+        } else {
+            responseDiv.innerHTML = 'Registration successful!';
+        }
+
+    } catch (err) {
+        responseDiv.innerHTML = 'An error occurred: ' + err.message;
+>>>>>>> c25c4cd584fc0381fd0f18e76beca5dfee04101e
     }
 });
 
