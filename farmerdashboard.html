@@ -317,63 +317,7 @@
         }
 
         // ================= NOTIFICATION LOGIC =================
-        function toggleNotifications() {
-            const dropdown = document.getElementById('notificationDropdown');
-            dropdown.classList.toggle('hidden');
-            if (!dropdown.classList.contains('hidden')) {
-                fetchNotifications();
-            }
-        }
-
-        function fetchNotifications() {
-            fetch('get_notifications.php')
-            .then(response => response.json())
-            .then(data => {
-                const list = document.getElementById('notificationList');
-                const countBadge = document.getElementById('notificationCount');
-                
-                if (data.success && data.notifications.length > 0) {
-                    const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
-                    
-                    if (unreadCount > 0) {
-                        countBadge.textContent = unreadCount;
-                        countBadge.classList.remove('hidden');
-                    } else {
-                        countBadge.classList.add('hidden');
-                    }
-
-                    list.innerHTML = data.notifications.map(n => `
-                        <li onclick="markNotificationRead(${n.id}, this)" 
-                            class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                            <p class="text-xs font-medium text-gray-800">${n.message}</p>
-                            <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
-                        </li>
-                    `).join('');
-                } else {
-                    list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
-                    countBadge.classList.add('hidden');
-                }
-            })
-            .catch(err => console.error('Error loading notifications:', err));
-        }
-
-        function markNotificationRead(id, element) {
-            fetch('mark_notification_read.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id })
-            }).then(res => res.json()).then(data => {
-                if(data.success) {
-                    element.classList.remove('bg-blue-50', 'opacity-100');
-                    element.classList.add('bg-white', 'opacity-60');
-                    // Optionally refresh count
-                    fetchNotifications();
-                }
-            });
-        }
-
-        // Load count on init
-        fetchNotifications();
+       
     </script>
 
 </body>

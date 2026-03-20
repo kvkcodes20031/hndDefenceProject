@@ -1,6 +1,6 @@
     <?php
-    ini_set('display_errors',1);
-    error_reporting(E_ALL);
+    ini_set('display_errors', 0);
+    error_reporting(0);
 
     session_start();
     header("Content-Type: application/json");
@@ -29,13 +29,14 @@
     $connect->beginTransaction();
 
     $userId = $_SESSION['user_id'];
+    $orderReference = 'ORD-' . uniqid();
 
     $stmt = $connect->prepare(
-    "INSERT INTO orders (user_id,total_amount,order_status)
-    VALUES (?,?,?)"
+    "INSERT INTO orders (user_id,order_references,total_amount,order_status)
+    VALUES (?,?,?,?)"
     );
 
-    $stmt->execute([$userId,$totalAmount,$orderStatus]);
+    $stmt->execute([$userId, $orderReference, $totalAmount, $orderStatus]);
 
     $orderId = $connect->lastInsertId();
 
@@ -43,6 +44,16 @@
     "INSERT INTO order_items (order_id,listing_id,qauntity,agreed_price)
     VALUES (?,?,?,?)"
     );
+
+    // Prepare statements for notifications
+    $buyerStmt = $connect->prepare("SELECT first_name, last_name FROM userstable WHERE user_id = ?");
+    $buyerStmt->execute([$userId]);
+    $buyerData = $buyerStmt->fetch(PDO::FETCH_ASSOC);
+    $buyerName = $buyerData ? $buyerData['first_name'] . ' ' . $buyerData['last_name'] : 'A Buyer';
+
+    $sellerStmt = $connect->prepare("SELECT seller_id FROM product_listing WHERE listing_id = ?");
+    $notifStmt = $connect->prepare("INSERT INTO notification (user_id,notification_message, is_read) VALUES (?, ?, 0)");
+    $notifiedSellers = []; 
 
     foreach($items as $item){
 
@@ -52,6 +63,16 @@
         $item['quantity'],
         $item['price']
     ]);
+
+    // Notification Logic: Identify seller and notify
+    $sellerStmt->execute([$item['id']]);
+    $sellerId = $sellerStmt->fetchColumn();
+
+    if ($sellerId && !in_array($sellerId, $notifiedSellers)) {
+        $message = "You have an order from " . $buyerName . ". Please confirm it.";
+        $notifStmt->execute([$sellerId, $message]);
+        $notifiedSellers[] = $sellerId;
+    }
 
     }
 
@@ -64,7 +85,7 @@
 
     }catch(PDOException $e){
 
-    $connect->rollBack();
+   
 
     echo json_encode([
         'success'=>false,
