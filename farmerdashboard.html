@@ -107,7 +107,7 @@
             <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
             <li class="hover:text-gray-200 cursor-pointer">Dashboard</li>
             <li class="hover:text-gray-200 cursor-pointer">My Produce</li>
-            <li class="hover:text-gray-200 cursor-pointer">Orders</li>
+            <li class="hover:text-gray-200 cursor-pointer" id="viewOrdersLink">Orders</li>
             <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
             <li class="hover:text-gray-200 cursor-pointer">Supplier</li>
             <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
@@ -191,7 +191,7 @@
                 </div>
 
                 <div class="bg-white p-4 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Cassava">
+                    <!-- <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Cassava"> -->
                     <div class="flex-grow w-full">
                         <h4 class="font-bold text-primary">Cassava</h4>
                         <p class="text-[10px] text-gray-400">Corn Available (15 Sack 50 kg)</p>
@@ -208,7 +208,7 @@
                 </div>
 
                 <div class="bg-white p-4 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Tomatoes">
+                    <!-- <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Tomatoes"> -->
                     <div class="flex-grow w-full">
                         <h4 class="font-bold text-primary">Tomatoes</h4>
                         <p class="text-[10px] text-gray-400" >(10 Sack 50 kg)</p>
@@ -226,7 +226,7 @@
             </div>
         </section>
 
-        <section>
+        <section id="ordersSection" class="hidden">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-xl font-bold text-primary">Recent Orders</h3>
                 <button class="text-xs bg-white border border-gray-200 px-3 py-1 rounded">Manage My Produce</button>

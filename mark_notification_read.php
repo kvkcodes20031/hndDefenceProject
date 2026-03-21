@@ -19,7 +19,7 @@ try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $connect->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?");
+    $stmt = $connect->prepare("UPDATE notification SET is_read = 1 WHERE notification_id = ? AND user_id = ?");
     $stmt->execute([$notifId, $_SESSION['user_id']]);
 
     echo json_encode(['success' => true]);

@@ -253,7 +253,7 @@
                     list.innerHTML = data.notifications.map(n => `
                         <li onclick="markNotificationRead(${n.id}, this)" 
                             class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                            <p class="text-xs font-medium text-gray-800">${n.message}</p>
+                            <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.message}</p>
                             <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                         </li>
                     `).join('');
@@ -274,11 +274,43 @@
                 if(data.success) {
                     element.classList.remove('bg-blue-50', 'opacity-100');
                     element.classList.add('bg-white', 'opacity-60');
+
+                    // Apply strikethrough styling
+                    const textP = element.querySelector('p');
+                    if(textP) {
+                        textP.classList.remove('font-medium', 'text-gray-800');
+                        textP.classList.add('line-through', 'text-gray-500');
+                    }
+
+                    // Scroll to main content (Deliveries)
+                    const mainContent = document.querySelector('main');
+                    if(mainContent) {
+                        mainContent.scrollIntoView({ behavior: 'smooth' });
+                        const dropdown = document.getElementById('notificationDropdown');
+                        if (dropdown) dropdown.classList.add('hidden');
+                    }
+
                     // Optionally refresh count
                     fetchNotifications();
                 }
             });
         }
+
+        // Function to handle Accept Shipment from Notification
+        window.acceptShipment = function(orderId, btnElement) {
+            if(!confirm("Do you want to accept this shipment job?")) return;
+            
+            fetch('accept_shipment.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ order_id: orderId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) { alert("Shipment Assigned to you!"); btnElement.disabled = true; btnElement.textContent = "Accepted"; }
+                else { alert("Error: " + (data.errors ? data.errors.join(', ') : 'Unknown')); }
+            });
+        };
         </script>
 </body>
 </html>

@@ -477,6 +477,7 @@
 
     // ================= NOTIFICATION LOGIC =================
     function toggleNotifications() {
+        
         const dropdown = document.getElementById('notificationDropdown');
         dropdown.classList.toggle('hidden');
         if (!dropdown.classList.contains('hidden')) {
@@ -504,7 +505,7 @@
                 list.innerHTML = data.notifications.map(n => `
                     <li onclick="markNotificationRead(${n.id}, this)" 
                         class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                        <p class="text-xs font-medium text-gray-800">${n.message}</p>
+                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
                         <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                     </li>
                 `).join('');
@@ -525,6 +526,22 @@
             if(data.success) {
                 element.classList.remove('bg-blue-50', 'opacity-100');
                 element.classList.add('bg-white', 'opacity-60');
+
+                // Apply strikethrough styling
+                const textP = element.querySelector('p');
+                if(textP) {
+                    textP.classList.remove('font-medium', 'text-gray-800');
+                    textP.classList.add('line-through', 'text-gray-500');
+                }
+
+                // Scroll to Recent Orders list
+                const ordersList = document.getElementById('recentOrdersList');
+                if (ordersList) {
+                    ordersList.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    const dropdown = document.getElementById('notificationDropdown');
+                    if (dropdown) dropdown.classList.add('hidden');
+                }
+
                 // Optionally refresh count
                 fetchNotifications();
             }

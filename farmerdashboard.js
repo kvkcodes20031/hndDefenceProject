@@ -241,13 +241,28 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                fetchSellerOrders();
+                if (status === 'Accepted') {
+                    // Redirect to logistics selection page
+                    window.location.href = `select_logistics.html?order_id=${orderId}`;
+                } else {
+                    fetchSellerOrders();
+                }
             } else {
                 alert('Error updating status: ' + (data.errors ? data.errors.join(', ') : 'Unknown error'));
             }
         })
         .catch(err => console.error(err));
     };
+
+    // Toggle Orders Grid Visibility
+    const viewOrdersLink = document.getElementById('viewOrdersLink');
+    const ordersSection = document.getElementById('ordersSection');
+    if(viewOrdersLink && ordersSection) {
+        viewOrdersLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            ordersSection.classList.toggle('hidden');
+        });
+    }
 
     // Initial calls
     updateCartUI();
@@ -295,24 +310,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         countBadge.classList.add('hidden');
                     }
 
-        //             list.innerHTML = data.notifications.map(n => `
-        //                 <li onclick="markNotificationRead(${n.id}, this)" 
-        //                     class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-        //                     <p class="text-xs font-medium text-gray-800">${n.message}</p>
-        //                     <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
-        //                 </li>
-        //             `).join('');
-        //         } else {
-        //             list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
-        //             countBadge.classList.add('hidden');
-        //         }
-        //     })
-        //     .catch(err => console.error('Error loading notifications:', err));
-        // }
+       
+                    console.log('Notification ID:', data.notifications[0].notification_id);
+                    console.log('Notifications data:', data);
+                     // Debug log
                     list.innerHTML = data.notifications.map(n => `
-                        <li onclick="markNotificationRead(${n.id}, this)" 
+                        <li onclick="markNotificationRead(${n.notification_id}, this)" 
+                        conole.log('Notification ID:', n.notification_id),
                             class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                            <p class="text-xs font-medium text-gray-800">${n.message}</p>
+                            <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
                             <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                         </li>
                     `).join('');
@@ -320,35 +326,43 @@ document.addEventListener('DOMContentLoaded', function () {
                     list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
                     countBadge.classList.add('hidden');
                 }
+                console.log(data.notifications.map(n => n.notification_id)); // Log all notification IDs
             })
             .catch(err => console.error('Error loading notifications:', err));
         }
 
-        // function markNotificationRead(id, element) {
-        //     fetch('mark_notification_read.php', {
-        //         method: 'POST',
-        //         headers: { 'Content-Type': 'application/json' },
-        //         body: JSON.stringify({ id: id })
-        //     }).then(res => res.json()).then(data => {
-        //         if(data.success) {
-        //             element.classList.remove('bg-blue-50', 'opacity-100');
-        //             element.classList.add('bg-white', 'opacity-60');
-        //             // Optionally refresh count
-        //             fetchNotifications();
-        //         }
-        //     });
-        // }
+        
         function markNotificationRead(id, element) {
             fetch('mark_notification_read.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id })
+                body: JSON.stringify({ id: id})
             }).then(res => res.json()).then(data => {
                 if(data.success) {
                     element.classList.remove('bg-blue-50', 'opacity-100');
                     element.classList.add('bg-white', 'opacity-60');
+
+                    // Apply strikethrough styling
+                    const textP = element.querySelector('p');
+                    if(textP) {
+                        textP.classList.remove('font-medium', 'text-gray-800');
+                        // textP.classList.add('line-through', 'text-gray-500');
+                    }
+
+                    // Toggle orders section and scroll to it
+                    const ordersSection = document.getElementById('ordersSection');
+                    if (ordersSection) {
+                        ordersSection.classList.remove('hidden');
+                        ordersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        const dropdown = document.getElementById('notificationDropdown');
+                        if (dropdown) dropdown.classList.add('hidden');
+                    }
+               
                     // Optionally refresh count
                     fetchNotifications();
+                    console.log('Marked notification as read:', id);
+                } else {
+                    console.error('Error marking notification as read:', data.errors);
                 }
             });
         }
