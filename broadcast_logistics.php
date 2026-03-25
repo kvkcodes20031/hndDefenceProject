@@ -29,7 +29,7 @@ try {
         exit;
     }
 
-    $notifStmt = $connect->prepare("INSERT INTO notifications (user_id, message, is_read, created_at) VALUES (?, ?, 0, NOW())");
+    $notifStmt = $connect->prepare("INSERT INTO notification(user_id, notification_message, is_read, created_at) VALUES (?, ?, 0, NOW())");
     $message = "New Shipment Opportunity for Order #$orderId. <br><button onclick=\"acceptShipment($orderId, this)\" class='bg-orange-500 text-white text-xs px-2 py-1 rounded mt-1'>Accept Shipment</button>";
 
     foreach ($logisticsUsers as $uid) {

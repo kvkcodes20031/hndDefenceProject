@@ -207,7 +207,7 @@
             document.getElementById('username').textContent =  `${data.first_name} ${data.last_name}`;
             console.log(data)
             console.log('User data fetched successfully:', data.user_id, data.role, data.last_name, data.first_name);
-            if(data.role !== 'farmer') {
+            if(data.role !== 'logistic operator') {
                 alert('Access denied. Redirecting to homepage.');
                 window.location.href = 'homepage.html';
                 console.warn('Unauthorized access attempt by user with role:', data.role, 'User ID:', data.user_id);
