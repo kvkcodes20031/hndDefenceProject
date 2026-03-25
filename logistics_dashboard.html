@@ -77,7 +77,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto flex gap-6 border-b border-gray-200 mb-8 pb-2 overflow-x-auto whitespace-nowrap">
-            <a href="#" class="px-4 py-2 bg-agri-green text-white rounded-md font-medium">Dashboard</a>
+            <a href="logistics_dashboard.html" class="px-4 py-2 bg-agri-green text-white rounded-md font-medium">Dashboard</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Orders</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Wallet</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Profile</a>
@@ -207,6 +207,7 @@
             document.getElementById('username').textContent =  `${data.first_name} ${data.last_name}`;
             console.log(data)
             console.log('User data fetched successfully:', data.user_id, data.role, data.last_name, data.first_name);
+            console.log("user role:",data.role)
             if(data.role !== 'logistic operator') {
                 alert('Access denied. Redirecting to homepage.');
                 window.location.href = 'homepage.html';
