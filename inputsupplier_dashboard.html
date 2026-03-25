@@ -24,10 +24,10 @@
         html, body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; width: 100%; }
     </style>
 </head>
-<body class="bg-light text-gray-800 position-relative">
+<body class="bg-light text-gray-800 h-screen overflow-hidden flex flex-col">
     
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300">
+    <header class="bg-white shadow-md z-30 w-full transition-all duration-300 shrink-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
             <div class="flex items-center gap-4">
@@ -90,9 +90,9 @@
     <!-- Sidebar Overlay -->
     <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity"></div>
 
-    <div class="flex min-h-screen">
+    <div class="flex flex-1 overflow-hidden">
     <!-- ========== SIDEBAR ========== -->
-    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:block h-screen lg:h-[calc(100vh-4rem)] lg:sticky lg:top-16 overflow-y-auto" id="sidebar">
+    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:block lg:h-full overflow-y-auto" id="sidebar">
         <div class="flex items-center justify-between mb-8">
             <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
@@ -121,7 +121,7 @@
     </aside>
 
     <!-- ========== MAIN CONTENT ========== -->
-    <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+    <main class="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto h-full">
         
         <div class="flex items-center justify-between mb-8">
             <h2 class="text-2xl font-bold text-primary">Input Supplier Dashboard</h2>
@@ -320,10 +320,11 @@
                     countBadge.classList.add('hidden');
                 }
 
+                    console.log('Notifications loaded:', data);
                 list.innerHTML = data.notifications.map(n => `
-                    <li onclick="markNotificationRead(${n.id}, this)" 
+                    <li onclick="markNotificationRead(${n.notification_id}, this)" 
                         class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.message}</p>
+                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
                         <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                     </li>
                 `).join('');

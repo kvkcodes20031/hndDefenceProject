@@ -72,6 +72,7 @@
         $message = "You have an order from " . $buyerName . ". Please confirm it.";
         $notifStmt->execute([$sellerId, $message]);
         $notifiedSellers[] = $sellerId;
+        // echo json_encode(["success" => true, "" => $message]);
     }
 
     }

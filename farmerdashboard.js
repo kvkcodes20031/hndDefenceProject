@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="flex items-center gap-3">
                                 <span class="font-bold text-primary">${itemTotal.toLocaleString()} XAF</span>
-                                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">
+                                <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">     
                                     Remove
                                 </button>
                             </div>
@@ -155,47 +155,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (document.getElementById('totalOrders')) {
                     document.getElementById('totalOrders').textContent = data.orders?.length || 0;
                 }
+                console.log('Fetched orders data:', data);
                 
                 if (data.success && data.orders.length > 0) {
                     ordersGrid.innerHTML = data.orders.map(item => {
                         // Determine if order is Pending to apply styling
-                        const isPending = item.order_status === 'Pending';
+                        
 
-                        let actionButtons = '';
-                        if (item.order_status === 'Pending') {
-                            actionButtons = `<div class="flex gap-1 w-full sm:w-auto">
-                                <button onclick="updateOrderStatus(${item.order_id}, 'Rejected')" class="bg-red-500 text-white px-2 py-1 rounded text-[10px] font-bold hover:bg-red-600">Reject</button>
-                                <button onclick="updateOrderStatus(${item.order_id}, 'Accepted')" class="bg-green-600 text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-green-700">Confirm Order</button>
-                            </div>`;
-                        } else if (item.order_status === 'Paid') {
-                            actionButtons = `<div class="flex gap-1 w-full sm:w-auto">
-                                <span class="text-xs font-bold text-green-600 mr-2">Paid</span>
-                                <button onclick="updateOrderStatus(${item.order_id}, 'In Transit')" class="bg-agri-orange text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-orange-600">Ship Order</button>
-                            </div>`;
-                        } else if (item.order_status === 'Accepted' || item.order_status === 'In Transit') {
-                            actionButtons = `<div class="flex gap-1 w-full sm:w-auto">
-                                ${item.order_status === 'Accepted' ? '<span class="text-xs font-bold text-green-600 self-center mr-2">Confirmed</span>' : ''}
-                                <button onclick="updateOrderStatus(${item.order_id}, 'Completed')" class="bg-primary text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-green-700">Confirm Payment Received</button>
-                            </div>`;
-                        } else if (item.order_status === 'Completed') {
-                            actionButtons = `<span class="text-primary font-bold text-xs">Completed</span>`;
-                        } else if (item.order_status === 'Awaiting Payment') {
-                            actionButtons = `<span class="text-orange-500 font-bold text-xs">Waiting for Buyer Payment...</span>`;
-                        } else if (item.order_status === 'Rejected') {
-                            actionButtons = `<span class="text-red-500 font-bold text-xs">Order Rejected</span>`;
-                        }
-
-                        // Apply opacity/overlay style if pending
-                        const containerClass = isPending 
-                            ? "relative bg-orange-50 p-3 rounded-xl border border-orange-200 flex sm:flex-row items-start sm:items-center gap-4 transition-all" 
-                            : "bg-white p-3 rounded-xl border border-gray-100 flex sm:flex-row items-start sm:items-center gap-4";
-
-                        return `<div class="${containerClass}">
-                            <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden shrink-0">
+                        return `<div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 border rounded-lg bg-white">
+                            <div class="w-15 h-10 rounded-full overflow-hiddenbg-gray-200 rounded-full overflow-hidden shrink-0">
                                 ${item.image_path ? `<img src="${item.image_path}" alt="${item.product_name}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-xs">📦</div>`}
                             </div>
                             <div class="flex-grow w-full">
-                                <p class="text-xs font-bold">${item.buyer_name} ${isPending ? '<span class="text-[10px] text-red-500 font-normal">(New Order - Please Confirm)</span>' : ''}</p>
+                                <p class="text-xs font-bold">${item.buyer_name} <span class="text-[10px] text-red-500 font-normal">(New Order - Please Confirm)</span>' : ''}</p>
                                 <p class="text-[10px] text-gray-400">Produce: ${item.product_name}, Qty: ${item.quantity} ${item.unit}</p>
                                 <p class="text-[10px] font-bold">Total: ${item.total_amount} XAF</p>
                                 <p class="text-[10px] text-gray-400">Ordered on: ${new Date(item.order_date).toLocaleDateString()}</p>
@@ -205,10 +177,16 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <p class="text-[10px] text-gray-400">From ${item.first_name} ${item.last_name}</p>
                                     <p class="text-[10px] text-gray-400">Price: ${item.agreed_price} XAF/${item.unit}</p>
                                     <p class="text-[10px] text-gray-400">Phone: ${item.seller_phone || 'N/A'}</p>
+                                    <p class="text-[10px] text-gray-400">Community: ${item.seller_city || 'N/A'} ${item.seller_city || ''}</p>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-end gap-2 w-full sm:w-auto">
-                                ${actionButtons}
+                            <div class="flex flex-row sm:flex-col gap-2 w-full sm:w-auto mt-3 sm:mt-0 justify-end">
+                               <button class="flex-1 sm:flex-none bg-primary hover:bg-green-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition-all shadow-sm hover:shadow-md" onclick="updateOrderStatus(${item.order_id}, 'Accepted')" id="acceptBtn_${item.order_id}">
+                                    Accept
+                               </button>
+                               <button class="flex-1 sm:flex-none bg-white border border-red-200 text-red-500 hover:bg-red-50 px-5 py-2 rounded-lg text-xs font-bold transition-all shadow-sm hover:shadow-md" onclick="updateOrderStatus(${item.order_id}, 'Rejected')" id="rejectBtn_${item.order_id}">
+                                    Reject
+                               </button>
                             </div>
                         </div>`;
                     }).join('');
@@ -230,9 +208,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    window.updateOrderStatus = function (orderId, status) {
-        if (!confirm(`Are you sure you want to change status to "${status}"?`)) return;
-
+     function updateOrderStatus(orderId, status) {
+       
         fetch('update_order_status.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -264,6 +241,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Toggle Orders Section Button Logic
+    const toggleOrdersBtn = document.getElementById('toggleOrdersBtn');
+    if (toggleOrdersBtn && ordersSection) {
+        toggleOrdersBtn.addEventListener('click', function() {
+            const productsGrid = document.getElementById('productsGrid');
+            if (ordersSection.classList.contains('hidden')) {
+                // Show Orders, Hide Products
+                ordersSection.classList.remove('hidden');
+                if (productsGrid) productsGrid.classList.add('hidden');
+            } else {
+                // Hide Orders, Show Products
+                ordersSection.classList.add('hidden');
+                if (productsGrid) productsGrid.classList.remove('hidden');
+            }
+        });
+    }
+
+    const myProduceBtn = document.getElementById('myProduceBtn');
+    if (myProduceBtn) {
+        myProduceBtn.addEventListener('click', function() {
+            const productsGrid = document.getElementById('productsGrid');
+            const ordersSection = document.getElementById('ordersSection');
+            if (productsGrid) productsGrid.classList.remove('hidden');
+            if (ordersSection) ordersSection.classList.add('hidden');
+        });
+    }
+
     // Initial calls
     updateCartUI();
     fetchProducts();
@@ -279,30 +283,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // function fetchNotifications() {
-        //     fetch('get_notifications.php')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         const list = document.getElementById('notificationList');
-        //         const countBadge = document.getElementById('notificationCount');
-        function fetchNotifications() {
+               function fetchNotifications() {
             fetch('get_notifications.php')
             .then(response => response.json())
             .then(data => {
                 const list = document.getElementById('notificationList');
                 const countBadge = document.getElementById('notificationCount');
                 
-        //         if (data.success && data.notifications.length > 0) {
-        //             const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
                 if (data.success && data.notifications.length > 0) {
                     const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
                     
-        //             if (unreadCount > 0) {
-        //                 countBadge.textContent = unreadCount;
-        //                 countBadge.classList.remove('hidden');
-        //             } else {
-        //                 countBadge.classList.add('hidden');
-        //             }
                     if (unreadCount > 0) {
                         countBadge.textContent = unreadCount;
                         countBadge.classList.remove('hidden');
@@ -310,15 +300,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         countBadge.classList.add('hidden');
                     }
 
-       
-                    console.log('Notification ID:', data.notifications[0].notification_id);
-                    console.log('Notifications data:', data);
-                     // Debug log
+                    // Debug log
+                    // console.log('Notifications data:', data);
+
                     list.innerHTML = data.notifications.map(n => `
                         <li onclick="markNotificationRead(${n.notification_id}, this)" 
-                        conole.log('Notification ID:', n.notification_id),
+                        
                             class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                            <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
+                            <p class="text-xs ${n.is_read == 1 ? 'line text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
                             <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                         </li>
                     `).join('');
@@ -326,7 +315,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
                     countBadge.classList.add('hidden');
                 }
-                console.log(data.notifications.map(n => n.notification_id)); // Log all notification IDs
             })
             .catch(err => console.error('Error loading notifications:', err));
         }
@@ -346,13 +334,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     const textP = element.querySelector('p');
                     if(textP) {
                         textP.classList.remove('font-medium', 'text-gray-800');
-                        // textP.classList.add('line-through', 'text-gray-500');
+                        textP.classList.add('text-gray-500');
                     }
 
                     // Toggle orders section and scroll to it
                     const ordersSection = document.getElementById('ordersSection');
+                    const productsGrid = document.getElementById('productsGrid');
+
                     if (ordersSection) {
                         ordersSection.classList.remove('hidden');
+                        // Hide the products grid to show only orders
+                        if (productsGrid) productsGrid.classList.add('hidden');
                         ordersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         const dropdown = document.getElementById('notificationDropdown');
                         if (dropdown) dropdown.classList.add('hidden');

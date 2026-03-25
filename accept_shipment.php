@@ -26,7 +26,7 @@ try {
     $checkStmt->execute([$orderId]);
     if ($checkStmt->fetch()) {
         $connect->rollBack();
-        echo json_encode(['success' => false, 'errors' => ['Shipment already assigned to another provider.']]);
+        echo json_encode(['success' => false, 'errors' => ['Shipment already assigned to another provider. Just stay alert for more updates']]);
         exit;
     }
 

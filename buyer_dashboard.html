@@ -1,374 +1,577 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Buyer Dashboard | AgriLink</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#1f7a4d',
-            secondary: '#2ea36b',
-            accent: '#f97316',
-            light: '#f6f3ec'
-          }
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Buyer Dashboard | AgriLink</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1f7a4d",
+              secondary: "#2ea36b",
+              accent: "#f97316",
+              light: "#f6f3ec",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
       }
-    }
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-      html, body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
-  </style>
-</head>
-<body class="bg-light text-gray-800">
-
-<!-- Header -->
-<header class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    </style>
+  </head>
+  <body class="bg-light text-gray-800">
+    <!-- Header -->
+    <header
+      class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
-            <div class="flex items-center gap-4">
-                <button id="menue" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
-                    ☰
-                </button>
-                <a href="homepage.html" class="flex items-center gap-2 group">
-                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
-                    <span class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
-                </a>
+          <div class="flex items-center gap-4">
+            <button
+              id="menue"
+              class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors"
+            >
+              ☰
+            </button>
+            <a href="homepage.html" class="flex items-center gap-2 group">
+              <div
+                class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors"
+              >
+                FG
+              </div>
+              <span
+                class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors"
+                >FarmGlobe</span
+              >
+            </a>
+          </div>
+
+          <div class="hidden md:flex flex-1 max-w-xl mx-8">
+            <div class="relative w-full">
+              <input
+                type="text"
+                placeholder="Search..."
+                class="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm"
+              />
+              <button
+                class="absolute right-2 top-1.5 p-1 bg-primary text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-secondary transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 sm:gap-4">
+            <div class="hidden lg:flex items-center gap-6 mr-2">
+              <a
+                href="homepage.html"
+                class="text-gray-600 hover:text-primary font-bold text-sm transition-colors"
+                >Home</a
+              >
             </div>
 
-            <div class="hidden md:flex flex-1 max-w-xl mx-8">
-                <div class="relative w-full">
-                    <input type="text" placeholder="Search..." class="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm">
-                    <button class="absolute right-2 top-1.5 p-1 bg-primary text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-secondary transition-colors">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button>
+            <!-- Notification Button -->
+            <div class="relative">
+              <button
+                id="notificationBtn"
+                onclick="toggleNotifications()"
+                class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+                <span
+                  id="notificationCount"
+                  class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm hidden"
+                  >0</span
+                >
+              </button>
+
+              <div
+                id="notificationDropdown"
+                class="hidden absolute top-12 right-0 w-80 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden"
+              >
+                <div
+                  class="p-3 border-b bg-gray-50 font-bold text-gray-700 text-sm"
+                >
+                  Notifications
                 </div>
+                <ul
+                  id="notificationList"
+                  class="max-h-80 overflow-y-auto text-sm"
+                >
+                  <li class="p-4 text-center text-gray-500">Loading...</li>
+                </ul>
+              </div>
             </div>
 
-            <div class="flex items-center gap-2 sm:gap-4">
-                 <div class="hidden lg:flex items-center gap-6 mr-2">
-                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
-                </div>
-                
-                <!-- Notification Button -->
-                <div class="relative">
-                    <button id="notificationBtn" onclick="toggleNotifications()" class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
-                        <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm hidden">0</span>
-                    </button>
-                    
-                    <div id="notificationDropdown" class="hidden absolute top-12 right-0 w-80 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden">
-                        <div class="p-3 border-b bg-gray-50 font-bold text-gray-700 text-sm">
-                            Notifications
-                        </div>
-                        <ul id="notificationList" class="max-h-80 overflow-y-auto text-sm">
-                            <li class="p-4 text-center text-gray-500">Loading...</li>
-                        </ul>
-                    </div>
-                </div>
+            <button
+              id="cartToggleBtn"
+              class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span
+                class="absolute -top-1 -right-1 bg-accent text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm"
+                id="cartCount"
+                >0</span
+              >
+            </button>
 
-                <button id="cartToggleBtn" class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <span class="absolute -top-1 -right-1 bg-accent text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm" id="cartCount">0</span>
-                </button>
-                
-                <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
-                     <a href="logout.php" class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold shadow hover:bg-gray-200 transition-all">Logout</a>
-                </div>
+            <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+              <a
+                href="logout.php"
+                class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold shadow hover:bg-gray-200 transition-all"
+                >Logout</a
+              >
             </div>
+          </div>
         </div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<div class="flex min-h-screen">
-
-    <aside class="hidden md:block w-64 lg:w-72 bg-primary text-white p-6 lg:p-8 sticky top-[72px] h-[calc(100vh-72px)] overflow-y-auto" id="sidebar">
+    <div class="flex min-h-screen">
+      <aside
+        class="hidden md:block w-64 lg:w-72 bg-primary text-white p-6 lg:p-8 sticky top-[72px] h-[calc(100vh-72px)] overflow-y-auto"
+        id="sidebar"
+      >
         <div class="flex items-center gap-8 mb-8">
-            <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
-            <span class="font-bold text-xl">AgriLink</span>
+          <div
+            class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic"
+          >
+            A
+          </div>
+          <span class="font-bold text-xl">AgriLink</span>
         </div>
-        <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
+        <h3
+          class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider"
+        >
+          Menu
+        </h3>
         <ul class="space-y-4">
-            <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
-            <li class="text-white font-bold cursor-pointer">Dashboard</li>
-            <li class="hover:text-gray-200 cursor-pointer"><a href="allgoods.html">Browse Produce</a></li>
-            <li class="hover:text-gray-200 cursor-pointer">My Orders</li>
-            <li class="hover:text-gray-200 cursor-pointer">Transactions</li>
-            <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
-            <li class="hover:text-gray-200 cursor-pointer">Settings</li>
+          <li class="hover:text-gray-200 cursor-pointer">
+            <a href="homepage.html">Home</a>
+          </li>
+          <li class="text-white font-bold cursor-pointer">Dashboard</li>
+          <li class="hover:text-gray-200 cursor-pointer">
+            <a href="allgoods.html">Browse Produce</a>
+          </li>
+          <li class="hover:text-gray-200 cursor-pointer">My Orders</li>
+          <li class="hover:text-gray-200 cursor-pointer">Transactions</li>
+          <li class="hover:text-gray-200 cursor-pointer">
+            <a href="paymentpage.html">Place Payment</a>
+          </li>
+          <li class="hover:text-gray-200 cursor-pointer">Settings</li>
         </ul>
         <!-- Sidebar -->
-    </aside>
+      </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 p-6 md:p-10 2xl:p-16">
+      <!-- Main Content -->
+      <main class="flex-1 p-6 md:p-10 2xl:p-16">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-2xl md:text-3xl 2xl:text-4xl font-bold mb-8 text-primary">Buyer Dashboard</h2>
+          <h2
+            class="text-2xl md:text-3xl 2xl:text-4xl font-bold mb-8 text-primary"
+          >
+            Buyer Dashboard
+          </h2>
 
-            <!-- Stats -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-10 mb-10">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Orders Placed</p>
-                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">18</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Active Orders</p>
-                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">4</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Total Spend</p>
-                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">2,750k <span class="text-xs font-bold opacity-50">XAF</span></p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <p class="text-sm 2xl:text-base text-gray-500 font-medium">Suppliers</p>
-                    <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">9</p>
-                </div>
+          <!-- Stats -->
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-10 mb-10"
+          >
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            >
+              <p class="text-sm 2xl:text-base text-gray-500 font-medium">
+                Orders Placed
+              </p>
+              <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">
+                18
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            >
+              <p class="text-sm 2xl:text-base text-gray-500 font-medium">
+                Active Orders
+              </p>
+              <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">
+                4
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            >
+              <p class="text-sm 2xl:text-base text-gray-500 font-medium">
+                Total Spend
+              </p>
+              <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">
+                2,750k <span class="text-xs font-bold opacity-50">XAF</span>
+              </p>
+            </div>
+            <div
+              class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+            >
+              <p class="text-sm 2xl:text-base text-gray-500 font-medium">
+                Suppliers
+              </p>
+              <p class="text-2xl 2xl:text-4xl font-extrabold text-primary mt-1">
+                9
+              </p>
+            </div>
+          </div>
+
+          <!-- Main Content Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 2xl:gap-12">
+            <!-- Orders -->
+            <div
+              class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100"
+            >
+              <h3
+                class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2"
+              >
+                <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recent
+                Orders
+              </h3>
+              <ul class="space-y-4 text-sm 2xl:text-base" id="recentOrdersList">
+                <li class="text-gray-500 italic">Loading orders...</li>
+              </ul>
             </div>
 
-            <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 2xl:gap-12">
-                <!-- Orders -->
-                <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2">
-                        <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recent Orders
-                    </h3>
-                    <ul class="space-y-4 text-sm 2xl:text-base" id="recentOrdersList">
-                        <li class="text-gray-500 italic">Loading orders...</li>
-                    </ul>
-                </div>
-
-                <!-- Market Trends Placeholder -->
-                <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[200px]">
-                    <p class="text-gray-400 font-medium 2xl:text-lg">
-                        📊 Market Price Trends
-                    </p>
-                </div>
+            <!-- Market Trends Placeholder -->
+            <div
+              class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[200px]"
+            >
+              <p class="text-gray-400 font-medium 2xl:text-lg">
+                📊 Market Price Trends
+              </p>
             </div>
+          </div>
 
-            <!-- Supplier Suggestions -->
-            <div class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 mt-8 2xl:mt-12">
-                <h3 class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2">
-                    <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recommended Suppliers
-                </h3>
-                <ul class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm 2xl:text-base">
-                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">Green Harvest Cooperative – Maize</li>
-                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">North Rice Farmers Group – Rice</li>
-                    <li class="p-4 bg-light rounded-lg font-medium text-gray-700">FreshGrow Farms – Vegetables</li>
-                </ul>
-            </div>
+          <!-- Supplier Suggestions -->
+          <div
+            class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 mt-8 2xl:mt-12"
+          >
+            <h3
+              class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2"
+            >
+              <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recommended
+              Suppliers
+            </h3>
+            <ul
+              class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm 2xl:text-base"
+            >
+              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
+                Green Harvest Cooperative – Maize
+              </li>
+              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
+                North Rice Farmers Group – Rice
+              </li>
+              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
+                FreshGrow Farms – Vegetables
+              </li>
+            </ul>
+          </div>
         </div>
-    </main>
-</div>
+      </main>
+    </div>
 
-<div id="payment">
-    
-</div>
+    <div id="payment"></div>
 
-<!-- Cart -->
-<div id="cartOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity"></div>
-<div id="cartSidebar" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
-    <div class="p-4 border-b flex justify-between items-center bg-primary text-white">
+    <!-- Cart -->
+    <div
+      id="cartOverlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity"
+    ></div>
+    <div
+      id="cartSidebar"
+      class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col"
+    >
+      <div
+        class="p-4 border-b flex justify-between items-center bg-primary text-white"
+      >
         <h2 class="font-bold text-lg">Your Cart</h2>
-        <button id="closeCartBtn" class="text-white hover:text-gray-200 text-xl font-bold">✕</button>
-    </div>
-    
-    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <button
+          id="closeCartBtn"
+          class="text-white hover:text-gray-200 text-xl font-bold"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
         <p class="text-gray-500 text-center mt-10">Your cart is empty.</p>
-    </div>
+      </div>
 
-    <div class="p-4 border-t bg-gray-50">
+      <div class="p-4 border-t bg-gray-50">
         <div class="flex justify-between font-bold text-lg mb-4">
-            <span>Total:</span>
-            <span id="cartTotalDisplay">0 XAF</span>
+          <span>Total:</span>
+          <span id="cartTotalDisplay">0 XAF</span>
         </div>
-        <button onclick="checkout()" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition shadow-md">Checkout</button>
+        <button
+          onclick="checkout()"
+          class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition shadow-md"
+        >
+          Checkout
+        </button>
+      </div>
     </div>
 
-</div>
-
-
-<footer class="mt-16 py-12 border-t border-gray-200 bg-white">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="flex gap-6 text-[10px] 2xl:text-xs font-bold text-gray-500 uppercase tracking-widest">
-            <a href="#" class="hover:text-primary">Need Help?</a>
-            <a href="#" class="hover:text-primary">Contact Us</a>
-            <a href="#" class="hover:text-primary">Terms & Conditions</a>
-            <a href="#" class="hover:text-primary">Privacy Policy</a>
+    <footer class="mt-16 py-12 border-t border-gray-200 bg-white">
+      <div
+        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"
+      >
+        <div
+          class="flex gap-6 text-[10px] 2xl:text-xs font-bold text-gray-500 uppercase tracking-widest"
+        >
+          <a href="#" class="hover:text-primary">Need Help?</a>
+          <a href="#" class="hover:text-primary">Contact Us</a>
+          <a href="#" class="hover:text-primary">Terms & Conditions</a>
+          <a href="#" class="hover:text-primary">Privacy Policy</a>
         </div>
         <div class="flex justify-center gap-4 text-primary opacity-70">
-            <span class="hover:opacity-100 cursor-pointer transition-opacity">Facebook</span>
-            <span class="hover:opacity-100 cursor-pointer transition-opacity">Twitter</span>
-            <span class="hover:opacity-100 cursor-pointer transition-opacity">Instagram</span>
+          <span class="hover:opacity-100 cursor-pointer transition-opacity"
+            >Facebook</span
+          >
+          <span class="hover:opacity-100 cursor-pointer transition-opacity"
+            >Twitter</span
+          >
+          <span class="hover:opacity-100 cursor-pointer transition-opacity"
+            >Instagram</span
+          >
         </div>
-    </div>
-</footer>
-<script>
-    // Cart Logic
-    let cart = JSON.parse(localStorage.getItem('agriLinkCart')) || [];
-    const cartSidebar = document.getElementById('cartSidebar');
-    const cartOverlay = document.getElementById('cartOverlay');
-    const cartCountSpan = document.getElementById('cartCount');
-    const cartItemsContainer = document.getElementById('cartItemsContainer');
-    const cartTotalDisplay = document.getElementById('cartTotalDisplay');
+      </div>
+    </footer>
+    <script>
+      // Cart Logic
+      let cart = JSON.parse(localStorage.getItem("agriLinkCart")) || [];
+      const cartSidebar = document.getElementById("cartSidebar");
+      const cartOverlay = document.getElementById("cartOverlay");
+      const cartCountSpan = document.getElementById("cartCount");
+      const cartItemsContainer = document.getElementById("cartItemsContainer");
+      const cartTotalDisplay = document.getElementById("cartTotalDisplay");
 
-    // Toggle Cart
-    function toggleCart() {
-        const isClosed = cartSidebar.classList.contains('translate-x-full');
+      // Toggle Cart
+      function toggleCart() {
+        const isClosed = cartSidebar.classList.contains("translate-x-full");
         if (isClosed) {
-            cartSidebar.classList.remove('translate-x-full');
-            cartOverlay.classList.remove('hidden');
+          cartSidebar.classList.remove("translate-x-full");
+          cartOverlay.classList.remove("hidden");
         } else {
-            cartSidebar.classList.add('translate-x-full');
-            cartOverlay.classList.add('hidden');
+          cartSidebar.classList.add("translate-x-full");
+          cartOverlay.classList.add("hidden");
         }
-    }
+      }
 
-    document.getElementById('cartToggleBtn').addEventListener('click', toggleCart);
-    document.getElementById('closeCartBtn').addEventListener('click', toggleCart);
-    cartOverlay.addEventListener('click', toggleCart);
+      document
+        .getElementById("cartToggleBtn")
+        .addEventListener("click", toggleCart);
+      document
+        .getElementById("closeCartBtn")
+        .addEventListener("click", toggleCart);
+      cartOverlay.addEventListener("click", toggleCart);
 
-    // Add to Cart Function
-    function addToCart(name, price, unit, listingId) {
+      // Add to Cart Function
+      function addToCart(name, price, unit, listingId) {
         if (!listingId) {
-            console.error('addToCart on buyer dashboard called without id');
-            return;
+          console.error("addToCart on buyer dashboard called without id");
+          return;
         }
         // Check if item exists
-        const existingItem = cart.find(item => item.name === name);
+        const existingItem = cart.find((item) => item.name === name);
         if (existingItem) {
-            existingItem.quantity += 1;
+          existingItem.quantity += 1;
         } else {
-            cart.push({ name, price, unit, quantity: 1, id: listingId });
+          cart.push({ name, price, unit, quantity: 1, id: listingId });
         }
 
         updateCartUI();
 
         // Submit cart data to database
         const formData = new FormData();
-        formData.append('status', 'Active');
-        fetch('submit_cart_data.php', {
-            method: 'POST',
-            credentials: 'same-origin',
-            body: formData
+        formData.append("status", "Active");
+        fetch("submit_cart_data.php", {
+          method: "POST",
+          credentials: "same-origin",
+          body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
-            if (!data.success && data.errors && data.errors.includes('User not logged in')) {
-                alert("You must be logged in to submit your cart.");
-                window.location.href = "login.html";
-                return;
+          .then((response) => response.json())
+          .then((data) => {
+            if (
+              !data.success &&
+              data.errors &&
+              data.errors.includes("User not logged in")
+            ) {
+              alert("You must be logged in to submit your cart.");
+              window.location.href = "login.html";
+              return;
             }
 
             if (data.success && data.cart_id) {
-                console.log('Cart synced:', data);
+              console.log("Cart synced:", data);
 
-                // Submit item data now that we have cart_id
-                const itemData = new FormData();
-                itemData.append('cart_id', data.cart_id);
-                itemData.append('listing_id', listingId);
-                itemData.append('quantity', 1); // Add 1 item
-                itemData.append('price_at_time', price);
+              // Submit item data now that we have cart_id
+              const itemData = new FormData();
+              itemData.append("cart_id", data.cart_id);
+              itemData.append("listing_id", listingId);
+              itemData.append("quantity", 1); // Add 1 item
+              itemData.append("price_at_time", price);
 
-                fetch('submit_cart_item_data.php', {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    body: itemData
-                })
-                
-                .then(r => r.text())
-                .then(text => {
-                    console.log('Raw Server Response:', text);
-                    try {
-                        const d = JSON.parse(text);
-                        if (!d.success) {
-                            console.error('Item sync server error:', d.errors || d);
-                            alert('Error adding item: ' + (d.errors ? d.errors.join(', ') : 'Unknown error'));
-                        } else {
-                            console.log('Item synced:', d);
-                        }
-                    } catch (e) {
-                        console.error('JSON Parse Error. Server sent:', text);
-                        alert('Server Error: ' + text);
+              fetch("submit_cart_item_data.php", {
+                method: "POST",
+                credentials: "same-origin",
+                body: itemData,
+              })
+                .then((r) => r.text())
+                .then((text) => {
+                  console.log("Raw Server Response:", text);
+                  try {
+                    const d = JSON.parse(text);
+                    if (!d.success) {
+                      console.error("Item sync server error:", d.errors || d);
+                      alert(
+                        "Error adding item: " +
+                          (d.errors ? d.errors.join(", ") : "Unknown error"),
+                      );
+                    } else {
+                      console.log("Item synced:", d);
                     }
+                  } catch (e) {
+                    console.error("JSON Parse Error. Server sent:", text);
+                    alert("Server Error: " + text);
+                  }
                 })
-                .catch(e => console.error('Item sync error:', e));
+                .catch((e) => console.error("Item sync error:", e));
             } else {
-                console.error('Cart sync server error:', data.errors || data);
-                alert('Error syncing cart: ' + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+              console.error("Cart sync server error:", data.errors || data);
+              alert(
+                "Error syncing cart: " +
+                  (data.errors ? data.errors.join(", ") : "Unknown error"),
+              );
             }
-        
-        })
-        .catch(error => {
-            console.error('Error syncing cart:', error);
-            alert('System Error: ' + error.message + '. Check console for details.');
-        });
-    }
+          })
+          .catch((error) => {
+            console.error("Error syncing cart:", error);
+            alert(
+              "System Error: " + error.message + ". Check console for details.",
+            );
+          });
+      }
 
-    // Checkout Function
-   function checkout() {
-    if (cart.length === 0) {
-        alert("Your cart is empty.");
-        return;
-    }
-
-    const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-
-    const orderData = {
-        total_amount: totalAmount,
-        order_status: "Pending",
-        items: cart
-    };
-
-    fetch('submit_order_data.php', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert("Order placed successfully!");
-
-            cart = [];
-            localStorage.removeItem("agriLinkCart");
-
-            updateCartUI();
-            toggleCart();
-        } else {
-            alert("Checkout failed: " + data.errors.join(", "));
+      // Checkout Function
+      function checkout() {
+        if (cart.length === 0) {
+          alert("Your cart is empty.");
+          return;
         }
-    })
-    .catch(err => console.error("Checkout error:", err));
-}
 
-    // Remove from Cart Function
-    function removeFromCart(index) {
+        const totalAmount = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        );
+
+        const orderData = {
+          total_amount: totalAmount,
+          order_status: "Pending",
+          items: cart,
+        };
+
+        fetch("submit_order_data.php", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              alert("Order placed successfully!");
+
+              cart = [];
+              localStorage.removeItem("agriLinkCart");
+
+              updateCartUI();
+              toggleCart();
+            } else {
+              alert("Checkout failed: " + data.errors.join(", "));
+            }
+          })
+          .catch((err) => console.error("Checkout error:", err));
+      }
+
+      // Remove from Cart Function
+      function removeFromCart(index) {
         cart.splice(index, 1);
         updateCartUI();
-    }
+      }
 
-    function updateCartUI() {
-        localStorage.setItem('agriLinkCart', JSON.stringify(cart));
-        if(cartCountSpan) cartCountSpan.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
-        
+      function updateCartUI() {
+        localStorage.setItem("agriLinkCart", JSON.stringify(cart));
+        if (cartCountSpan)
+          cartCountSpan.textContent = cart.reduce(
+            (sum, item) => sum + item.quantity,
+            0,
+          );
+
         let total = 0;
-        if(cartItemsContainer) {
-            cartItemsContainer.innerHTML = cart.map((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                return `
+        if (cartItemsContainer) {
+          cartItemsContainer.innerHTML = cart
+            .map((item, index) => {
+              const itemTotal = item.price * item.quantity;
+              total += itemTotal;
+              return `
                     <div class="flex justify-between items-center border-b pb-2">
                         <div>
                             <h4 class="font-bold text-sm">${item.name}</h4>
@@ -382,176 +585,216 @@
                         </div>
                     </div>
                 `;
-            }).join('');
+            })
+            .join("");
 
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
-            }
+          if (cart.length === 0) {
+            cartItemsContainer.innerHTML =
+              '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
+          }
         }
 
-        if(cartTotalDisplay) cartTotalDisplay.textContent = total.toLocaleString() + ' XAF';
-    }
+        if (cartTotalDisplay)
+          cartTotalDisplay.textContent = total.toLocaleString() + " XAF";
+      }
 
-    // Initial render
-    updateCartUI();
+      // Initial render
+      updateCartUI();
 
-    // toggle sidebar on smaller screens
-    let sideBar = document.getElementById("sidebar");
-    let togglebtn = document.getElementById("menue");
-    togglebtn.addEventListener("click", function() {
-          const clickedInsideSidebar = sidebar.contains(event.target);
+      // toggle sidebar on smaller screens
+      let sideBar = document.getElementById("sidebar");
+      let togglebtn = document.getElementById("menue");
+      togglebtn.addEventListener("click", function () {
+        const clickedInsideSidebar = sidebar.contains(event.target);
         const clickedMenuButton = menuBtn.contains(event.target);
 
         if (window.innerWidth < 768) {
-        
-        sideBar.classList.toggle("hidden");
-    } else {
-        // desktop collapse
-        sideBar.classList.toggle("w-64");
-        sideBar.classList.toggle("w-0");
-    }
-    
+          sideBar.classList.toggle("hidden");
+        } else {
+          // desktop collapse
+          sideBar.classList.toggle("w-64");
+          sideBar.classList.toggle("w-0");
+        }
+      });
 
-    });
-
-    window.addEventListener("click", function(event) {
+      window.addEventListener("click", function (event) {
         const clickedInsideSidebar = sideBar.contains(event.target);
         const clickedMenuButton = togglebtn.contains(event.target);
 
         sideBar.classList.add("hidden");
-    }
-)
+      });
 
-    // Fetch Orders Logic
-    function fetchBuyerOrders() {
-        fetch('get_orders_madeBy_buyer.php')
-        .then(response => response.json())
-        .then(data => {
-            const list = document.getElementById('recentOrdersList');
-            
+      // Fetch Orders Logic
+      function fetchBuyerOrders() {
+        fetch("get_orders_madeBy_buyer.php")
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById("recentOrdersList");
+
             if (data.success && data.orders.length > 0) {
-                list.innerHTML = data.orders.map(order => {
-                    // Determine color based on status
-                    let statusClass = 'text-gray-400';
-                    if (['Pending'].includes(order.order_status)) statusClass = 'text-orange-500';
-                    if (['Awaiting Payment'].includes(order.order_status)) statusClass = 'text-red-500';
-                    if (['In Transit', 'Active'].includes(order.order_status)) statusClass = 'text-accent';
-                    if (['Delivered', 'Completed', 'Paid'].includes(order.order_status)) statusClass = 'text-primary';
+              list.innerHTML = data.orders
+                .map((order) => {
+                  // Determine color based on status
+                  let statusClass = "text-gray-400";
+                  if (["Pending"].includes(order.order_status))
+                    statusClass = "text-orange-500";
+                  if (["Awaiting Payment"].includes(order.order_status))
+                    statusClass = "text-red-500";
+                  if (["In Transit", "Active"].includes(order.order_status))
+                    statusClass = "text-accent";
+                  if (
+                    ["Delivered", "Completed", "Paid"].includes(
+                      order.order_status,
+                    )
+                  )
+                    statusClass = "text-primary";
 
-                    // Show Pay button if not paid or completed
-                    const showPayBtn = !['Paid', 'Completed', 'Delivered'].includes(order.order_status);
+                  // Show Pay button if not paid or completed
+                  const showPayBtn = ![
+                    "Paid",
+                    "Completed",
+                    "Delivered",
+                  ].includes(order.order_status);
 
-                    return `
+                  return `
                         <li class="flex justify-between items-center border-b pb-3 border-gray-50 last:border-0">
                             <div>
                                 <span class="font-bold block">${order.product_name}</span>
-                                <span class="text-xs text-gray-500">${order.qauntity} ${order.unit} • ${parseInt(order.total_amount).toLocaleString()} XAF</span>
+                                <span class="text-xs text-gray-500">${order.quantity} ${order.unit} • ${parseInt(order.total_amount).toLocaleString()} XAF</span>
                                 <span class="text-[10px] text-gray-400 block">Seller: ${order.seller_name}</span>
                             </div>
                             <div class="flex flex-col items-end gap-1">
                                 <span class="${statusClass} font-bold text-xs uppercase">${order.order_status}</span>
-                                ${showPayBtn ? `<a href="paymentpage.html?order_id=${order.order_id}" class="bg-primary text-white text-[10px] px-3 py-1 rounded hover:bg-secondary transition">Pay Now</a>` : ''}
+                                ${showPayBtn ? `<a href="paymentpage.html?order_id=${order.order_id}" class="bg-primary text-white text-[10px] px-3 py-1 rounded hover:bg-secondary transition shadow-md font-bold cursor-not-allowed" id="payBtn_${order.order_id}">Pay Now</a>` : ""}
                             </div>
                         </li>
                     `;
-                }).join('');
+                })
+                .join("");
 
-                // Optional: Update stats counters if needed
-                // document.getElementById('ordersPlacedCount').innerText = data.orders.length;
+
+              let isEnabled = false;
+               data.orders.forEach((order) => {
+
+              document.getElementById(`payBtn_${order.order_id}`).addEventListener("click", function (e) {
+                  if (!isEnabled) {
+                    e.preventDefault(); // stops navigation
+                  }
+                })});
+                  
+              // When your event happens:
+              function enablePayment() {
+                isEnabled = true;
+                const btn = document.getElementById("payBtn");
+                btn.classList.remove("opacity-50", "cursor-not-allowed");
+              }
+
+              // Optional: Update stats counters if needed
+              // document.getElementById('ordersPlacedCount').innerText = data.orders.length;
             } else {
-                list.innerHTML = '<li class="text-gray-500">No orders found.</li>';
+              list.innerHTML =
+                '<li class="text-gray-500">No orders found.</li>';
             }
-        })
-        .catch(error => {
-            console.error('Error fetching orders:', error);
-            document.getElementById('recentOrdersList').innerHTML = '<li class="text-red-500">Error loading orders.</li>';
-        });
-    }
+          })
+          .catch((error) => {
+            console.error("Error fetching orders:", error);
+            document.getElementById("recentOrdersList").innerHTML =
+              '<li class="text-red-500">Error loading orders.</li>';
+          });
+      }
 
-    // Load user data and orders on page load
-    document.addEventListener('DOMContentLoaded', () => {
+      // Load user data and orders on page load
+      document.addEventListener("DOMContentLoaded", () => {
         fetchBuyerOrders();
         // Add fetchUser() here if you need to display the buyer's name on the dashboard
         fetchNotifications();
-    });
+      });
 
-    // ================= NOTIFICATION LOGIC =================
-    function toggleNotifications() {
-        
-        const dropdown = document.getElementById('notificationDropdown');
-        dropdown.classList.toggle('hidden');
-        if (!dropdown.classList.contains('hidden')) {
-            fetchNotifications();
+      // ================= NOTIFICATION LOGIC =================
+      function toggleNotifications() {
+        const dropdown = document.getElementById("notificationDropdown");
+        dropdown.classList.toggle("hidden");
+        if (!dropdown.classList.contains("hidden")) {
+          fetchNotifications();
         }
-    }
+      }
 
-    function fetchNotifications() {
-        fetch('get_notifications.php')
-        .then(response => response.json())
-        .then(data => {
-            const list = document.getElementById('notificationList');
-            const countBadge = document.getElementById('notificationCount');
-            
+      function fetchNotifications() {
+        fetch("get_notifications.php")
+          .then((response) => response.json())
+          .then((data) => {
+            const list = document.getElementById("notificationList");
+            const countBadge = document.getElementById("notificationCount");
+
             if (data.success && data.notifications.length > 0) {
-                const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
-                
-                if (unreadCount > 0) {
-                    countBadge.textContent = unreadCount;
-                    countBadge.classList.remove('hidden');
-                } else {
-                    countBadge.classList.add('hidden');
-                }
+              const unreadCount = data.notifications.filter(
+                (n) => n.is_read == 0,
+              ).length;
 
-                list.innerHTML = data.notifications.map(n => `
-                    <li onclick="markNotificationRead(${n.id}, this)" 
-                        class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
+              if (unreadCount > 0) {
+                countBadge.textContent = unreadCount;
+                countBadge.classList.remove("hidden");
+              } else {
+                countBadge.classList.add("hidden");
+              }
+              console.log("Notifications loaded:", data);
+              list.innerHTML = data.notifications
+                .map(
+                  (n) => `
+                    <li onclick="markNotificationRead(${n.notification_id}, this)" 
+                        class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? "bg-blue-50 opacity-100" : "bg-white opacity-60"}">
+                        <p class="text-xs ${n.is_read == 1 ? "line-through text-gray-500" : "font-medium text-gray-800"}">${n.notification_message}</p>
                         <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                     </li>
-                `).join('');
+                `,
+                )
+                .join("");
             } else {
-                list.innerHTML = '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
-                countBadge.classList.add('hidden');
+              list.innerHTML =
+                '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
+              countBadge.classList.add("hidden");
             }
+          })
+          .catch((err) => console.error("Error loading notifications:", err));
+      }
+
+      function markNotificationRead(id, element) {
+        fetch("mark_notification_read.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: id }),
         })
-        .catch(err => console.error('Error loading notifications:', err));
-    }
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              element.classList.remove("bg-blue-50", "opacity-100");
+              element.classList.add("bg-white", "opacity-60");
 
-    function markNotificationRead(id, element) {
-        fetch('mark_notification_read.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id })
-        }).then(res => res.json()).then(data => {
-            if(data.success) {
-                element.classList.remove('bg-blue-50', 'opacity-100');
-                element.classList.add('bg-white', 'opacity-60');
+              // Apply strikethrough styling
+              const textP = element.querySelector("p");
+              if (textP) {
+                textP.classList.remove("font-medium", "text-gray-800");
+                textP.classList.add("line-through", "text-gray-500");
+              }
 
-                // Apply strikethrough styling
-                const textP = element.querySelector('p');
-                if(textP) {
-                    textP.classList.remove('font-medium', 'text-gray-800');
-                    textP.classList.add('line-through', 'text-gray-500');
-                }
+              // Scroll to Recent Orders list
+              const ordersList = document.getElementById("recentOrdersList");
+              if (ordersList) {
+                ordersList.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+                const dropdown = document.getElementById(
+                  "notificationDropdown",
+                );
+                if (dropdown) dropdown.classList.add("hidden");
+              }
 
-                // Scroll to Recent Orders list
-                const ordersList = document.getElementById('recentOrdersList');
-                if (ordersList) {
-                    ordersList.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    const dropdown = document.getElementById('notificationDropdown');
-                    if (dropdown) dropdown.classList.add('hidden');
-                }
-
-                // Optionally refresh count
-                fetchNotifications();
+              // Optionally refresh count
+              fetchNotifications();
             }
-        });
-    }
-</script>
-  
-
-
-
-
-</body>
+          });
+      }
+    </script>
+  </body>
 </html>

@@ -14,17 +14,17 @@
         .bg-agri-gold { background-color: #D4A346; }
     </style>
 </head>
-<body class="p-4 md:p-8">
-
-    <header class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300 mb-8">
+<body class="bg-light text-gray-800 h-screen overflow-hidden flex flex-col">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-md z-30 w-full transition-all duration-300 shrink-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
-            <div class="flex items-center gap-4">
-                <button id="sidebarToggleBtn" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
-                    ☰
-                </button>
-                <a href="homepage.html" class="flex items-center gap-2 group">
-                    <div class="w-10 h-10 bg-agri-green rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
+        <div class="flex items-center gap-4">
+            <button id="sidebarToggleBtn" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
+                ☰
+            </button>
+            <a href="homepage.html" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-agri-green rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
                     <span class="font-bold text-2xl text-agri-green tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
                 </a>
             </div>
@@ -76,8 +76,7 @@
     </div>
     </header>
 
-    <main class="max-w-7xl mx-auto">
-        <nav id="cartSidebar" class="flex gap-6 border-b border-gray-200 mb-8 pb-2 overflow-x-auto whitespace-nowrap">
+    <main class="max-w-7xl mx-auto flex gap-6 border-b border-gray-200 mb-8 pb-2 overflow-x-auto whitespace-nowrap">
             <a href="#" class="px-4 py-2 bg-agri-green text-white rounded-md font-medium">Dashboard</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Orders</a>
             <a href="#" class="px-4 py-2 text-gray-600 font-medium">Wallet</a>
@@ -177,6 +176,7 @@
                     <p class="text-xs mt-2 opacity-70">↑ +12% from last month</p>
                 </div>
             </div>
+        </div>
         </div>
     </main>
 

@@ -32,6 +32,7 @@ try {
             JOIN product p ON pl.product_id = p.product_id
             JOIN orders o ON oi.order_id = o.order_id
             JOIN userstable u ON o.user_id = u.user_id
+           
 
             WHERE pl.seller_id = ?
             ORDER BY o.order_date DESC

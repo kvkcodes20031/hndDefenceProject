@@ -37,7 +37,7 @@ try {
             $message .= " Please pay now. <br><a href='paymentpage.html?order_id=$orderId' class='inline-block bg-green-600 text-white text-xs px-2 py-1 rounded mt-1'>Pay Now</a> <a href='buyer_dashboard.html' class='inline-block bg-gray-500 text-white text-xs px-2 py-1 rounded mt-1 ml-1'>View Orders</a>";
         }
 
-        $notifStmt = $connect->prepare("INSERT INTO notifications (user_id, message, is_read, created_at) VALUES (?, ?, 0, NOW())");
+        $notifStmt = $connect->prepare("INSERT INTO notification (user_id, notification_message, is_read, created_at) VALUES (?, ?, 0, NOW())");
         $notifStmt->execute([$buyerId, $message]);
     }
 
