@@ -43,7 +43,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Store the file path in the user profile or a separate verifications table
-    $stmt = $connect->prepare("UPDATE profiletable SET id_document = ? WHERE user_id = ?");
+    $stmt = $connect->prepare("UPDATE identity_verification SET document_image = ? WHERE user_id = ?");
     $stmt->execute([$id_doc_path, $_SESSION['user_id']]);
 
     echo json_encode(['success' => true]);
