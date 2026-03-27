@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cooperative Info | FarmGlobe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { primary: '#1f7a4d', light: '#f6f3ec' } } } }
+  </script>
+</head>
+<body class="bg-light p-6">
+  <div class="max-w-4xl mx-auto space-y-6">
+    <!-- Navigation Select -->
+    <div class="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm">
+        <h2 class="font-bold text-primary">Quick Actions</h2>
+        <select onchange="if(this.value) window.location.href=this.value" class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none">
+            <option value="">Choose an action...</option>
+            <option value="add_member.html">Add New Members</option>
+            <option value="farmerdashboard.html">Back to Dashboard</option>
+        </select>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="border-b pb-6 mb-6">
+            <h1 id="viewCoopName" class="text-3xl font-bold text-primary mb-2">Loading...</h1>
+            <p class="text-gray-600"><span class="font-bold">Region:</span> <span id="viewCoopRegion"></span></p>
+        </div>
+        
+        <div class="mb-8">
+            <h3 class="text-lg font-bold text-gray-700 mb-2">Description</h3>
+            <p id="viewCoopDesc" class="text-gray-600 italic"></p>
+        </div>
+
+        <div>
+            <h3 class="text-lg font-bold text-gray-700 mb-4">Cooperative Members</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-600">
+                        <tr>
+                            <th class="p-3">Name</th>
+                            <th class="p-3">Email</th>
+                            <th class="p-3">Joined Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersListBody">
+                        <tr><td colspan="3" class="p-4 text-center">Fetching members...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('get_user_cooperative.php')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                document.getElementById('viewCoopName').textContent = data.cooperative.name;
+                document.getElementById('viewCoopRegion').textContent = data.cooperative.region;
+                document.getElementById('viewCoopDesc').textContent = data.cooperative.description || "No description provided.";
+                fetchMembers(data.cooperative.cooperative_id);
+            }
+        });
+    });
+
+    function fetchMembers(coopId) {
+        fetch(`get_cooperative_members.php?coop_id=${coopId}`)
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.getElementById('membersListBody');
+            if(data.success && data.members.length > 0) {
+                tbody.innerHTML = data.members.map(m => `
+                    <tr class="border-t">
+                        <td class="p-3 font-medium">${m.first_name} ${m.last_name}</td>
+                        <td class="p-3">${m.email}</td>
+                        <td class="p-3 text-gray-500">${new Date(m.joined_at).toLocaleDateString()}</td>
+                    </tr>
+                `).join('');
+            } else {
+                tbody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-400">No members found in this cooperative.</td></tr>';
+            }
+        });
+    }
+  </script>
+</body>
+</html>

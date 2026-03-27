@@ -110,8 +110,16 @@
             <li class="hover:text-gray-200 cursor-pointer" id="viewOrdersLink">Orders</li>
             <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
             <li class="hover:text-gray-200 cursor-pointer">Supplier</li>
-            <li class="hover:text-gray-200 cursor-pointer"><a href="cooperative_management.html" class="text-accent font-bold">Manage Cooperative</a></li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="create_cooperative.html" class="text-accent font-bold">Create Cooperative</a></li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="coperativ.html">Cooperative Management</a></li>
             <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
+            
+            <li class="pt-4 border-t border-green-700 mt-4"></li>
+            <h4 class="font-semibold mb-2 text-green-100 uppercase text-[10px] tracking-widest">My Cooperatives</h4>
+            <div id="myCoopsList" class="space-y-2 text-sm max-h-40 overflow-y-auto">
+                <p class="text-gray-300 italic text-[10px]">Loading...</p>
+            </div>
+
             <!-- Mobile only links -->
             <li class="lg:hidden pt-4 border-t border-green-700 mt-4"></li>
             <li class="lg:hidden hover:text-gray-200 cursor-pointer">Profile</li>
@@ -135,6 +143,9 @@
             <div class="relative z-10 p-6 md:p-10 h-full flex flex-col justify-center text-white">
                 <h2 class="text-3xl font-bold mb-2">Welcome, <span id="username"></span> Farm!</h2>
                 <p class="max-w-sm text-sm opacity-90 leading-relaxed">Log in to access farmers, buyers, logistics, and input suppliers in one platform.</p>
+                <div class="mt-4">
+                    <a href="coperativ.html" class="inline-block bg-white text-primary px-6 py-2 rounded-lg font-bold text-sm hover:bg-gray-100 transition shadow-lg">Go to Cooperative Management</a>
+                </div>
             </div>
             <div class="absolute right-10 bottom-0 hidden md:block">
                 <img src="https://images.unsplash.com/photo-1594235342410-2384a2408931?w=400" class="w-48 h-56 object-cover rounded-t-full border-4 border-white border-b-0" alt="Farmer">
@@ -319,6 +330,37 @@
 
         // ================= NOTIFICATION LOGIC =================
        
+        
+        function loadMyCooperatives() {
+            const list = document.getElementById('myCoopsList');
+            fetch('get_my_cooperatives.php')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success && data.cooperatives.length > 0) {
+                        list.innerHTML = data.cooperatives.map(c => `
+                            <li onclick="switchCoop(${c.cooperative_id})" class="hover:text-accent cursor-pointer truncate transition-colors" title="${c.name}">
+                                • ${c.name}
+                            </li>
+                        `).join('');
+                    } else {
+                        list.innerHTML = '<p class="text-gray-400 text-[10px]">No memberships found.</p>';
+                    }
+                });
+        }
+
+        function switchCoop(coopId) {
+            fetch('set_coop_context.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coop_id: coopId })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) window.location.href = 'coperativ.html';
+            });
+        }
+        
+        loadMyCooperatives();
     </script>
 
 </body>

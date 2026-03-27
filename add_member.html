@@ -18,7 +18,7 @@
             <h1 class="text-2xl font-bold text-primary">Add Cooperative Member</h1>
             <p class="text-sm text-gray-500">Select farmers to add to your cooperative.</p>
         </div>
-        <a href="cooperative_management.html" class="text-sm font-bold text-gray-400 hover:text-primary transition-colors">← Back</a>
+        <a href="create_cooperative.html" class="text-sm font-bold text-gray-400 hover:text-primary transition-colors">← Back</a>
     </div>
 
     <form id="addMemberForm">
@@ -100,7 +100,7 @@
             const data = await res.json();
             if (data.success) {
                 alert('Members added successfully!');
-                window.location.href = 'view_cooperative.html';
+                window.location.href = 'coperativ.html';
             } else { alert(data.errors.join('\n')); }
         } catch (error) { alert('Failed to add members.'); }
         finally { btn.disabled = false; btn.textContent = 'Add Selected Members'; }

@@ -12,7 +12,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch cooperative where the logged-in user is the leader
-    $stmt = $connect->prepare("SELECT cooperative_id, name, description, region FROM cooperatives WHERE leader_id = ? LIMIT 1");
+    $stmt = $connect->prepare("SELECT cooperative_id, name, description, region FROM cooperatives WHERE created_by = ? LIMIT 1");
     $stmt->execute([$_SESSION['user_id']]);
     $cooperative = $stmt->fetch(PDO::FETCH_ASSOC);
 

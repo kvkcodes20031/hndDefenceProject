@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriLink - Buyer Dashboard</title>
+    <title>Cooperative Dashboard | AgriLink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -22,9 +22,17 @@
             <h1 class="text-xl font-extrabold text-agri-green">AgriLink</h1>
             <span class="hidden md:block text-[10px] text-gray-500 ml-4">Connecting Farmers, Buyers, Logistics & Inputs</span>
         </div>
-        <div class="flex gap-2">
-            <button class="px-4 py-1.5 bg-agri-green text-white rounded text-xs font-bold hover-agri">Support</button>
-            <button class="px-4 py-1.5 bg-agri-green text-white rounded text-xs font-bold hover-agri">Login</button>
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <select onchange="if(this.value) window.location.href=this.value" class="bg-white border border-gray-200 text-agri-green text-xs font-bold px-4 py-1.5 rounded outline-none focus:ring-2 focus:ring-agri-green">
+                    <option value="">Quick Actions</option>
+                    <option value="add_member.html">Add New Members</option>
+                    <option value="farmerdashboard.html">Back to Dashboard</option>
+                </select>
+            </div>
+            <div class="flex gap-2">
+                <a href="logout.php" class="px-4 py-1.5 bg-agri-green text-white rounded text-xs font-bold hover-agri">Logout</a>
+            </div>
         </div>
     </header>
 
@@ -32,9 +40,10 @@
         <section class="relative rounded-2xl overflow-hidden bg-white mb-8 shadow-sm border border-gray-100">
             <div class="grid md:grid-cols-2 items-center">
                 <div class="p-8 md:p-12 z-10">
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-agri-green mb-4">Welcome, CamFood Industries!</h2>
-                    <p class="text-gray-600 text-sm md:text-base leading-relaxed max-w-md">
-                        Log in to access farmers, buyers, suppliers & inputs and input suppliers in one platform.
+                    <h2 id="coopNameHeader" class="text-3xl md:text-4xl font-extrabold text-agri-green mb-2 italic">Loading Cooperative...</h2>
+                    <p id="coopRegionHeader" class="text-agri-gold font-bold text-sm mb-4 uppercase tracking-widest"></p>
+                    <p id="coopDescHeader" class="text-gray-600 text-sm md:text-base leading-relaxed max-w-md">
+                        Fetching your cooperative details...
                     </p>
                 </div>
                 <div class="relative h-48 md:h-64 overflow-hidden">
@@ -47,87 +56,73 @@
         </section>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-            <button class="bg-agri-green text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
-                Place New Order
+            <a href="add_member.html" class="bg-agri-green text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
+                Add Member
+            </a>
+            <button onclick="document.getElementById('membersSection').scrollIntoView({behavior:'smooth'})" class="bg-agri-green text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
+                View Members
             </button>
-            <button class="bg-agri-green text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
-                Browse Produce
-            </button>
-            <button class="bg-agri-gold text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
-                Manage My Orders
-            </button>
+            <a href="farmerdashboard.html" class="bg-agri-gold text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]">
+                Dashboard
+            </a>
         </div>
 
-        <section class="mb-12">
+        <section id="membersSection" class="mb-12">
             <div class="flex items-center justify-between mb-6">
-                <h3 class="text-2xl font-extrabold text-agri-green">Available Produce</h3>
-                <div class="flex gap-2">
-                    <button class="bg-white border border-gray-200 px-4 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50">
-                        ✕ Place New Order
-                    </button>
-                    <button class="bg-white border border-gray-200 px-4 py-2 rounded-lg text-xs font-bold text-gray-600 hover:bg-gray-50">
-                        📊 Browse Produce
-                    </button>
-                </div>
+                <h3 class="text-2xl font-extrabold text-agri-green">Cooperative Members</h3>
             </div>
 
-            <div class="space-y-4">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-6">
-                    <div class="w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0">
-                        <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=300" class="w-full h-full object-cover" alt="Maize">
-                    </div>
-                    <div class="flex-grow text-center md:text-left">
-                        <h4 class="text-xl font-bold text-agri-green">Maize</h4>
-                        <p class="text-xs text-gray-500 mt-1 italic">Aggregated Result: 250 kg</p>
-                        <p class="text-xs font-semibold text-gray-400 mt-1">Current Location: Bafoussam/Dschang</p>
-                        <p class="text-xs font-bold text-agri-green mt-1">Menoua Agro-Coop</p>
-                    </div>
-                    <div class="w-full md:w-auto flex flex-col items-center md:items-end gap-2">
-                        <button class="w-full md:w-48 bg-agri-green text-white py-3 rounded-xl font-bold text-sm hover-agri">
-                            Place Order
-                        </button>
-                        <p class="text-[10px] text-gray-400 font-bold">12,000 XAF/bag</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-6">
-                    <div class="w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0">
-                        <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=300" class="w-full h-full object-cover" alt="Cassava">
-                    </div>
-                    <div class="flex-grow text-center md:text-left">
-                        <h4 class="text-xl font-bold text-agri-green">Cassava</h4>
-                        <p class="text-xs text-gray-500 mt-1 italic">Aggregated Result: 350 kg/ 30 kg</p>
-                        <p class="text-xs font-semibold text-gray-400 mt-1">Current Location: Central Farm/Edea</p>
-                        <p class="text-xs font-bold text-agri-green mt-1">Menoua Agro-Coop</p>
-                    </div>
-                    <div class="w-full md:w-auto flex flex-col items-center md:items-end gap-2">
-                        <button class="w-full md:w-48 bg-agri-green text-white py-3 rounded-xl font-bold text-sm hover-agri">
-                            Place Order
-                        </button>
-                        <p class="text-[10px] text-gray-400 font-bold">15,000 XAF/bag</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row items-center gap-6">
-                    <div class="w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0">
-                        <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=300" class="w-full h-full object-cover" alt="Tomatoes">
-                    </div>
-                    <div class="flex-grow text-center md:text-left">
-                        <h4 class="text-xl font-bold text-agri-green">Tomatoes</h4>
-                        <p class="text-xs text-gray-500 mt-1 italic">Aggregated Result: 500 kg/ 1 kg</p>
-                        <p class="text-xs font-semibold text-gray-400 mt-1">Coast - Excess Basket</p>
-                        <p class="text-xs font-bold text-agri-green mt-1">Menoua Agro-Coop</p>
-                    </div>
-                    <div class="w-full md:w-auto flex flex-col items-center md:items-end gap-2">
-                        <button class="w-full md:w-48 bg-agri-green text-white py-3 rounded-xl font-bold text-sm hover-agri">
-                            Place Order
-                        </button>
-                        <p class="text-[10px] text-gray-400 font-bold">12,000 XAF/bag</p>
-                    </div>
-                </div>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-agri-green text-white uppercase text-[10px] tracking-widest">
+                        <tr>
+                            <th class="p-4">Farmer Name</th>
+                            <th class="p-4">Email</th>
+                            <th class="p-4">Joined At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberListBody">
+                        <tr><td colspan="3" class="p-8 text-center text-gray-400 italic">No members found in this cooperative yet.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('get_user_cooperative.php')
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    document.getElementById('coopNameHeader').textContent = data.cooperative.name;
+                    document.getElementById('coopRegionHeader').textContent = 'Region: ' + data.cooperative.region;
+                    document.getElementById('coopDescHeader').textContent = data.cooperative.description || "Leading agricultural innovation and collaboration.";
+                    fetchMembers(data.cooperative.cooperative_id);
+                } else {
+                    alert("Cooperative not found.");
+                    window.location.href = 'create_cooperative.html';
+                }
+            });
+        });
+
+        function fetchMembers(coopId) {
+            fetch(`get_cooperative_members.php?coop_id=${coopId}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('memberListBody');
+                if(data.success && data.members.length > 0) {
+                    tbody.innerHTML = data.members.map(m => `
+                        <tr class="border-b border-gray-50 hover:bg-gray-50 transition">
+                            <td class="p-4 font-bold text-agri-green">${m.first_name} ${m.last_name}</td>
+                            <td class="p-4 text-gray-600">${m.email}</td>
+                            <td class="p-4 text-xs font-bold text-agri-gold">${new Date(m.joined_at).toLocaleDateString()}</td>
+                        </tr>
+                    `).join('');
+                }
+            });
+        }
+    </script>
 
     <footer class="max-w-7xl mx-auto mt-20 pb-12 text-center">
         <div class="flex flex-wrap justify-center gap-6 text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-8">

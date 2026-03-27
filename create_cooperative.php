@@ -21,7 +21,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Create the cooperative. We assume a table 'cooperatives' exists with leader_id.
-    $stmt = $connect->prepare("INSERT INTO cooperatives (name, description, region, created_by, created_at) VALUES (?, ?, ?, ?, NOW())");
+    $stmt = $connect->prepare("INSERT INTO cooperatives (name, description, region, leader_id, created_at) VALUES (?, ?, ?, ?, NOW())");
     $stmt->execute([$coopName, $coopDesc, $region, $_SESSION['user_id']]);
 
     echo json_encode(['success' => true, 'coop_name' => $coopName]);
