@@ -12,7 +12,7 @@ try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $connect->prepare("SELECT u.first_name, u.last_name, u.email, u.role, p.document_image FROM userstable u JOIN identity_verification p ON u.user_id = p.user_id WHERE u.user_id = ?");
+    $stmt = $connect->prepare("SELECT u.first_name, u.last_name, u.email, u.role, p.document_image, p.id_type FROM userstable u JOIN identity_verification p ON u.user_id = p.user_id WHERE u.user_id = ?");
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

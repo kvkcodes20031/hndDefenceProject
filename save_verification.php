@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $errors = [];
+$id_type = trim($_POST['id_type'] ?? '');
 $id_doc_path = null;
 
 if (isset($_FILES['id_document']) && $_FILES['id_document']['error'] === UPLOAD_ERR_OK) {
@@ -33,6 +34,8 @@ if (isset($_FILES['id_document']) && $_FILES['id_document']['error'] === UPLOAD_
     $errors[] = "Please select a file to upload.";
 }
 
+if ($id_type === '') $errors[] = "ID type is required.";
+
 if (!empty($errors)) {
     echo json_encode(['success' => false, 'errors' => $errors]);
     exit;
@@ -43,8 +46,8 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Store the file path in the user profile or a separate verifications table
-    $stmt = $connect->prepare("UPDATE identity_verification SET document_image = ? WHERE user_id = ?");
-    $stmt->execute([$id_doc_path, $_SESSION['user_id']]);
+    $stmt = $connect->prepare("UPDATE identity_verification SET document_image = ?, id_type = ?, verification_status = 'Pending' WHERE user_id = ?");
+    $stmt->execute([$id_doc_path, $id_type, $_SESSION['user_id']]);
 
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {

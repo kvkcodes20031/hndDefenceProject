@@ -8,6 +8,8 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'farmer') {
 }
 
 $coopName = trim($_POST['coop_name'] ?? '');
+$coopDesc = trim($_POST['coop_description'] ?? '');
+$region = trim($_POST['region'] ?? '');
 
 if ($coopName === '') {
     echo json_encode(['success' => false, 'errors' => ['Cooperative name is required']]);
@@ -19,10 +21,10 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Create the cooperative. We assume a table 'cooperatives' exists with leader_id.
-    $stmt = $connect->prepare("INSERT INTO cooperatives (name, leader_id, created_at) VALUES (?, ?, NOW())");
-    $stmt->execute([$coopName, $_SESSION['user_id']]);
+    $stmt = $connect->prepare("INSERT INTO cooperatives (name, description, region, created_by, created_at) VALUES (?, ?, ?, ?, NOW())");
+    $stmt->execute([$coopName, $coopDesc, $region, $_SESSION['user_id']]);
 
-    echo json_encode(['success' => true]);
+    echo json_encode(['success' => true, 'coop_name' => $coopName]);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'errors' => ['Database error: ' . $e->getMessage()]]);
 }

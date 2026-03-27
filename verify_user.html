@@ -39,7 +39,8 @@
             if (data.success) {
                 document.getElementById('userInfo').innerHTML = `
                     <h2 class="text-xl font-bold">${data.user.first_name} ${data.user.last_name}</h2>
-                    <p class="text-sm text-gray-600">${data.user.email} | Role: <span class="capitalize">${data.user.role}</span></p>
+                    <p class="text-sm text-gray-600 mb-2">${data.user.email} | Role: <span class="capitalize">${data.user.role}</span></p>
+                    <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">Document Type: ${data.user.id_type || 'Unknown'}</span>
                 `;
 
                 const docPath = data.user.id_document;

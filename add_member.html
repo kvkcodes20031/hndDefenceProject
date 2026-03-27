@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Members | FarmGlobe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: '#1f7a4d', secondary: '#2ea36b', accent: '#f97316', light: '#f6f3ec' } } }
+    }
+  </script>
+</head>
+<body class="bg-light min-h-screen p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <div class="flex items-center justify-between mb-8 border-b pb-4">
+        <div>
+            <h1 class="text-2xl font-bold text-primary">Add Cooperative Member</h1>
+            <p class="text-sm text-gray-500">Select farmers to add to your cooperative.</p>
+        </div>
+        <a href="cooperative_management.html" class="text-sm font-bold text-gray-400 hover:text-primary transition-colors">← Back</a>
+    </div>
+
+    <form id="addMemberForm">
+        <div class="mb-6">
+            <label class="block text-sm font-bold text-gray-700 mb-2">Search Farmers</label>
+            <input type="text" id="userSearch" placeholder="Search by name or email..." 
+                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary outline-none bg-gray-50">
+        </div>
+
+        <div class="max-h-96 overflow-y-auto border rounded-lg mb-6 bg-white" id="userList">
+            <p class="p-4 text-center text-gray-400 italic">Loading available farmers...</p>
+        </div>
+
+        <button type="submit" id="submitBtn" class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-secondary transition shadow-md disabled:bg-gray-300">
+            Add Selected Members
+        </button>
+    </form>
+  </div>
+
+  <script>
+    let availableUsers = [];
+
+    async function fetchUsers() {
+        try {
+            const response = await fetch('get_available_farmers.php');
+            const data = await response.json();
+            if (data.success) {
+                availableUsers = data.users;
+                renderUsers(availableUsers);
+            } else {
+                document.getElementById('userList').innerHTML = `<p class="p-4 text-center text-red-500">${data.errors[0]}</p>`;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    function renderUsers(users) {
+        const container = document.getElementById('userList');
+        if (users.length === 0) {
+            container.innerHTML = '<p class="p-4 text-center text-gray-400 italic">No available farmers found.</p>';
+            return;
+        }
+        container.innerHTML = users.map(user => `
+            <label class="flex items-center p-4 hover:bg-gray-50 cursor-pointer border-b last:border-0 transition">
+                <input type="checkbox" name="user_ids[]" value="${user.user_id}" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary">
+                <div class="ml-4">
+                    <p class="font-bold text-gray-800">${user.first_name} ${user.last_name}</p>
+                    <p class="text-xs text-gray-500">${user.email}</p>
+                </div>
+            </label>
+        `).join('');
+    }
+
+    document.getElementById('userSearch').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = availableUsers.filter(u => 
+            `${u.first_name} ${u.last_name}`.toLowerCase().includes(term) || 
+            u.email.toLowerCase().includes(term)
+        );
+        renderUsers(filtered);
+    });
+
+    document.getElementById('addMemberForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        const formData = new FormData(this);
+        
+        if (!formData.has('user_ids[]')) {
+            alert('Please select at least one farmer.');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Processing...';
+
+        try {
+            const res = await fetch('process_add_member.php', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.success) {
+                alert('Members added successfully!');
+                window.location.href = 'view_cooperative.html';
+            } else { alert(data.errors.join('\n')); }
+        } catch (error) { alert('Failed to add members.'); }
+        finally { btn.disabled = false; btn.textContent = 'Add Selected Members'; }
+    });
+
+    fetchUsers();
+  </script>
+</body>
+</html>

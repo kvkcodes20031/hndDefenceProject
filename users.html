@@ -23,13 +23,22 @@
   </header>
 
   <div class="flex flex-1 overflow-hidden">
-    <main class="flex-1 p-6 md:p-10 overflow-y-auto h-full">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-primary">System Users</h1>
-      </div>
+    <!-- Sidebar for Admin Navigation -->
+    <aside class="w-64 bg-primary text-white p-6 hidden md:block">
+      <nav class="space-y-4">
+        <button onclick="showSection('usersSection')" class="w-full text-left px-4 py-2 rounded hover:bg-secondary transition font-bold">Manage Users</button>
+        <button onclick="showSection('ordersSection')" class="w-full text-left px-4 py-2 rounded hover:bg-secondary transition font-bold">System Orders</button>
+      </nav>
+    </aside>
 
-      <section class="bg-white p-4 rounded shadow mb-6">
-        <div class="overflow-x-auto">
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto h-full">
+      <!-- Users Section -->
+      <section id="usersSection" class="admin-section">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold text-primary">System Users</h1>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow overflow-x-auto">
           <table class="w-full text-sm">
             <thead class="bg-gray-100">
               <tr>
@@ -47,10 +56,39 @@
           </table>
         </div>
       </section>
+
+      <!-- Orders Section -->
+      <section id="ordersSection" class="admin-section hidden">
+        <div class="flex justify-between items-center mb-6">
+          <h1 class="text-2xl font-bold text-primary">Global System Orders</h1>
+        </div>
+        <div class="bg-white p-4 rounded shadow overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="p-2 text-left">Order ID</th>
+                <th class="p-2 text-left">Buyer</th>
+                <th class="p-2 text-left">Amount</th>
+                <th class="p-2 text-left">Status</th>
+                <th class="p-2">Date</th>
+              </tr>
+            </thead>
+            <tbody id="ordersListBody">
+              <tr><td colspan="5" class="p-4 text-center text-gray-400">Loading orders...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </div>
 
   <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(sectionId).classList.remove('hidden');
+      if (sectionId === 'ordersSection') fetchAllOrders();
+    }
+
     document.addEventListener('DOMContentLoaded', fetchUsers);
 
     function fetchUsers() {
@@ -86,6 +124,28 @@
         .catch(err => {
           console.error(err);
           tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">Error fetching users.</td></tr>';
+        });
+    }
+
+    function fetchAllOrders() {
+      const tbody = document.getElementById('ordersListBody');
+      // Note: You may need to create get_all_orders.php if not already exists
+      fetch('get_orders_madeBy_buyer.php') // Reuse or create global admin fetch
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.orders.length > 0) {
+            tbody.innerHTML = data.orders.map(order => `
+              <tr class="border-t">
+                <td class="p-2 font-bold">#${order.order_id}</td>
+                <td class="p-2">${order.buyer_name || 'System User'}</td>
+                <td class="p-2 text-green-700 font-bold">${order.total_amount} XAF</td>
+                <td class="p-2"><span class="px-2 py-1 rounded bg-gray-100 text-[10px] uppercase font-bold">${order.order_status}</span></td>
+                <td class="p-2 text-gray-500">${new Date(order.order_date).toLocaleDateString()}</td>
+              </tr>
+            `).join('');
+          } else {
+            tbody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No orders found.</td></tr>';
+          }
         });
     }
 
