@@ -9,9 +9,13 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   })
   .then(response => response.text()) // first get text to debug PHP errors
   .then(text => {
+     // log raw response for debugging
+      console.log('Raw server response:', text);
     try {
+     ; // log raw response for debugging
       const data = JSON.parse(text); // parse JSON
       if (data.success) {
+        console.log('Login successful:', data);
         const role = data.role ? data.role.trim().toLowerCase() : '';
         const profileCompleted = data.profile_completed == 1;
         const roleCompleted = data.role_completed == 1;
@@ -20,6 +24,7 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
         // Define role-based redirection paths
         const rolePaths = {
+          'admin': { setup: 'admin.html', dashboard: 'admin.html' },
           'farmer': { setup: 'save_farmer_data.html', dashboard: 'farmerdashboard.html' },
           'logistic_operator': { setup: 'save_logistic_data.html', dashboard: 'logistics_dashboard.html' },
           'logistic operator': { setup: 'save_logistic_data.html', dashboard: 'logistics_dashboard.html' },
@@ -29,15 +34,19 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
           'buyer': { setup: 'save_buyer_data.html', dashboard: 'buyer_dashboard.html' }
         };
 
+
         if (!profileCompleted) {
           window.location.href = 'profilepage.html';
         } else {
           const paths = rolePaths[role];
           if (paths) {
             window.location.href = !roleCompleted ? paths.setup : paths.dashboard;
+
+            console.log('Redirecting to:', data);
+            
           } else {
             console.warn('Unknown role:', role);
-            window.location.href = 'index.html'; // Fallback
+            window.location.href = 'homepage.html'; // Fallback
           }
         }
       } else {

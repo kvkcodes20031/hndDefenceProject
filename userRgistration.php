@@ -1,5 +1,4 @@
 <?php
-session_start();
 header("Content-Type: application/json");
 
 try {
@@ -9,13 +8,16 @@ try {
 
     $errors = [];
 
-
+    $first_name = trim($_POST['first_name'] ?? '');
+    $last_name = trim($_POST['last_name'] ?? '');
     $phone = trim($_POST['phone_number'] ?? '');
     $email_raw = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
     $role = $_POST['role'] ?? '';
 
+    if ($first_name === '') $errors[] = "First name is required";
+    if ($last_name === '') $errors[] = "Last name is required";
     if ($phone === '') $errors[] = "Phone number is required";
     if ($email_raw === '') $errors[] = "Email is required";
     if ($password === '') $errors[] = "Password is required";
@@ -34,17 +36,19 @@ try {
     // Check if email or phone already exists
     $checkStmt = $connect->prepare("SELECT user_id FROM userstable WHERE email = ? OR phone_number = ? LIMIT 1");
     $checkStmt->execute([$email, $phone]);
-    if ($checkStmt->fetch()) {
+    while ($checkStmt->fetch()) {
         echo json_encode(['success'=>false,'errors'=>['Account with this email or phone number already exists']]);
         exit;
     }
 
     // Insert ONLY account data
     $stmt = $connect->prepare("
-        INSERT INTO userstable (phone_number, email, password_hash, role)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO userstable (first_name, last_name, phone_number, email, password_hash, role)
+        VALUES (?, ?, ?, ?, ?, ?)
     ");
     $stmt->execute([
+        $first_name,
+        $last_name,
         $phone,
         $email,
         password_hash($password, PASSWORD_BCRYPT),
@@ -54,8 +58,7 @@ try {
     echo json_encode(['success'=>true]);
 
 } catch (PDOException $e) {
-    echo json_encode(['success'=>false,'errors'=>['Account creation failed']]);
+    echo json_encode(['success'=>false,'errors'=>['Account creation failed: ' . $e->getMessage()]]);
 }
 
-    ?>
-
+?>

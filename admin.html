@@ -71,8 +71,8 @@
     </div>
     <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Admin Menu</h3>
     <ul class="space-y-4">
-      <li class="hover:text-gray-200 cursor-pointer text-white font-bold">Dashboard</li>
-      <li class="hover:text-gray-200 cursor-pointer">Users</li>
+      <li class="hover:text-gray-200 cursor-pointer text-white font-bold"><a href="admin.html">Dashboard</a></li>
+      <li class="hover:text-gray-200 cursor-pointer"><a href="users.html">Users</a></li>
       <li class="hover:text-gray-200 cursor-pointer">Verifications</li>
       <li class="hover:text-gray-200 cursor-pointer">Products</li>
       <li class="hover:text-gray-200 cursor-pointer">Orders</li>
@@ -122,29 +122,22 @@
     <!-- User Management -->
     <section class="bg-white p-4 rounded shadow mb-6">
       <h2 class="font-bold mb-3">User Management</h2>
-
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead class="bg-gray-100">
             <tr>
-              <th class="p-2 text-left">Name</th>
+              <th class="p-2 text-left">Email</th>
               <th class="p-2">Role</th>
               <th class="p-2">Status</th>
-              <th class="p-2">Action</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="border-t">
-              <td class="p-2">John Doe</td>
-              <td class="p-2 text-center">Farmer</td>
-              <td class="p-2 text-center text-yellow-600">Pending</td>
-              <td class="p-2 text-center">
-                <button class="bg-green-600 text-white px-3 py-1 rounded text-xs">Approve</button>
-                <button class="bg-red-500 text-white px-3 py-1 rounded text-xs">Reject</button>
-              </td>
-            </tr>
+          <tbody id="usersMiniList">
+            <tr><td colspan="3" class="p-4 text-center text-gray-400">Loading users...</td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="mt-4 text-right">
+        <a href="users.html" class="text-xs text-primary font-bold hover:underline">View All Users →</a>
       </div>
     </section>
 
@@ -204,6 +197,24 @@
       </div>
     </section>
 
+    <!-- System Errors -->
+    <section class="bg-white p-4 rounded shadow mt-6">
+      <h2 class="font-bold mb-3 text-red-600">System Errors</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="p-2 text-left">Message</th>
+              <th class="p-2">Timestamp</th>
+            </tr>
+          </thead>
+          <tbody id="errorLogsBody">
+            <tr><td colspan="2" class="p-4 text-center text-gray-400">Loading system logs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -224,6 +235,44 @@
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileMenu);
         if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', toggleMobileMenu);
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch mini user list for dashboard
+        fetch('get_all_users.php')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('usersMiniList');
+                if (data.success && data.users.length > 0) {
+                    tbody.innerHTML = data.users.slice(0, 5).map(user => `
+                        <tr class="border-t">
+                            <td class="p-2 font-medium">${user.email}</td>
+                            <td class="p-2 text-center capitalize">${user.role}</td>
+                            <td class="p-2 text-center font-bold ${user.role_completed == 1 ? 'text-green-600' : 'text-yellow-600'}">
+                                ${user.role_completed == 1 ? 'Verified' : 'Pending'}
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            });
+
+        // Fetch System Errors
+        fetch('get_system_errors.php')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('errorLogsBody');
+                if (data.success && data.system_errors && data.system_errors.length > 0) {
+                    tbody.innerHTML = data.system_errors.map(err => `
+                        <tr class="border-t">
+                            <td class="p-2 text-red-500 font-mono text-xs">${err.error_message}</td>
+                            <td class="p-2 text-gray-500">${new Date(err.created_at).toLocaleString()}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="2" class="p-4 text-center text-gray-500">No recent errors logged.</td></tr>';
+                }
+            })
+            .catch(() => { document.getElementById('errorLogsBody').innerHTML = '<tr><td colspan="2" class="p-4 text-center text-red-500">Error fetching logs.</td></tr>'; });
+    });
 </script>
 </body>
 </html>

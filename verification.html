@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Identity Verification | AgriLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-light min-h-screen flex items-center justify-center py-10 px-4">
+  <div class="bg-white shadow-lg rounded-lg w-full max-w-md p-8">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-primary">Identity Verification</h1>
+      <p class="text-gray-500 text-sm">Upload a scan of your ID card (PDF or Image)</p>
+    </div>
+    <form id="verificationForm" class="space-y-6" enctype="multipart/form-data">
+      <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition cursor-pointer" onclick="document.getElementById('id_upload').click()">
+        <div class="text-gray-400 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+        </div>
+        <span class="text-sm text-gray-600 font-medium">Click to upload ID document</span>
+        <input type="file" id="id_upload" name="id_document" accept=".pdf,image/*" class="hidden" required onchange="updateFileName(this)">
+        <p id="file-name" class="mt-2 text-xs text-primary font-bold"></p>
+      </div>
+      <button type="submit" id="submitBtn" class="w-full bg-primary text-white py-3 rounded-xl hover:bg-secondary transition font-bold shadow-md">
+        Submit for Verification
+      </button>
+      <a href="farmerdashboard.html" class="block text-center text-sm text-gray-500 hover:underline">Cancel and go back</a>
+    </form>
+  </div>
+
+  <script>
+    function updateFileName(input) {
+        const fileName = input.files[0] ? input.files[0].name : "";
+        document.getElementById('file-name').textContent = fileName;
+    }
+
+    document.getElementById('verificationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Uploading...';
+
+      fetch('save_verification.php', { method: 'POST', body: new FormData(this) })
+      .then(r => r.json())
+      .then(d => {
+        if(d.success) {
+          alert('Verification documents submitted successfully!');
+          window.location.href = 'farmerdashboard.html';
+        } else {
+          alert(d.errors.join('\n'));
+          btn.disabled = false;
+          btn.textContent = 'Submit for Verification';
+        }
+      })
+      .catch(e => { console.error(e); btn.disabled = false; });
+    });
+  </script>
+</body>
+</html>

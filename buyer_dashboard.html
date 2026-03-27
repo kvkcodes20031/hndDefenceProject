@@ -182,7 +182,7 @@
 
     <div class="flex min-h-screen">
       <aside
-        class="hidden md:block w-64 lg:w-72 bg-primary text-white p-6 lg:p-8 sticky top-[72px] h-[calc(100vh-72px)] overflow-y-auto"
+        class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 relative lg:translate-x-0  overflow-y-auto"
         id="sidebar"
       >
         <div class="flex items-center gap-8 mb-8">
@@ -275,7 +275,7 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 2xl:gap-12">
             <!-- Orders -->
             <div
-              class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100"
+              class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 h-60 overflow-y-auto"
             >
               <h3
                 class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2"

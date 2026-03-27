@@ -13,7 +13,9 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
         window.location.href = 'save_logistic_data.html';
       } else if (role === 'supplier' || role === 'input supplier') {
         window.location.href = 'save_inputsupplier_data.html';
-      } else if (role === 'buyer') {
+      } else if (role === 'admin') {
+        window.location.href = 'admin.html';
+      }else if (role === 'buyer') {
         window.location.href = 'save_buyer_data.html';
       } else {
         alert('Profile saved! (No redirection for role: ' + role + ')');

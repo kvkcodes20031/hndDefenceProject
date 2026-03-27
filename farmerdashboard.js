@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-     function updateOrderStatus(orderId, status) {
+    window.updateOrderStatus = function(orderId, status) {
        
         fetch('update_order_status.php', {
             method: 'POST',

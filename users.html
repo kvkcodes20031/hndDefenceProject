@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management | FarmGlobe Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: '#1f7a4d', secondary: '#2ea36b', light: '#f6f3ec' } } }
+    }
+  </script>
+</head>
+<body class="bg-light text-gray-800 h-screen overflow-hidden flex flex-col">
+  <header class="bg-white shadow-md z-30 w-full shrink-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+      <a href="addmin.html" class="flex items-center gap-2">
+        <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold">FG</div>
+        <span class="font-bold text-2xl text-primary">FarmGlobe Admin</span>
+      </a>
+      <a href="admin.html" class="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow hover:bg-secondary transition-all">Back to Dashboard</a>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto h-full">
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-primary">System Users</h1>
+      </div>
+
+      <section class="bg-white p-4 rounded shadow mb-6">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="p-2 text-left">First Name</th>
+                <th class="p-2 text-left">Last Name</th>
+                <th class="p-2 text-left">Email</th>
+                <th class="p-2">Role</th>
+                <th class="p-2">Verification Status</th>
+                <th class="p-2">Action</th>
+              </tr>
+            </thead>
+            <tbody id="usersListBody">
+              <tr><td colspan="6" class="p-4 text-center text-gray-400">Loading users...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', fetchUsers);
+
+    function fetchUsers() {
+      const tbody = document.getElementById('usersListBody');
+      fetch('get_all_users.php')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.users.length > 0 && data.users.role !== 'admin') {
+            tbody.innerHTML = data.users.map(user => `
+              <tr class="border-t">
+                <td class="p-2">${user.first_name || '—'}</td>
+                <td class="p-2">${user.last_name || '—'}</td>
+                <td class="p-2 font-medium">${user.email}</td>
+                <td class="p-2 text-center text-gray-600 capitalize">${user.role}</td>
+                <td class="p-2 text-center">
+                  <span class="px-2 py-1 rounded-full text-[10px] font-bold ${user.verification_status === 'Verified' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
+                    ${user.verification_status || 'Unverified'}
+                  </span>
+                </td>
+                <td class="p-2 text-center">
+                  <div class="flex gap-2 justify-center">
+                    ${user.verification_status !== 'Verified' ? `<a href="verify_user.html?user_id=${user.user_id}" class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700">Verify</a>` : ''}
+                    ${user.verification_status !== 'Verified' ? `<button onclick="approveUser(${user.user_id})" class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">Approve</button>` : ''}
+                    <button class="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Remove</button>
+                  </div>
+                </td>
+              </tr>
+            `).join('');
+          } else {
+            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-500">No users found.</td></tr>';
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-red-500">Error fetching users.</td></tr>';
+        });
+    }
+
+    function approveUser(userId) {
+      if(!confirm("Are you sure you want to approve this user?")) return;
+      
+      fetch('approve_user.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success) {
+          alert("User approved and notified successfully!");
+          fetchUsers();
+        } else {
+          alert("Error: " + data.errors.join(', '));
+        }
+      });
+    }
+  </script>
+</body>
+</html>

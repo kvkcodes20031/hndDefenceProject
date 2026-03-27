@@ -22,7 +22,7 @@ try {
     $connect->beginTransaction();
 
     // Check if shipment exists
-    $checkStmt = $connect->prepare("SELECT id FROM shipment WHERE order_id = ?");
+    $checkStmt = $connect->prepare("SELECT shipment_id FROM shipments WHERE order_id = ?");
     $checkStmt->execute([$orderId]);
     if ($checkStmt->fetch()) {
         $connect->rollBack();
@@ -41,7 +41,7 @@ try {
     $pickupLocation = $locStmt->fetchColumn() ?: 'Unknown';
 
     // Create Shipment
-    $shipStmt = $connect->prepare("INSERT INTO shipment (order_id, provider_id, pickup_location, delivery_status, delivery_cost, created_at) VALUES (?, ?, ?, 'Pending Pickup', 5000, NOW())"); 
+    $shipStmt = $connect->prepare("INSERT INTO shipments (order_id, provider_id, pickup_location, delivery_location,delivery_status, delivery_cost, created_at) VALUES (?, ?, ?, 'Pending Pickup', 5000 "); 
     $shipStmt->execute([$orderId, $providerId, $pickupLocation]);
 
     // Update Order Status
@@ -51,8 +51,8 @@ try {
     $buyerStmt = $connect->prepare("SELECT user_id FROM orders WHERE order_id = ?");
     $buyerStmt->execute([$orderId]);
     $buyerId = $buyerStmt->fetchColumn();
-    if ($buyerId) {
-        $connect->prepare("INSERT INTO notifications (user_id, message, is_read, created_at) VALUES (?, ?, 0, NOW())")->execute([$buyerId, "Your order #$orderId is now under delivery."]);
+    if ($buyerId) { 
+        $connect->prepare("INSERT INTO notification (user_id, notification_message, is_read, created_at) VALUES (?, ?, 0, NOW())")->execute([$buyerId, "Your order #$orderId is now under delivery."]);
     }
 
     $connect->commit();
