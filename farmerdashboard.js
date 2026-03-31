@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Mobile Menu Logic for Farmer Dashboard
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const closeSidebarBtn = document.getElementById('closeSidebar');
+
+    function toggleMobileMenu() {
+        if (sidebar) sidebar.classList.toggle('-translate-x-full');
+        if (sidebarOverlay) sidebarOverlay.classList.toggle('hidden');
+    }
+
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', toggleMobileMenu);
+    }
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', toggleMobileMenu);
+    }
+
     // Cart Logic
     let cart = JSON.parse(localStorage.getItem('agriLinkCart')) || [];
     const cartSidebar = document.getElementById('cartSidebar');
@@ -361,3 +382,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Load count on init
         fetchNotifications();
+
+        //cooperative logtic
+          function loadMyCooperatives() {
+            const list = document.getElementById('myCoopsList');
+            fetch('get_my_cooperatives.php')
+                .then(r => r.json())
+                .then(data => {
+                    console.log("cooperatives data:", data);
+                    if (data.success && data.cooperatives.length > 0) {
+                        list.innerHTML = data.cooperatives.map(c => `
+                            <li onclick="switchCoop(${c.cooperative_id})" class="hover:text-accent cursor-pointer truncate transition-colors" title="${c.name}">
+                                • ${c.name}
+                            </li>
+                        `).join('');
+                    } else {
+                        list.innerHTML = '<p class="text-gray-400 text-[10px]">No memberships found.</p>';
+                    }
+                });
+        }
+
+        function switchCoop(coopId) {
+            fetch('set_coop_context.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ coop_id: coopId })
+            })
+            .then(r => r.json())
+            .then(data => {
+                
+                if (data.success) window.location.href = 'coperativ.html';
+            });
+        }
+        
+        loadMyCooperatives();

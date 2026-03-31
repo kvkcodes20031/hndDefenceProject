@@ -18,7 +18,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Verify leadership
-    $coopStmt = $connect->prepare("SELECT cooperative_id FROM cooperatives WHERE leader_id = ? LIMIT 1");
+    $coopStmt = $connect->prepare("SELECT cooperative_id FROM cooperatives WHERE created_by  = ? LIMIT 1");
     $coopStmt->execute([$_SESSION['user_id']]);
     $coopId = $coopStmt->fetchColumn();
 
@@ -26,12 +26,12 @@ try {
         echo json_encode(['success' => false, 'errors' => ['Unauthorized leadership']]);
         exit;
     }
-
+  $role = 'member'; // Default role for added users
     $connect->beginTransaction();
-    $insertStmt = $connect->prepare("INSERT INTO cooperative_members (cooperative_id, user_id, joined_at) VALUES (?, ?, NOW())");
+    $insertStmt = $connect->prepare("INSERT INTO cooperative_member (cooperative_id, farmer_id, role_in_coop) VALUES (?, ?, ?)");
     
     foreach ($userIds as $uid) {
-        $insertStmt->execute([$coopId, $uid]);
+        $insertStmt->execute([$coopId, $uid, $role]);
     }
 
     $connect->commit();

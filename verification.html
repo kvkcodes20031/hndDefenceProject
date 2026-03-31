@@ -67,9 +67,24 @@
       fetch('save_verification.php', { method: 'POST', body: new FormData(this) })
       .then(r => r.json())
       .then(d => {
-        if(d.success) {
-          alert('Verification documents submitted successfully!');
-          window.location.href = 'farmerdashboard.html';
+        if (d.success) {
+          // Send notification to admin (assuming admin ID is 1 or handled by role on backend)
+          fetch('save_notification.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: 1, 
+              message: `Verification Request from User ID: ${d.user_id || 'New Request'}`
+            })
+          })
+          .then(() => {
+            alert('Verification documents submitted successfully!');
+            window.location.href = 'farmerdashboard.html';
+          })
+          .catch(() => {
+            // Still redirect even if notification fails
+            window.location.href = 'farmerdashboard.html';
+          });
         } else {
           alert(d.errors.join('\n'));
           btn.disabled = false;

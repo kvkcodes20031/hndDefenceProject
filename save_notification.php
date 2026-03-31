@@ -23,7 +23,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Insert notification with is_read defaulting to 0
-    $stmt = $connect->prepare("INSERT INTO notifications (user_id, message, is_read, created_at) VALUES (?, ?, 0, NOW())");
+    $stmt = $connect->prepare("INSERT INTO notification (user_id, notification_message, is_read, created_at) VALUES (?, ?, 0, NOW())");
     $stmt->execute([$targetUserId, $message]);
 
     echo json_encode(['success' => true, 'message' => 'Notification saved']);

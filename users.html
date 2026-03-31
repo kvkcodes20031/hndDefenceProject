@@ -10,6 +10,16 @@
       theme: { extend: { colors: { primary: '#1f7a4d', secondary: '#2ea36b', light: '#f6f3ec' } } }
     }
   </script>
+  <style>
+    .highlight-row {
+      animation: highlight-fade 3s ease-in-out forwards;
+      border: 2px solid #f59e0b !important;
+    }
+    @keyframes highlight-fade {
+      0% { background-color: #fef3c7; }
+      100% { background-color: transparent; }
+    }
+  </style>
 </head>
 <body class="bg-light text-gray-800 h-screen overflow-hidden flex flex-col">
   <header class="bg-white shadow-md z-30 w-full shrink-0">
@@ -18,7 +28,24 @@
         <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold">FG</div>
         <span class="font-bold text-2xl text-primary">FarmGlobe Admin</span>
       </a>
-      <a href="admin.html" class="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow hover:bg-secondary transition-all">Back to Dashboard</a>
+      <div class="flex items-center gap-4">
+        <!-- Notification Button -->
+        <div class="relative">
+          <button id="notificationBtn" onclick="toggleNotifications()" class="relative p-2 text-gray-600 hover:text-primary transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center hidden">0</span>
+          </button>
+          <div id="notificationDropdown" class="hidden absolute top-12 right-0 w-80 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden">
+            <div class="p-3 border-b bg-gray-50 font-bold text-gray-700 text-sm"> Notifications</div>
+            <ul id="notificationList" class="max-h-80 overflow-y-auto text-sm">
+              <li class="p-4 text-center text-gray-500">Loading...</li>
+            </ul>
+          </div>
+        </div>
+        <a href="admin.html" class="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow hover:bg-secondary transition-all">Back to Dashboard</a>
+      </div>
     </div>
   </header>
 
@@ -98,7 +125,7 @@
         .then(data => {
           if (data.success && data.users.length > 0 && data.users.role !== 'admin') {
             tbody.innerHTML = data.users.map(user => `
-              <tr class="border-t">
+              <tr class="border-t transition-all duration-500" id="user-row-${user.user_id}">
                 <td class="p-2">${user.first_name || '—'}</td>
                 <td class="p-2">${user.last_name || '—'}</td>
                 <td class="p-2 font-medium">${user.email}</td>
@@ -167,6 +194,72 @@
         }
       });
     }
+
+    // Notification & Highlight Logic
+    function toggleNotifications() {
+      const dropdown = document.getElementById('notificationDropdown');
+      dropdown.classList.toggle('hidden');
+      if (!dropdown.classList.contains('hidden')) fetchNotifications();
+    }
+
+    function fetchNotifications() {
+      fetch('get_notifications.php')
+        .then(res => res.json())
+        .then(data => {
+          const list = document.getElementById('notificationList');
+          const countBadge = document.getElementById('notificationCount');
+          if (data.success && data.notifications.length > 0) {
+            const unread = data.notifications.filter(n => n.is_read == 0).length;
+            countBadge.textContent = unread;
+            countBadge.classList.toggle('hidden', unread === 0);
+
+            list.innerHTML = data.notifications.map(n => `
+              <li onclick="handleNotificationClick(${n.notification_id}, '${n.notification_message}', this)" 
+                  class="p-3 border-b cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50' : 'bg-white'}">
+                <p class="text-xs ${n.is_read == 0 ? 'font-bold' : ''}">${n.notification_message}</p>
+                <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
+              </li>
+            `).join('');
+          } else {
+            list.innerHTML = '<li class="p-4 text-center text-xs text-gray-500">No notifications</li>';
+          }
+        });
+    }
+
+    function handleNotificationClick(id, message, element) {
+      // Mark as read
+      fetch('mark_notification_read.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
+      }).then(() => {
+        element.classList.replace('bg-blue-50', 'bg-white');
+        fetchNotifications();
+      });
+
+      // Try to extract User ID from message (e.g., "User ID: 12")
+      const match = message.match(/User ID: (\d+)/);
+      if (match && match[1]) {
+        highlightUser(match[1]);
+        document.getElementById('notificationDropdown').classList.add('hidden');
+      }
+    }
+
+    function highlightUser(userId) {
+      showSection('usersSection');
+      const row = document.getElementById(`user-row-${userId}`);
+      if (row) {
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        row.classList.add('highlight-row');
+        // Remove class after animation so it can be re-triggered
+        setTimeout(() => row.classList.remove('highlight-row'), 3000);
+      } else {
+        alert("User not found in the current list.");
+      }
+    }
+
+    // Load notifications on init
+    fetchNotifications();
   </script>
 </body>
 </html>

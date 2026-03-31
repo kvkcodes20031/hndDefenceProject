@@ -14,8 +14,9 @@ try {
 
     $stmt = $connect->prepare("SELECT u.first_name, u.last_name, u.email, cm.joined_at 
                                FROM userstable u 
-                               JOIN cooperative_members cm ON u.user_id = cm.user_id 
-                               WHERE cm.cooperative_id = ?");
+                               JOIN cooperative_member cm ON u.user_id = cm.farmer_id 
+                               WHERE cm.cooperative_id = ? 
+                               ORDER BY cm.joined_at ASC");
     $stmt->execute([$coopId]);
     echo json_encode(['success' => true, 'members' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
 } catch (PDOException $e) {

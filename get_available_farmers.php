@@ -12,7 +12,7 @@ try {
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Get the leader's cooperative ID
-    $coopStmt = $connect->prepare("SELECT cooperative_id FROM cooperatives WHERE leader_id = ? LIMIT 1");
+    $coopStmt = $connect->prepare("SELECT cooperative_id FROM cooperatives WHERE created_by = ? LIMIT 1");
     $coopStmt->execute([$_SESSION['user_id']]);
     $coop = $coopStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -27,9 +27,9 @@ try {
     $stmt = $connect->prepare("
         SELECT u.user_id, u.first_name, u.last_name, u.email 
         FROM userstable u 
-        WHERE u.role = 'farmer' 
+        WHERE (u.role = 'farmer' OR u.role = 'Farmer') 
         AND u.user_id != ? 
-        AND u.user_id NOT IN (SELECT user_id FROM cooperative_members WHERE cooperative_id = ?)
+        AND u.user_id NOT IN (SELECT farmer_id FROM cooperative_member WHERE cooperative_id = ?)
     ");
     $stmt->execute([$_SESSION['user_id'], $coopId]);
     echo json_encode(['success' => true, 'users' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);

@@ -11,9 +11,18 @@ try {
     $connect = new PDO("mysql:host=localhost;dbname=farmglobedatabase", "root", "");
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Fetch cooperative where the logged-in user is the leader
-    $stmt = $connect->prepare("SELECT cooperative_id, name, description, region FROM cooperatives WHERE created_by = ? LIMIT 1");
-    $stmt->execute([$_SESSION['user_id']]);
+    $coopId = $_SESSION['current_coop_id'] ?? null;
+
+    if ($coopId) {
+        // Fetch specific coop from current session context
+        $stmt = $connect->prepare("SELECT cooperative_id, name, description, region FROM cooperatives WHERE cooperative_id = ?");
+        $stmt->execute([$coopId]);
+    } else {
+        // Fallback: Fetch cooperative where the logged-in user is the leader
+        $stmt = $connect->prepare("SELECT cooperative_id, name, description, region FROM cooperatives WHERE created_by = ? LIMIT 1");
+        $stmt->execute([$_SESSION['user_id']]);
+    }
+
     $cooperative = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($cooperative) {

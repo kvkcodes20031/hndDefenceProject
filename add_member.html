@@ -45,8 +45,11 @@
         try {
             const response = await fetch('get_available_farmers.php');
             const data = await response.json();
+
+
             if (data.success) {
                 availableUsers = data.users;
+                console.log('Available users:', availableUsers);
                 renderUsers(availableUsers);
             } else {
                 document.getElementById('userList').innerHTML = `<p class="p-4 text-center text-red-500">${data.errors[0]}</p>`;

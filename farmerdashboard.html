@@ -125,6 +125,11 @@
             <li class="lg:hidden hover:text-gray-200 cursor-pointer">Profile</li>
             <li class="lg:hidden hover:text-gray-200 cursor-pointer">Support</li>
             <li class="lg:hidden hover:text-gray-200 cursor-pointer"><a href="login.html">Login</a></li>
+            <li class="mt-4">
+                <a href="verification.html" class="block w-full bg-yellow-500 text-white text-center py-2 rounded font-bold hover:bg-yellow-600 transition shadow-md">
+                    Verify Identity
+                </a>
+            </li>
             <li class="mt-6">
                 <a href="productListing.html" class="block w-full bg-accent text-white text-center py-2 rounded font-bold hover:bg-orange-600 transition shadow-md">
                     + List Product
@@ -311,25 +316,8 @@
 
     <script src="farmerdashboard.js"></script> 
     <script>
-        // Mobile Menu Logic for Farmer Dashboard
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const closeSidebarBtn = document.getElementById('closeSidebar');
-
-        function toggleMobileMenu() {
-            sidebar.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-        }
-
-        if(mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-            if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleMobileMenu);
-            if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', toggleMobileMenu);
-        }
-
+        
         // ================= NOTIFICATION LOGIC =================
-       
         
         function loadMyCooperatives() {
             const list = document.getElementById('myCoopsList');
