@@ -350,6 +350,7 @@
           .then((response) => response.json())
           .then((data) => {
             const list = document.getElementById("recentOrdersList");
+            console.log("Fetched orders:", data);
 
             if (data.success && data.orders.length > 0) {
               list.innerHTML = data.orders
@@ -379,6 +380,7 @@
                     "Completed",
                     "Delivered",
                     "Rejected",
+                    "In Transit",
                   ].includes(order.order_status);
 
                   return `
@@ -387,6 +389,11 @@
                                 <span class="font-bold block">${order.product_name}</span>
                                 <span class="text-xs text-gray-500">${order.qauntity} ${order.unit} • ${parseInt(order.total_amount || 0).toLocaleString()} XAF</span>
                                 <span class="text-[10px] text-gray-400 block">Seller: ${order.seller_name}</span>
+
+                                 <div class="mt-2 text-right ${order.order_status==="In Transit"? '' : 'hidden'} bg-gray-50 p-2 rounded flex flex-col items-end gap-1   ">         
+                             <p class = "text-xs text-gray-500 font-bold text-right mb-2" >your order is being transported once close to you, you will receive a notification with the delivery details and expected arrival time.</p>
+                             <button onclick="alert('this feature is not implemented yet')" class="text-xs text-gray-400 hover:text-blue-500 font-bold transition-colors">View Order Position</button>
+                            </div>
                             </div>
                             <div class="flex flex-col items-end gap-1">
                                 <span class="${statusClass} font-bold text-xs uppercase">${order.order_status}</span>
@@ -397,6 +404,10 @@
                                   <a href="paymentpage.html?order_id=${order.order_id}" 
                                      class="${isAccepted ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-primary hover:bg-secondary'} text-white text-[10px] px-3 py-1 rounded transition shadow-md font-bold ${isAccepted ? '' : 'cursor-not-allowed opacity-50'}" 
                                      id="payBtn_${order.order_id}">Pay Now</a>` : "")}
+
+                              
+                                     
+                           
                             </div>
                         </li>
                     `;

@@ -602,7 +602,10 @@ loadMyCooperatives();
                     "Completed",
                     "Delivered",
                     "Rejected",
+                    "In Transit",
                   ].includes(order.order_status);
+
+                  console.log(`Order ${order.order_id} status: ${order.order_status}, showPayBtn: ${showPayBtn}`);
 
                   return `
                         <li id="order_${order.order_id}" class="flex justify-between items-center border-b pb-3 border-gray-50 last:border-0">
@@ -620,7 +623,13 @@ loadMyCooperatives();
                                   <a href="paymentpage.html?order_id=${order.order_id}" 
                                      class="${isAccepted ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-primary hover:bg-secondary'} text-white text-[10px] px-3 py-1 rounded transition shadow-md font-bold ${isAccepted ? '' : 'cursor-not-allowed opacity-50'}" 
                                      id="payBtn_${order.order_id}">Pay Now</a>` : "")}
+                           
+                            <div class="mt-2 text-right ${order.status==="In Transit"? '' : 'hidden'}">         
+                            <p class = "text-xs text-gray-500">your order is being transported once close to you, you will receive a notification with the delivery details and expected arrival time.</p>
+                            <button onclick="alert('this feature is not implemented yet')" class="text-xs text-gray-400 hover:text-blue-500 font-bold transition-colors">View Order Position</button>
                             </div>
+                            </div>
+
                         </li>
                     `;
                 })
