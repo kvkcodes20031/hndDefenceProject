@@ -9,8 +9,14 @@
 <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <div class="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
         <h1 class="text-2xl font-bold text-green-700 mb-4">Request Logistics</h1>
-        <p class="text-gray-600 mb-8">Order confirmed. Click below to broadcast a pickup request to all active logistics providers nearby.</p>
+        <p class="text-gray-600 mb-6">Order confirmed.</p>
         
+        <p class="text-sm font-medium text-gray-700 mb-4">Which method do you want to use to select a transport agent?</p>
+
+        <button onclick="window.location.href = `logisticsPark.html?order_id=${orderId}`" class="w-full bg-white border-2 border-green-600 text-green-600 py-3 rounded-xl font-bold hover:bg-green-50 transition mb-3">
+    select available transport agents in the park  
+        </button>
+
         <button id="broadcastBtn" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">
             Broadcast Request to Logistics
         </button>
@@ -26,6 +32,8 @@
         document.getElementById('broadcastBtn').addEventListener('click', function() {
             if(!orderId) { alert("Invalid Order ID"); return; }
             
+            const userMessage = prompt("Would you love to pass any message to the transport agent?");
+
             const btn = this;
             btn.disabled = true;
             btn.textContent = "Broadcasting...";
@@ -33,7 +41,10 @@
             fetch('broadcast_logistics.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ order_id: orderId })
+                body: JSON.stringify({ 
+                    order_id: orderId,
+                    message: userMessage
+                })
             })
             .then(res => res.json())
             .then(data => {

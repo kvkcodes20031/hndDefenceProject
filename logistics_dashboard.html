@@ -103,12 +103,16 @@
         <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Logistics Menu</h3>
         <ul class="space-y-4">
           <li class="hover:text-gray-200 cursor-pointer text-white font-bold"><a href="logistics_dashboard.html">Dashboard</a></li>
-          <li class="hover:text-gray-200 cursor-pointer">Orders & Routes</li>
-          <li class="hover:text-gray-200 cursor-pointer">Wallet</li>
-          <li class="hover:text-gray-200 cursor-pointer">Profile</li>
+          <li class="hover:text-gray-200 cursor-pointer" onmousedown="alert('this feature is coming up soon')">Orders & Routes</li>
+          <li class="hover:text-gray-200 cursor-pointer"><a href="upload_vehicles.html">Upload Vehicle</a></li> 
+          <li class="hover:text-gray-200 cursor-pointer"><a href="logisticsPark.html">Logistics Park</a></li>
+          <li class="hover:text-gray-200 cursor-pointer"><a href="usersParticularLogistics.html">my Vehicles</a></li>
+          <li class="hover:text-gray-200 cursor-pointer" onmousedown="alert('this feature is coming up soon')">Wallet</li>
+          <li class="hover:text-gray-200 cursor-pointer" onmousedown="alert('this feature is coming up soon')">Profile</li>
+          <li class="hover:text-gray-200 cursor-pointer"><a href="logistics_shipment..html">Shipments</a></li>
           <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
           <li class="mt-10">
-              <a href="verification.html" class="block w-full bg-yellow-500 text-white text-center py-2 rounded font-bold hover:bg-yellow-600 transition shadow-md">
+              <a href="verification.html" class="block w-full bg-yellow-500 text-white text-center  py-2 rounded font-bold hover:bg-yellow-600 transition shadow-md">
                   Verify Identity
               </a>
           </li>
@@ -123,15 +127,15 @@
             <div class="absolute inset-0 bg-black/30"></div>
             <div class="relative z-10 p-8 h-full flex flex-col justify-center text-white">
                 <h2 class="text-3xl font-bold mb-2">Welcome, <span id="username"></span> Logistics!</h2>
-                <p class="max-w-md opacity-90">Log in to access farmers, buyers, logistics, and input suppliers in one platform.</p>
+                
             </div>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-            <button class="bg-primary text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow hover:bg-secondary transition">View All Deliveries</button>
-            <button class="bg-primary text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 shadow hover:bg-secondary transition">Update My Routes</button>
-            <button class="bg-agri-gold text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2">
-                <span>🔔</span> Opportunities <span class="bg-white text-agri-gold px-2 py-0.5 rounded-md text-sm">3</span>
+            <button class="bg-agri-gold text-white py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2" onclick="alert(`This will show you new transport opportunities based on your profile and past activity. 
+            👉Still to be implemented, but coming soon!`);">
+                
+                <span>🔔</span> Opportunities <span class="bg-white text-agri-gold px-2 py-0.5 text-xs text-red-500 rounded-md text-sm" id="counter">3</span>
             </button>
         </div>
 
@@ -140,48 +144,19 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-primary">Deliveries Assigned</h3>
                     <div class="flex gap-2">
-                        <button class="text-xs bg-gray-200 px-3 py-1 rounded">View All</button>
-                        <button class="text-xs bg-gray-200 px-3 py-1 rounded">Update</button>
+                        <button class="text-xs bg-gray-200 px-3 py-1 rounded"  onclick="window.location.href = 'logistics_shipment..html'">View All</button> 
+                        <button class="text-xs bg-gray-200 px-3 py-1 rounded" onmousedown="alert('this feature is comming up soon')">Update</button>
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row gap-4 items-center">
-                    <div class="w-24 h-20 bg-gray-100 rounded-lg shrink-0 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=200" class="object-cover h-full w-full" alt="Maize">
-                    </div>
-                    <div class="flex-grow">
-                        <h4 class="font-bold text-lg">Maize</h4>
-                        <p class="text-xs text-gray-500">Produce Available (10 65g 50 kg)</p>
-                        <p class="text-xs font-semibold">Available until May 20, 2024</p>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <p class="font-bold text-lg">15 T</p>
-                        <p class="text-xs text-gray-400">20,000 XAF</p>
-                        <p class="text-xs text-green-600 font-bold">+ 86,000 XAF</p>
-                    </div>
-                    <button class="bg-agri-gold text-white px-6 py-2 rounded-lg font-bold text-sm whitespace-nowrap">In Transit</button>
+                <div class="flex-grow" id="pastOrders">
+                    <p class="p-4 text-center text-gray-400 italic">Loading assigned deliveries...</p>
                 </div>
-
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row gap-4 items-center">
-                    <div class="w-24 h-20 bg-gray-100 rounded-lg shrink-0 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=200" class="object-cover h-full w-full" alt="Cassava">
-                    </div>
-                    <div class="flex-grow">
-                        <h4 class="font-bold text-lg">Cassava</h4>
-                        <p class="text-xs text-gray-500">Produce Available (15 65g 50 kg)</p>
-                        <p class="text-xs font-semibold">Available from May 5, 2024</p>
-                    </div>
-                    <div class="text-right shrink-0">
-                        <p class="font-bold text-lg">12 T</p>
-                        <p class="text-xs text-gray-400">22,000 XAF</p>
-                        <p class="text-xs text-green-600 font-bold">+ 25,000 XAF</p>
-                    </div>
-                    <button class="bg-primary text-white px-6 py-2 rounded-lg font-bold text-sm whitespace-nowrap">Pending Pickup</button>
-                </div>
+                
             </div>
 
             <div class="space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                <!-- <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <h3 class="text-lg font-bold text-primary mb-4 border-b pb-2">Earnings Summary</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
@@ -199,12 +174,12 @@
                             <button class="text-xs bg-agri-gold text-white px-3 py-1 rounded">Accept</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="bg-primary text-white p-6 rounded-2xl shadow-sm">
                     <h3 class="text-lg font-bold mb-4">Total Earnings</h3>
                     <div class="flex items-center justify-between">
-                        <span class="text-3xl font-bold">600,000</span>
+                        <span class="text-3xl font-bold" id="totalEarnings">600,000</span>
                         <span class="text-sm font-medium">XAF</span>
                     </div>
                     <p class="text-xs mt-2 opacity-70">↑ +12% from last month</p>
@@ -298,7 +273,7 @@
                     }
 
                     list.innerHTML = data.notifications.map(n => `
-                        <li onclick="markNotificationRead(${n.id}, this)" 
+                        <li onclick="markNotificationRead(${n.notification_id}, this)" 
                             class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
                             <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
                             <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
@@ -342,6 +317,82 @@
                 }
             });
         }
+                  function fetchShipments() {
+           
+         fetch('get_logistics_shipments.php')
+                .then(res => res.json())
+                .then(data => {
+                    const grid = document.getElementById('pastOrders');
+                    if (data.success && data.shipments.length > 0) {
+                        console.log("Fetched Shipments:", data.shipments); // Debug log
+                        grid.innerHTML = data.shipments.map(s => {
+                            const isPending = s.delivery_status === 'pending';
+                            console.log("Shipment ID:", s.shipment_id, "Status:", s.delivery_status); // Debug log  
+                            return `
+                                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                                    <div class="flex-grow">
+    
+                                        <h3 class="font-bold text-lg text-gray-800 mb-1">${s.product_name} (${s.quantity} ${s.unit})</h3>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2   text-sm text-gray-500">
+                                          <p><strong>Pickup:</strong> ${s.pickup_location}</p>
+                                            <p><strong>Delivery:</strong> ${s.delivery_location}</p>
+                                            <p><strong>Date:</strong> ${new Date(s.delivery_date).toLocaleDateString()}</p>
+                                            <p><strong>PRICE:</strong> $${s.total_amount}</p>
+                                        </div>
+                                        
+
+
+                                       
+
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        grid.innerHTML = '<div class="bg-white p-10 text-center rounded-2xl border-2 border-dashed border-gray-200 text-gray-400 italic">No shipment requests assigned to you yet.</div>';
+                    } 
+                    let counter = 0;
+                    let totalEarings = 0
+                    document.getElementById('counter').textContent = data.shipments.length;
+                    document.getElementById('totalEarnings').textContent = data.shipments.reduce((sum, s) => sum + parseFloat(s.total_amount), 0).toLocaleString();
+                   data.shipments.forEach(s => {
+                       counter++;
+                        totalEarings += parseFloat(s.total_amount);
+
+                    });
+                });
+        }
+  fetchShipments();
+        function updateStatus(shipmentId, newStatus, btnElement) {
+            if (newStatus === 'Rejected' && !confirm('Are you sure you want to reject this transport request?')) return;
+
+            const originalText = btnElement.textContent;
+            btnElement.disabled = true;
+            btnElement.textContent = 'Processing...';
+
+            fetch('update_shipment_status.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ shipment_id: shipmentId, status: newStatus })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(newStatus === 'In Transit' ? 'Request Accepted! Check pickup details.' : 'Request Rejected.');
+                        fetchShipments();
+                    } else {
+                        alert('Error: ' + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+                        btnElement.disabled = false;
+                        btnElement.textContent = originalText;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    btnElement.disabled = false;
+                    btnElement.textContent = originalText;
+                });
+        }
+
 
         // Function to handle Accept Shipment from Notification
         window.acceptShipment = function(orderId, btnElement) {

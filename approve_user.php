@@ -22,7 +22,7 @@ try {
 
     // 2. Send Notification
     $msg = "Congratulations! Your identity has been verified. You can now list products and use all premium features.";
-    $notif = $connect->prepare("INSERT INTO notification (user_id, notifiaction_message, is_read, created_at) VALUES (?, ?, 0, NOW())");
+    $notif = $connect->prepare("INSERT INTO notification (user_id, notification_message, is_read, created_at) VALUES (?, ?, 0, NOW())");
     $notif->execute([$userId, $msg]);
 
     $connect->commit();

@@ -17,13 +17,15 @@ try {
     // We join order_items -> product_listing -> product -> orders -> userstable(buyer)
     $sql = "SELECT 
                 oi.order_id,
-                oi.qauntity,
+                oi.qauntity AS quantity,
                 o.total_amount,
                 oi.agreed_price,
                 o.order_date,
                 o.order_status,
                 p.product_name,
                 p.unit,
+                u.first_name,
+                u.last_name,
                 pl.image_path,
                 concat(u.first_name, ' ', u.last_name) as buyer_name,
                 u.phone_number 

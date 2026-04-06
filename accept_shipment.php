@@ -41,8 +41,8 @@ try {
     $pickupLocation = $locStmt->fetchColumn() ?: 'Unknown';
 
     // Create Shipment
-    $shipStmt = $connect->prepare("INSERT INTO shipments (order_id, provider_id, pickup_location, delivery_location,delivery_status, delivery_cost, created_at) VALUES (?, ?, ?, 'Pending Pickup', 5000 "); 
-    $shipStmt->execute([$orderId, $providerId, $pickupLocation]);
+    $shipStmt = $connect->prepare("INSERT INTO shipments (order_id, provider_id, pickup_location, delivery_location, delivery_status, delivery_cost, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+    $shipStmt->execute([$orderId, $providerId, $pickupLocation, 'Pending Pickup', 'In Transit', 5000]);
 
     // Update Order Status
     $connect->prepare("UPDATE orders SET order_status = 'In Transit' WHERE order_id = ?")->execute([$orderId]);

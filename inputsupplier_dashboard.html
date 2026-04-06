@@ -140,7 +140,7 @@
             </div>
             <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
                 <p class="text-[10px] sm:text-xs opacity-80 mb-1">Orders Received</p>
-                <p class="text-2xl font-bold">31</p>
+                <p class="text-2xl font-bold" id="totalOrdersStat">0</p>
             </div>
             <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
                 <p class="text-[10px] sm:text-xs opacity-80 mb-1">Active Farmers</p>
@@ -257,6 +257,10 @@
             fetch('getuserlistings.php')
             .then(response => response.json())
             .then(data => {
+                if (data.success) {
+                    // Update Total Products Listed Stat
+                    document.querySelector('.grid div:first-child p.text-2xl').textContent = data.products.length;
+                }
                 if (data.success && data.products.length > 0) {
                     grid.innerHTML = data.products.map(product => `
                      
@@ -298,6 +302,19 @@
         // Initialize product fetch
         fetchProducts();
     }
+
+    // Fetch dynamic stats for orders
+    fetch('get_seller_orders.php')
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                document.getElementById('totalOrdersStat').textContent = data.orders.length;
+                // Calculate Revenue
+                const totalRevenue = data.orders.reduce((sum, o) => sum + parseInt(o.total_amount || 0), 0);
+                const revenueElements = document.querySelectorAll('.grid div:last-child p.text-lg');
+                if(revenueElements.length > 0) revenueElements[0].innerHTML = `${(totalRevenue/1000).toFixed(1)}k <span class="text-xs font-normal">XAF</span>`;
+            }
+        });
     
     // ================= NOTIFICATION LOGIC =================
     function toggleNotifications() {
@@ -316,7 +333,7 @@
             const countBadge = document.getElementById('notificationCount');
             
             if (data.success && data.notifications.length > 0) {
-                const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
+            const unreadCount = data.notifications.filter(n => n.is_read == 0).length;
                 
                 if (unreadCount > 0) {
                     countBadge.textContent = unreadCount;
@@ -329,7 +346,9 @@
                 list.innerHTML = data.notifications.map(n => `
                     <li onclick="markNotificationRead(${n.notification_id}, this)" 
                         class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? 'bg-blue-50 opacity-100' : 'bg-white opacity-60'}">
-                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">${n.notification_message}</p>
+                        <p class="text-xs ${n.is_read == 1 ? 'line-through text-gray-500' : 'font-medium text-gray-800'}">
+                            ${n.notification_message || 'New order update received'}
+                        </p>
                         <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
                     </li>
                 `).join('');

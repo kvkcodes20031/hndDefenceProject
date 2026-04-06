@@ -34,7 +34,7 @@
                 <button id="mobileMenuBtn" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
                     ☰
                 </button>
-                <a href="../homepage.html" class="flex items-center gap-2 group">
+                <a href="homepage.html" class="flex items-center gap-2 group">
                     <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
                     <span class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
                 </a>
@@ -51,7 +51,7 @@
 
             <div class="flex items-center gap-2 sm:gap-4">
                  <div class="hidden lg:flex items-center gap-6 mr-2">
-                    <a href="../homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
+                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
                 </div>
                 
                 <!-- Notification Button -->
@@ -93,23 +93,21 @@
 
 <div class="flex flex-1 overflow-hidden">
     <!-- ========== SIDEBAR ========== -->
-    <aside class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 lg:relative lg:translate-x-0 lg:h-full overflow-y-auto shrink-0" id="sidebar">
+    <aside class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 lg:relative lg:translate-x-0 lg:h-full overflow-y-auto" id="sidebar">
         <div class="flex items-center justify-between mb-8">
             <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
-            <!-- <span class="font-bold text-xl">AgriLink</span> -->
+            <!-- <span class="font-bold text-xl"></span> -->
             <span class="font-bold text-xl">FarmGlobe</span>
             </div>
             <button id="closeSidebar" class="lg:hidden text-white text-2xl">&times;</button>
         </div>
         <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
         <ul class="space-y-4">
-            <li class="hover:text-gray-200 cursor-pointer"><a href="../homepage.html">Home</a></li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
             <li class="hover:text-gray-200 cursor-pointer">Dashboard</li>
             <li class="hover:text-gray-200 cursor-pointer">My Produce</li>
-            <li class="hover:text-gray-200 cursor-pointer"><a href="farmers_received_order.html">View Orders</a></li>
-            <li class="hover:text-gray-200 cursor-pointer"><a href="buyers_orders.html">My
-                 Orders</a></li>
+          
             <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
             <li class="hover:text-gray-200 cursor-pointer">Supplier</li>
             <li class="hover:text-gray-200 cursor-pointer"><a href="create_cooperative.html" class="text-accent font-bold">Create Cooperative</a></li>
@@ -142,23 +140,6 @@
 
     <main class="flex-1 p-6 md:p-10 overflow-y-auto h-full">
 
-        <section class="relative rounded-2xl overflow-hidden bg-gray-200 mb-8 h-48 md:h-64">
-            <div class="absolute inset-0">
-                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Farm">
-                <div class="absolute inset-0 bg-black/20"></div>
-            </div>
-            <div class="relative z-10 p-6 md:p-10 h-full flex flex-col justify-center text-white">
-                <h2 class="text-3xl font-bold mb-2">Welcome, <span id="username"></span> Farm!</h2>
-                <p class="max-w-sm text-sm opacity-90 leading-relaxed">Log in to access farmers, buyers, logistics, and input suppliers in one platform.</p>
-                <div class="mt-4">
-                    <a href="coperativ.html" class="inline-block bg-white text-primary px-6 py-2 rounded-lg font-bold text-sm hover:bg-gray-100 transition shadow-lg">Go to Cooperative Management</a>
-                </div>
-            </div>
-            <div class="absolute right-10 bottom-0 hidden md:block">
-                <img src="https://images.unsplash.com/photo-1594235342410-2384a2408931?w=400" class="w-48 h-56 object-cover rounded-t-full border-4 border-white border-b-0" alt="Farmer">
-            </div>
-        </section>
-
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
                 <p class="text-[10px] sm:text-xs opacity-80 mb-1">Total Produce Listed</p>
@@ -178,74 +159,8 @@
             </div>
         </div>
 
-        <section class="mb-10">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <h3 class="text-xl font-bold text-primary">My Produce</h3>
-                <div class="flex gap-2">
-                    <a href="inputListing.html" class="bg-white border border-gray-200 px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-gray-50">
-                        <span>+</span> Add New Produce
-                    </a>
-                    <button class="bg-white border border-gray-200 px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2">
-                        <span>📋</span> Manage My Produce
-                    </button>
-                </div>
-            </div>
 
-            <div class="space-y-4 b" id="productsGrid">
-                <div class="bg-white p-4 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <img src="https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Maize">
-                    <div class="flex-grow w-full">
-                        <h4 class="font-bold text-primary">Maize</h4>
-                        <p class="text-[10px] text-gray-400">Corn Available (25 Sack 50 kg)</p>
-                        <p class="text-[10px] font-bold">Available: 15 May 2024</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col justify-between w-full sm:w-auto sm:text-right items-center sm:items-end">
-                        <p class="text-primary font-bold">$0.020</p>
-                        <p class="text-[8px] text-gray-400">10,000 XAF</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col gap-2 sm:gap-1 w-full sm:w-auto">
-                        <button class="flex-1 bg-primary text-white px-4 py-1.5 rounded text-[10px] font-bold text-center">Market Price</button>
-                        <button class="flex-1 text-[10px] font-bold text-gray-400 text-center">Edit Product</button>
-                    </div>
-                </div>
-
-                <div class="bg-white p-4 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <!-- <img src="https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Cassava"> -->
-                    <div class="flex-grow w-full">
-                        <h4 class="font-bold text-primary">Cassava</h4>
-                        <p class="text-[10px] text-gray-400">Corn Available (15 Sack 50 kg)</p>
-                        <p class="text-[10px] font-bold">Available: 15 May 2024</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col justify-between w-full sm:w-auto sm:text-right items-center sm:items-end">
-                        <p class="text-primary font-bold">$0.010</p>
-                        <p class="text-[8px] text-gray-400">10,000 XAF</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col gap-2 sm:gap-1 w-full sm:w-auto">
-                        <button class="flex-1 bg-primary text-white px-4 py-1.5 rounded text-[10px] font-bold text-center">Market Price</button>
-                        <button class="flex-1 text-[10px] font-bold text-gray-400 text-center">Edit Product</button>
-                    </div>
-                </div>
-
-                <div class="bg-white p-4 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <!-- <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=100" class="w-16 h-16 rounded-lg object-cover" alt="Tomatoes"> -->
-                    <div class="flex-grow w-full">
-                        <h4 class="font-bold text-primary">Tomatoes</h4>
-                        <p class="text-[10px] text-gray-400" >(10 Sack 50 kg)</p>
-                        <p class="text-[10px] font-bold">Available: 15 May 2024</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col justify-between w-full sm:w-auto sm:text-right items-center sm:items-end">
-                        <p class="text-primary font-bold">$0.015</p>
-                        <p class="text-[8px] text-gray-400">10,000 XAF</p>
-                    </div>
-                    <div class="flex flex-row sm:flex-col gap-2 sm:gap-1 w-full sm:w-auto">
-                        <button class="flex-1 bg-primary text-white px-4 py-1.5 rounded text-[10px] font-bold text-center">Market Price</button>
-                        <button class="flex-1 text-[10px] font-bold text-gray-400 text-center">Edit Product</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="ordersSection" class="hidden">
+        <section id="ordersSection">
             <div class="flex items-center justify-between mb-4">
                 <h3 class="text-xl font-bold text-primary">Recent Orders</h3>
                 <button class="text-xs bg-white border border-gray-200 px-3 py-1 rounded">Manage My Produce</button>
@@ -253,31 +168,7 @@
             
             <div class="space-y-3" id="ordersGrid">
                 <div class="bg-white p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
-                        <!-- <img src="https://via.placeholder.com/40" alt="Buyer"> -->
-                    </div>
-                    <div class="flex-grow w-full">
-                        <p class="text-xs font-bold">John's Farm, Akumay</p>
-                        <p class="text-[10px] text-gray-400">Produce: Maize, Harvested: 10/05/2024</p>
-                    </div>
-                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                        <button class="bg-gray-100 px-4 py-1 rounded text-[10px] font-bold">Invoice</button>
-                        <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded text-[10px] font-bold uppercase">Pending</span>
-                    </div>
-                </div>
-
-                <div class="bg-white p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
-                        <!-- <img src="https://via.placeholder.com/40" alt="Buyer"> -->
-                    </div>
-                    <div class="flex-grow w-full">
-                        <p class="text-xs font-bold">Bio Green-Place</p>
-                        <p class="text-[10px] text-gray-400">Produce: Cassava, Harvested: 12/05/2024</p>
-                    </div>
-                    <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-                        <button class="bg-gray-100 px-4 py-1 rounded text-[10px] font-bold">Invoice</button>
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded text-[10px] font-bold uppercase">On Delivery</span>
-                    </div>
+                <p class="p-4 text-center text-gray-400 italic">Loading orders...</p>
                 </div>
             </div>
         </section>
@@ -317,5 +208,11 @@
     </div>
 
     <script src="farmerdashboard.js"></script> 
+    <script>
+        
+        // ================= NOTIFICATION LOGIC =================
+      
+    </script>
+
 </body>
 </html>

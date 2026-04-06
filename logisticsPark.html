@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logistics Park | FarmGlobe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; }
+      .bg-agri-green { background-color: #064E3B; }
+  </style>
+</head>
+<body class="bg-light text-gray-800">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow-md sticky top-0 z-30 w-full transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center gap-4">
+                <button id="sidebarToggle" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">☰</button>
+                <a href="homepage.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
+                    <span class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
+                </a>
+            </div>
+            <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search for transport, trucks, regions..." class="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-2 focus:ring-primary outline-none transition-all shadow-sm">
+                    <button class="absolute right-2 top-1.5 p-1 bg-primary text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-secondary transition-colors">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center gap-4" id="navActions">
+                <div class="hidden lg:flex items-center gap-6 mr-2">
+                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
+                    <a href="logistics_dashboard.html" class="text-gray-600 hover:text-primary font-medium text-sm transition-colors">Dashboard</a>
+                </div>
+                <div id="authSection" class="flex items-center gap-2 pl-2 border-l border-gray-200">
+                     <a href="login.html" class="px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-bold shadow hover:bg-secondary transition-all">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden"></div>
+
+<div class="flex min-h-screen">
+  <!-- ========== SIDEBAR ========== -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 lg:sticky lg:top-[80px] lg:translate-x-0 lg:h-[calc(100vh-80px)] self-start overflow-y-auto">
+    <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Logistics Menu</h3>
+    <ul class="space-y-4">
+      <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Marketplace</a></li>
+      <li class="text-white font-bold cursor-pointer"><a href="logisticsPark.html">Logistics Park</a></li>
+      <li class="hover:text-gray-200 cursor-pointer"><a href="logistics_dashboard.html">Dashboard</a></li>
+      <li class="hover:text-gray-200 cursor-pointer">Available Routes</li>
+      <li class="pt-4 border-t border-white/20"></li>
+      <li class="hover:text-gray-200 cursor-pointer"><a href="upload_vehicles.html">Register Vehicle</a></li>
+    </ul>
+  </aside>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="flex-1 p-6 md:p-10">
+    <div class="mx-auto max-w-7xl">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-2xl font-bold text-primary">Logistics Park</h1>
+            <p class="text-gray-500 hidden md:block">Find reliable transport for your produce</p>
+        </div>
+
+        <!-- VEHICLES GRID -->
+        <div id="vehiclesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="text-gray-500">Loading available vehicles...</p>
+        </div>
+    </div>
+  </main>
+</div>
+
+<script>
+    // Sidebar toggle logic
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const toggleFunc = () => {
+        sidebar.classList.toggle('-translate-x-full');
+        sidebarOverlay.classList.toggle('hidden');
+    };
+    sidebarToggle.addEventListener('click', toggleFunc);
+    sidebarOverlay.addEventListener('click', toggleFunc);
+
+    // ✅ GET ORDER ID FROM URL
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get('order_id');
+
+// Fetch and display vehicles
+fetch('get_logistics_details.php')
+
+    // Fetch and display vehicles
+    fetch('get_logistics_details.php')
+    .then(response => response.json())
+    .then(data => {
+        const grid = document.getElementById('vehiclesGrid');
+        if (data.success && data.vehicles.length > 0) {
+            grid.innerHTML = data.vehicles.map(vehicle => `
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex flex-col hover:shadow-md transition-shadow">
+                    <div class="h-48 bg-gray-100 flex items-center justify-center mb-4 overflow-hidden rounded-lg">
+                        ${vehicle.sample_image 
+                            ? `<img src="${vehicle.sample_image}" alt="${vehicle.vehicle_type}" class="w-full h-full object-cover">`
+                            : `<div class="flex flex-col items-center text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                                </svg>
+                                <span class="text-xs mt-2 font-bold uppercase">No Photo</span>
+                               </div>`
+                        }
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] bg-green-100 text-primary px-2 py-1 rounded-full font-bold uppercase tracking-wider">${vehicle.vehicle_type}</span>
+                        <span class="text-xs font-bold text-accent">${vehicle.vehicle_capacity} KG Capacity</span>
+                    </div>
+                    <h3 class="font-bold text-lg text-gray-800 mb-1">${vehicle.company_name || 'Independent Carrier'}</h3>
+                    <div class="flex items-center gap-1 text-gray-500 text-sm mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>${vehicle.region}, ${vehicle.subdivision}</span>
+                    </div>
+                    <div class="mt-auto flex gap-2 pt-4 border-t border-gray-50">
+                        <button class="flex-1 bg-gray-100 text-gray-700 py-2.5 rounded-xl font-bold text-xs hover:bg-gray-200 transition" onclick="window.location.href='usersParticularLogistics.html?provider_id=${vehicle.provider_id}&order_id=${orderId}'">
+                             View
+                            Details
+                        </button>
+                        <button class="flex-1 bg-primary text-white py-2.5 rounded-xl font-bold text-xs hover:bg-secondary transition shadow-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            grid.innerHTML = '<p class="text-gray-500 col-span-3 text-center py-10">No transport services registered in this area yet.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading vehicles:', error);
+        document.getElementById('vehiclesGrid').innerHTML = '<p class="text-red-500">Failed to load logistics data.</p>';
+    });
+
+    // Auth session check (copied from homepage.html)
+    fetch('fetchUser.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.username) {
+            const authSection = document.getElementById('authSection');
+            if (authSection) {
+                authSection.innerHTML = `
+                    <span class="text-gray-700 font-medium text-sm hidden md:block">Hi, ${data.username}</span>
+                    <a href="logout.php" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-bold hover:bg-gray-200 transition-all">Logout</a>
+                `;
+            }
+        }
+    });
+</script>
+</body>
+</html>

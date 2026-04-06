@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title> FarmGlobe</title>
+    <title>Buyer Dashboard | AgriLink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -182,7 +182,7 @@
 
     <div class="flex min-h-screen">
       <aside
-        class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 overflow-y-auto"
+      class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 overflow-y-auto"
         id="sidebar"
       >
         <div class="flex items-center gap-8 mb-8">
@@ -206,9 +206,7 @@
           <li class="hover:text-gray-200 cursor-pointer">
             <a href="allgoods.html">Browse Produce</a>
           </li>
-          <li class="hover:text-gray-200 cursor-pointer">
-            <a href="buyers_orders.html">my Orders</a>
-          </li>
+          <li class="hover:text-gray-200 cursor-pointer">My Orders</li>
           <li class="hover:text-gray-200 cursor-pointer">Transactions</li>
           <li class="hover:text-gray-200 cursor-pointer">
             <a href="paymentpage.html">Place Payment</a>
@@ -219,8 +217,8 @@
       </aside>
 
       <!-- Main Content -->
-      <main class="flex-1 p-6 md:p-10 2xl:p-16 lg:ml-64">
-        <div class="max-w-7xl mx-auto">
+      <main class="flex-1 lg:ml-64 flex flex-col">
+        <div class="max-w-7xl mx-auto w-full p-6 md:p-10 2xl:p-16 flex-grow">
           <h2
             class="text-2xl md:text-3xl 2xl:text-4xl font-bold mb-8 text-primary"
           >
@@ -274,7 +272,7 @@
           </div>
 
           <!-- Main Content Grid -->
-          <div class="grid grid-cols-1 gap-8 2xl:gap-12">
+          <div  class="grid grid-cols-1 gap-8 2xl:gap-12">
             <!-- Orders -->
             <div
               class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100"
@@ -285,97 +283,17 @@
                 <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recent
                 Orders
               </h3>
-              <ul class="space-y-4 text-sm 2xl:text-base h-40 overflow-y-hidden" id="recentOrdersList">
+              <ul class="space-y-4 text-sm 2xl:text-base" id="recentOrdersList">
                 <li class="text-gray-500 italic">Loading orders...</li>
               </ul>
-              <a href="buyers_orders.html" class="text-primary hover:text-secondary font-bold text-sm mt-4 inline-block">
-                View All Orders
-              </a>
             </div>
-
-            <!-- Market Trends Placeholder -->
-            <!-- <div
-              class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center min-h-[200px]"
-            >
-              <p class="text-gray-400 font-medium 2xl:text-lg">
-                📊 Market Price Trends
-              </p>
-            </div>
-          </div> -->
-
-          <!-- Supplier Suggestions -->
-          <div
-            class="bg-white p-6 2xl:p-8 rounded-xl shadow-sm border border-gray-100 mt-8 2xl:mt-12"
-          >
-            <h3
-              class="text-lg 2xl:text-xl font-bold mb-5 flex items-center gap-2"
-            >
-              <span class="w-1.5 h-6 bg-accent rounded-full"></span> Recommended
-              Suppliers
-            </h3>
-            <ul
-              class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm 2xl:text-base"
-            >
-              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
-                Green Harvest Cooperative – Maize
-              </li>
-              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
-                North Rice Farmers Group – Rice
-              </li>
-              <li class="p-4 bg-light rounded-lg font-medium text-gray-700">
-                FreshGrow Farms – Vegetables
-              </li>
-            </ul>
           </div>
         </div>
       </main>
     </div>
 
-    <div id="payment"></div>
-
-    <!-- Cart -->
-    <div
-      id="cartOverlay"
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden transition-opacity"
-    ></div>
-    <div
-      id="cartSidebar"
-      class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col"
-    >
-      <div
-        class="p-4 border-b flex justify-between items-center bg-primary text-white"
-      >
-        <h2 class="font-bold text-lg">Your Cart</h2>
-        <button
-          id="closeCartBtn"
-          class="text-white hover:text-gray-200 text-xl font-bold"
-        >
-          ✕
-        </button>
-      </div>
-
-      <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4">
-        <p class="text-gray-500 text-center mt-10">Your cart is empty.</p>
-      </div>
-
-      <div class="p-4 border-t bg-gray-50">
-        <div class="flex justify-between font-bold text-lg mb-4">
-          <span>Total:</span>
-          <span id="cartTotalDisplay">0 XAF</span>
-        </div>
-        <button
-          onclick="checkout()"
-          class="w-full bg-primary text-white py-3 rounded-xl font-bold hover:bg-opacity-90 transition shadow-md"
-        >
-          Checkout
-        </button>
-      </div>
-    </div>
-
     <footer class="mt-16 py-12 border-t border-gray-200 bg-white lg:ml-64">
-      <div
-        class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"
-      >
+      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
         <div
           class="flex gap-6 text-[10px] 2xl:text-xs font-bold text-gray-500 uppercase tracking-widest"
         >
@@ -398,236 +316,32 @@
       </div>
     </footer>
     <script>
-      // Cart Logic
-      let cart = JSON.parse(localStorage.getItem("agriLinkCart")) || [];
-      const cartSidebar = document.getElementById("cartSidebar");
-      const cartOverlay = document.getElementById("cartOverlay");
-      const cartCountSpan = document.getElementById("cartCount");
-      const cartItemsContainer = document.getElementById("cartItemsContainer");
-      const cartTotalDisplay = document.getElementById("cartTotalDisplay");
-
-      // Toggle Cart
-      function toggleCart() {
-        const isClosed = cartSidebar.classList.contains("translate-x-full");
-        if (isClosed) {
-          cartSidebar.classList.remove("translate-x-full");
-          cartOverlay.classList.remove("hidden");
-        } else {
-          cartSidebar.classList.add("translate-x-full");
-          cartOverlay.classList.add("hidden");
-        }
-      }
-
-      document
-        .getElementById("cartToggleBtn")
-        .addEventListener("click", toggleCart);
-      document
-        .getElementById("closeCartBtn")
-        .addEventListener("click", toggleCart);
-      cartOverlay.addEventListener("click", toggleCart);
-
-      // Add to Cart Function
-      function addToCart(name, price, unit, listingId) {
-        if (!listingId) {
-          console.error("addToCart on buyer dashboard called without id");
-          return;
-        }
-        // Check if item exists
-        const existingItem = cart.find((item) => item.name === name);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          cart.push({ name, price, unit, quantity: 1, id: listingId });
-        }
-
-        updateCartUI();
-
-        // Submit cart data to database
-        const formData = new FormData();
-        formData.append("status", "Active");
-        fetch("submit_cart_data.php", {
-          method: "POST",
-          credentials: "same-origin",
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (
-              !data.success &&
-              data.errors &&
-              data.errors.includes("User not logged in")
-            ) {
-              alert("You must be logged in to submit your cart.");
-              window.location.href = "login.html";
-              return;
-            }
-
-            if (data.success && data.cart_id) {
-              console.log("Cart synced:", data);
-
-              // Submit item data now that we have cart_id
-              const itemData = new FormData();
-              itemData.append("cart_id", data.cart_id);
-              itemData.append("listing_id", listingId);
-              itemData.append("quantity", 1); // Add 1 item
-              itemData.append("price_at_time", price);
-
-              fetch("submit_cart_item_data.php", {
-                method: "POST",
-                credentials: "same-origin",
-                body: itemData,
-              })
-                .then((r) => r.text())
-                .then((text) => {
-                  console.log("Raw Server Response:", text);
-                  try {
-                    const d = JSON.parse(text);
-                    if (!d.success) {
-                      console.error("Item sync server error:", d.errors || d);
-                      alert(
-                        "Error adding item: " +
-                          (d.errors ? d.errors.join(", ") : "Unknown error"),
-                      );
-                    } else {
-                      console.log("Item synced:", d);
-                    }
-                  } catch (e) {
-                    console.error("JSON Parse Error. Server sent:", text);
-                    alert("Server Error: " + text);
-                  }
-                })
-                .catch((e) => console.error("Item sync error:", e));
-            } else {
-              console.error("Cart sync server error:", data.errors || data);
-              alert(
-                "Error syncing cart: " +
-                  (data.errors ? data.errors.join(", ") : "Unknown error"),
-              );
-            }
-          })
-          .catch((error) => {
-            console.error("Error syncing cart:", error);
-            alert(
-              "System Error: " + error.message + ". Check console for details.",
-            );
-          });
-      }
-
+  
+      
       // Checkout Function
-      function checkout() {
-        if (cart.length === 0) {
-          alert("Your cart is empty.");
-          return;
-        }
-
-        const totalAmount = cart.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0,
-        );
-
-        const orderData = {
-          total_amount: totalAmount,
-          order_status: "Pending",
-          items: cart,
-        };
-
-        fetch("submit_order_data.php", {
-          method: "POST",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.success) {
-              alert("Order placed successfully!");
-
-              cart = [];
-              localStorage.removeItem("agriLinkCart");
-
-              updateCartUI();
-              toggleCart();
-            } else {
-              alert("Checkout failed: " + data.errors.join(", "));
-            }
-          })
-          .catch((err) => console.error("Checkout error:", err));
-      }
-
-      // Remove from Cart Function
-      function removeFromCart(index) {
-        cart.splice(index, 1);
-        updateCartUI();
-      }
-
-      function updateCartUI() {
-        localStorage.setItem("agriLinkCart", JSON.stringify(cart));
-        if (cartCountSpan)
-          cartCountSpan.textContent = cart.reduce(
-            (sum, item) => sum + item.quantity,
-            0,
-          );
-
-        let total = 0;
-        if (cartItemsContainer) {
-          cartItemsContainer.innerHTML = cart
-            .map((item, index) => {
-              const itemTotal = item.price * item.quantity;
-              total += itemTotal;
-              return `
-                    <div class="flex justify-between items-center border-b pb-2">
-                        <div>
-                            <h4 class="font-bold text-sm">${item.name}</h4>
-                            <p class="text-xs text-gray-500">${item.quantity} x ${item.price} XAF / ${item.unit}</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="font-bold text-primary">${itemTotal.toLocaleString()} XAF</span>
-                            <button onclick="removeFromCart(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold border border-red-200 bg-red-50 px-2 py-1 rounded">
-                                Remove
-                            </button>
-                        </div>
-                    </div>
-                `;
-            })
-            .join("");
-
-          if (cart.length === 0) {
-            cartItemsContainer.innerHTML =
-              '<p class="text-gray-500 text-center mt-10">Your cart is empty.</p>';
-          }
-        }
-
-        if (cartTotalDisplay)
-          cartTotalDisplay.textContent = total.toLocaleString() + " XAF";
-      }
-
-      // Initial render
-      updateCartUI();
-
+    
+       
       // toggle sidebar on smaller screens
       let sideBar = document.getElementById("sidebar");
       let togglebtn = document.getElementById("menue");
       togglebtn.addEventListener("click", function () {
-        if (window.innerWidth < 1024) {
+        const clickedInsideSidebar = sidebar.contains(event.target);
+        const clickedMenuButton = menuBtn.contains(event.target);
+
+        if (window.innerWidth < 768) {
           sideBar.classList.toggle("hidden");
-          sideBar.classList.toggle("-translate-x-full");
         } else {
           // desktop collapse
           sideBar.classList.toggle("w-64");
-          sideBar.classList.toggle("hidden");
+          sideBar.classList.toggle("w-0");
         }
       });
 
       window.addEventListener("click", function (event) {
-        // Only hide sidebar on mobile when clicking outside of it
-        if (window.innerWidth < 1024) {
-          if (!sideBar.contains(event.target) && !togglebtn.contains(event.target)) {
-            sideBar.classList.add("hidden");
-            sideBar.classList.add("-translate-x-full");
-          }
-        }
+        const clickedInsideSidebar = sideBar.contains(event.target);
+        const clickedMenuButton = togglebtn.contains(event.target);
+
+        sideBar.classList.add("hidden");
       });
 
       // Fetch Orders Logic
@@ -636,7 +350,7 @@
           .then((response) => response.json())
           .then((data) => {
             const list = document.getElementById("recentOrdersList");
-             console.log("Fetched orders data:", data);
+
             if (data.success && data.orders.length > 0) {
               list.innerHTML = data.orders
                 .map((order) => {
@@ -668,7 +382,7 @@
                   ].includes(order.order_status);
 
                   return `
-                        <li id="order_${order.order_id}" class="flex justify-between items-center border-b pb-3 border-gray-50 last:border-0">
+                        <li class="flex justify-between items-center border-b pb-3 border-gray-50 last:border-0" >
                             <div>
                                 <span class="font-bold block">${order.product_name}</span>
                                 <span class="text-xs text-gray-500">${order.qauntity} ${order.unit} • ${parseInt(order.total_amount || 0).toLocaleString()} XAF</span>
@@ -699,8 +413,6 @@
                     }
                   });
                 }
-                // Apply payment button logic
-                callForPayment(order.order_id, order.order_status);
               });
 
               // Optional: Update stats counters if needed
@@ -730,7 +442,7 @@
           if (data.success) element.remove();
           else alert("Error deleting order: " + (data.errors ? data.errors.join(', ') : 'Unknown error'));
         })
-        .catch(err => { console.error(err); element.remove(); /* Fallback for local UI removal */ });
+        .catch(err => { console.error(err); element.remove(); });
       }
 
       // Load user data and orders on page load
@@ -771,16 +483,14 @@
               list.innerHTML = data.notifications
                 .map(
                   (n) => `
-                    <li onclick="markNotificationRead(${n.notification_id}, this, ${n.order_id})" 
+                    <li onclick="markNotificationRead(${n.notification_id}, this)" 
                         class="p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition ${n.is_read == 0 ? "bg-blue-50 opacity-100" : "bg-white opacity-60"}">
                         <p class="text-xs ${n.is_read == 1 ? "line-through text-gray-500" : "font-medium text-gray-800"}">${n.notification_message}</p>
                         <p class="text-[10px] text-gray-400 mt-1">${new Date(n.created_at).toLocaleString()}</p>
-                        
-                        
                     </li>
                 `,
-                
-                  ).join("");
+                )
+                .join("");
             } else {
               list.innerHTML =
                 '<li class="p-4 text-center text-gray-500 text-xs">No notifications</li>';
@@ -790,28 +500,7 @@
           .catch((err) => console.error("Error loading notifications:", err));
       }
 
-      
-
-      function showOrder(orderId) {
-        const orderItem = document.getElementById(`order_${orderId}`);
-        if (orderItem) {
-          orderItem.scrollIntoView({ behavior: "smooth", block: "center" });
-          orderItem.classList.add("bg-yellow-100", "transition-all", "duration-500");
-          setTimeout(() => {
-            orderItem.classList.remove("bg-yellow-100");
-          }, 2500);
-        }
-      }
-
-      function callForPayment(orderId, status) {
-        const payBtn = document.getElementById(`payBtn_${orderId}`);
-        if (payBtn && status === "Accepted") {
-          payBtn.classList.remove("bg-primary", "hover:bg-secondary", "cursor-not-allowed", "opacity-50");
-          payBtn.classList.add("bg-yellow-500", "hover:bg-yellow-600");
-        }
-      }
-
-      function markNotificationRead(id, element,orderId) {
+      function markNotificationRead(id, element) {
         fetch("mark_notification_read.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -830,23 +519,24 @@
                 textP.classList.add("line-through", "text-gray-500");
               }
 
-              // Use the orderId passed from the backend
-              if (orderId) {
-                showOrder(orderId);
-              } else {
-                // General scroll fallback
-                const ordersList = document.getElementById("recentOrdersList");
-                if (ordersList) ordersList.scrollIntoView({ behavior: "smooth", block: "center" });
+              // Scroll to Recent Orders list
+              const ordersList = document.getElementById("recentOrdersList");
+              if (ordersList) {
+                ordersList.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+                const dropdown = document.getElementById(
+                  "notificationDropdown",
+                );
+                if (dropdown) dropdown.classList.add("hidden");
               }
-
-              const dropdown = document.getElementById("notificationDropdown");
-              if (dropdown) dropdown.classList.add("hidden");
 
               // Optionally refresh count
               fetchNotifications();
             }
           });
-        }
+      }
     </script>
   </body>
 </html>

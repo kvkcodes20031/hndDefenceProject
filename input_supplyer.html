@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>FarmGlobe - Input Supplier Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: '#1f7a4d',
+                secondary: '#2ea36b',
+                accent: '#f97316',
+                light: '#f6f3ec'
+              }
+            }
+          }
+        }
+  </script>
+    <style>
+        html, body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; width: 100%; }
+    </style>
+</head>
+<body class="bg-light text-gray-800 h-screen overflow-hidden flex flex-col">
+    <header class="bg-white shadow-md z-30 w-full transition-all duration-300 shrink-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center gap-4">
+                <button id="mobileMenuBtn" class="lg:hidden text-2xl text-gray-600 hover:text-primary focus:outline-none transition-colors">
+                    ☰
+                </button>
+                <a href="homepage.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-secondary transition-colors">FG</div>
+                    <span class="font-bold text-2xl text-primary tracking-tight group-hover:text-secondary transition-colors">FarmGlobe</span>
+                </a>
+            </div>
+
+            <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search..." class="w-full bg-gray-50 border border-gray-200 rounded-full py-2.5 pl-5 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm">
+                    <button class="absolute right-2 top-1.5 p-1 bg-primary text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-secondary transition-colors">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-4">
+                 <div class="hidden lg:flex items-center gap-6 mr-2">
+                    <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm transition-colors">Home</a>
+                </div>
+                
+                <!-- Notification Button -->
+                <div class="relative">
+                    <button id="notificationBtn" onclick="toggleNotifications()" class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        <span id="notificationCount" class="absolute top-0 right-0 bg-red-500 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm hidden">0</span>
+                    </button>
+                    
+                    <div id="notificationDropdown" class="hidden absolute top-12 right-0 w-80 bg-white shadow-xl rounded-xl border border-gray-100 z-50 overflow-hidden">
+                        <div class="p-3 border-b bg-gray-50 font-bold text-gray-700 text-sm">
+                            Notifications
+                        </div>
+                        <ul id="notificationList" class="max-h-80 overflow-y-auto text-sm">
+                            <li class="p-4 text-center text-gray-500">Loading...</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button id="cartToggleBtn" class="relative p-2 text-gray-600 hover:text-primary transition-transform hover:scale-105">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span class="absolute -top-1 -right-1 bg-accent text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center shadow-sm" id="cartCount">0</span>
+                </button>
+                
+                <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+                     <a href="logout.php" class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-bold shadow hover:bg-gray-200 transition-all">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden transition-opacity"></div>
+
+<div class="flex flex-1 overflow-hidden">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="fixed inset-y-0 left-0 w-64 bg-primary text-white p-6 transform -translate-x-full transition-transform duration-300 ease-in-out z-50 lg:relative lg:translate-x-0 lg:h-full overflow-y-auto" id="sidebar">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-white rounded flex items-center justify-center text-primary font-bold italic">A</div>
+            <span class="font-bold text-xl">FarmGlobe</span>
+            </div>
+            <button id="closeSidebar" class="lg:hidden text-white text-2xl">&times;</button>
+        </div>
+        <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Menu</h3>
+        <ul class="space-y-4">
+            <li class="hover:text-gray-200 cursor-pointer"><a href="homepage.html">Home</a></li>
+            <li class="text-white font-bold cursor-pointer" id="myProduceBtn">Dashboard</li>
+            <li class="hover:text-gray-200 cursor-pointer" id="viewOrdersLink">Orders</li>
+            <li class="hover:text-gray-200 cursor-pointer">Logistics</li>
+            <li class="hover:text-gray-200 cursor-pointer"><a href="paymentpage.html">Place Payment</a></li>
+            
+            <li class="pt-4 border-t border-green-700 mt-4"></li>
+            <li class="lg:hidden hover:text-gray-200 cursor-pointer">Profile</li>
+            <li class="lg:hidden hover:text-gray-200 cursor-pointer">Support</li>
+            <li class="lg:hidden hover:text-gray-200 cursor-pointer"><a href="login.html">Login</a></li>
+            <li class="mt-4">
+                <a href="verification.html" class="block w-full bg-yellow-500 text-white text-center py-2 rounded font-bold hover:bg-yellow-600 transition shadow-md">
+                    Verify Identity
+                </a>
+            </li>
+            <li class="mt-6">
+                <a href="inputListing.html" class="block w-full bg-accent text-white text-center py-2 rounded font-bold hover:bg-orange-600 transition shadow-md">
+                    + List Input
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto h-full">
+
+        <section class="relative rounded-2xl overflow-hidden bg-gray-200 mb-8 h-48 md:h-64">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover" alt="Farm">
+                <div class="absolute inset-0 bg-black/20"></div>
+            </div>
+            <div class="relative z-10 p-6 md:p-10 h-full flex flex-col justify-center text-white">
+                <h2 class="text-3xl font-bold mb-2">Welcome, <span id="username"></span> Input Supplier!</h2>
+                <p class="max-w-sm text-sm opacity-90 leading-relaxed">Manage your input supplies and orders efficiently.</p>
+            </div>
+            <div class="absolute right-10 bottom-0 hidden md:block">
+                <img src="https://images.unsplash.com/photo-1594235342410-2384a2408931?w=400" class="w-48 h-56 object-cover rounded-t-full border-4 border-white border-b-0" alt="Supplier">
+            </div>
+        </section>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
+                <p class="text-[10px] sm:text-xs opacity-80 mb-1">Total Inputs Listed</p>
+                <p class="text-2xl font-bold" id="totalInputsListed">0</p>
+            </div>
+            <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
+                <p class="text-[10px] sm:text-xs opacity-80 mb-1">Orders Received</p>
+                <p class="text-2xl font-bold" id="totalOrders">0</p>
+            </div>
+            <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
+                <p class="text-[10px] sm:text-xs opacity-80 mb-1">Pending Payments</p>
+                <p class="text-lg sm:text-2xl font-bold"><span id="pending_payments">0</span> <span class="text-xs font-normal">XAF</span></p>
+            </div>
+            <div class="bg-primary text-white p-4 rounded-xl text-center shadow-md">
+                <p class="text-[10px] sm:text-xs opacity-80 mb-1">Earnings This Month</p>
+                <p class="text-lg sm:text-2xl font-bold"><span id="earnings_this_month">0</span> <span class="text-xs font-normal">XAF</span></p>
+            </div>
+        </div>
+
+        <section id="productsSection" class="mb-10">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <h3 class="text-xl font-bold text-primary">My Inputs</h3>
+                <div class="flex gap-2">
+                    <a href="inputListing.html" class="bg-white border border-gray-200 px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-gray-50">
+                        <span>+</span> Add New Input
+                    </a>
+                </div>
+            </div>
+            <div class="space-y-4" id="productsGrid">
+                <p class="text-gray-500 text-center">Loading inputs...</p>
+            </div>
+        </section>
+
+        <section id="ordersSection">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-primary">Recent Orders</h3>
+                <button class="text-xs bg-white border border-gray-200 px-3 py-1 rounded" id="toggleOrdersBtn">Toggle Orders/Products</button>
+            </div>
+            
+            <div class="space-y-3" id="ordersGrid">
+                <p class="p-4 text-center text-gray-400 italic">Loading orders...</p>
+            </div>
+        </section>
+
+    <footer class="mt-16 pt-8 border-t border-gray-200 text-center">
+        <div class="flex flex-wrap justify-center gap-6 text-[10px] font-bold text-gray-500 mb-6">
+            <a href="#">Need Help?</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="flex justify-center gap-4 text-primary opacity-70">
+            <span>f</span> <span>t</span> <span>i</span>
+        </div>
+    </footer>
+    </main>
+</div>
+
+    <script>
+        // ================= INPUT SUPPLIER ORDER LOGIC =================
+        function fetchSellerOrders() {
+            fetch("get_seller_orders.php") // Using the generic seller orders endpoint
+                .then((response) => response.json())
+                .then((data) => {
+                    const ordersGrid = document.getElementById("ordersGrid");
+                    if (data.success && data.orders.length > 0) {
+                        ordersGrid.innerHTML = data.orders
+                            .map((order) => {
+                                const currentStatus = (order.order_status || "").toLowerCase();
+                                let statusClass = "text-gray-400";
+                                let buttonsHtml = '';
+
+                                if (currentStatus === "pending") {
+                                    statusClass = "text-orange-500";
+                                    buttonsHtml = `
+                                        <button id="acceptBtn_${order.order_id}" onclick="acceptOrder(${order.order_id}, this)" class="bg-primary text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-secondary transition">Accept</button>
+                                        <button id="rejectBtn_${order.order_id}" onclick="rejectOrder(${order.order_id}, this)" class="bg-red-500 text-white px-3 py-1 rounded text-[10px] font-bold hover:bg-red-600 transition">Reject</button>
+                                    `;
+                                } else if (currentStatus === "accepted") {
+                                    statusClass = "text-primary";
+                                    buttonsHtml = `<button onclick="goToStep2(${order.order_id})" class="text-[10px] text-blue-500 font-bold hover:underline">Select Logistics</button>`;
+                                } else if (currentStatus === "rejected") {
+                                    statusClass = "text-red-600";
+                                    buttonsHtml = `<button onclick="deleteOrder(${order.order_id}, this)" class="text-[10px] text-red-400 hover:text-red-600">Delete Order</button>`;
+                                } else if (["In Transit", "Active"].includes(order.order_status)) {
+                                    statusClass = "text-accent";
+                                } else if (["Delivered", "Completed", "Paid"].includes(order.order_status)) {
+                                    statusClass = "text-primary";
+                                }
+
+                                const isActionTaken = !["Pending"].includes(order.order_status);
+
+                                return `
+                                    <div class="bg-white p-3 rounded-xl border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center gap-4" id="orderItem_${order.order_id}">
+                                        <div class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden">
+                                            <!-- Buyer image placeholder -->
+                                        </div>
+                                        <div class="flex-grow w-full">
+                                            <p class="text-xs font-bold">${order.buyer_name || 'Unknown Buyer'}</p>
+                                            <p class="text-[10px] text-gray-400">Input: ${order.product_name}, Quantity: ${order.qauntity} ${order.unit}</p>
+                                            <p class="text-[10px] text-gray-400">Total: ${parseInt(order.total_amount || 0).toLocaleString()} XAF</p>
+                                        </div>
+                                        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
+                                            <span id="statusText_${order.order_id}" class="${statusClass} px-3 py-1 rounded text-[10px] font-bold uppercase">${order.order_status}</span>
+                                            <div id="actionButtons_${order.order_id}" class="flex gap-2 items-center">
+                                                ${buttonsHtml}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            })
+                            .join("");
+
+                        // Disable buttons for orders that are not pending
+                        data.orders.forEach(order => {
+                            if (order.order_status !== 'Pending') {
+                                const acceptBtn = document.getElementById(`acceptBtn_${order.order_id}`);
+                                const rejectBtn = document.getElementById(`rejectBtn_${order.order_id}`);
+                                if (acceptBtn) acceptBtn.disabled = true;
+                                if (rejectBtn) rejectBtn.disabled = true;
+                            }
+                        });
+
+                    } else {
+                        ordersGrid.innerHTML = '<p class="p-4 text-center text-gray-400 italic">No orders received yet.</p>';
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching input supplier orders:", error);
+                    document.getElementById("ordersGrid").innerHTML = '<p class="p-4 text-center text-red-500">Error loading orders.</p>';
+                });
+        }
+
+        window.goToStep2 = function (orderId) {
+            fetch("store_order_id.php", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order_id: orderId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = `select_logistics.html?order_id=${orderId}`;
+                }
+            });
+        };
+
+        function deleteOrder(orderId, btn) {
+            if (!confirm("Remove this rejected order?")) return;
+            fetch('delete_order.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: orderId })
+            }).then(res => res.json()).then(data => {
+                if (data.success) document.getElementById(`orderItem_${orderId}`).remove();
+            });
+        }
+
+        function updateOrderStatus(orderId, status, buttonElement) {
+            fetch('update_order_status.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_id: orderId, status: status })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Order ${orderId} status updated to ${status}.`);
+                    const statusTextElement = document.getElementById(`statusText_${orderId}`);
+                    if (statusTextElement) {
+                        statusTextElement.textContent = status;
+                        statusTextElement.className = `px-3 py-1 rounded text-[10px] font-bold uppercase ${status === 'Accepted' ? 'text-primary' : 'text-red-600'}`;
+                    }
+                    // Disable all buttons for this order after action
+                    const actionButtonsDiv = document.getElementById(`actionButtons_${orderId}`);
+                    if (actionButtonsDiv) actionButtonsDiv.innerHTML = ''; // Remove buttons
+                } else {
+                    alert("Error updating order status: " + (data.errors ? data.errors.join(', ') : 'Unknown error'));
+                }
+            })
+            .catch(err => console.error("Error updating order status:", err));
+        }
+
+        function acceptOrder(orderId, buttonElement) {
+            updateOrderStatus(orderId, 'Accepted', buttonElement);
+        }
+
+        function rejectOrder(orderId, buttonElement) {
+            if (confirm('Are you sure you want to reject this offer?')) {
+                updateOrderStatus(orderId, 'Rejected', buttonElement);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchSellerOrders();
+            // Other DOMContentLoaded calls like fetchUser(), fetchNotifications()
+        });
+    </script>
+
+</body>
+</html>

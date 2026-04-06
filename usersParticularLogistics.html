@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Provider Fleet | FarmGlobe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1f7a4d',
+            secondary: '#2ea36b',
+            accent: '#f97316',
+            light: '#f6f3ec'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+      body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #FDFBF7; }
+  </style>
+</head>
+<body class="bg-light text-gray-800">
+
+<header class="bg-white shadow-md sticky top-0 z-30 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <a href="homepage.html" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-lg">FG</div>
+                <span class="font-bold text-2xl text-primary tracking-tight">FarmGlobe</span>
+            </a>
+            <div class="flex items-center gap-6">
+                <a href="logisticsPark.html" class="text-gray-600 hover:text-primary font-bold text-sm">Back to Park</a>
+                <a href="homepage.html" class="text-gray-600 hover:text-primary font-bold text-sm">Home</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="flex min-h-screen">
+  <aside class="hidden lg:block w-64 bg-primary text-white p-6">
+    <h3 class="font-semibold mb-6 text-green-100 uppercase text-xs tracking-wider">Logistics Info</h3>
+    <p class="text-sm opacity-80 mb-4">Viewing the fleet of vehicles available for transport services.</p>
+    <div class="pt-4 border-t border-white/20">
+        <a href="logisticsPark.html" class="flex items-center gap-2 hover:text-gray-200">
+            <span>←</span> Back to Listings
+        </a>
+    </div>
+  </aside>
+
+  <main class="flex-1 p-6 md:p-10">
+    <div class="mx-auto max-w-5xl">
+        <div class="mb-10">
+            <h1 id="providerTitle" class="text-3xl font-bold text-primary mb-2 italic">Loading Fleet...</h1>
+            <p class="text-gray-500">Explore available transport options from this provider.</p>
+        </div>
+
+        <!-- FULL WIDTH VEHICLE LIST -->
+        <div id="fleetContainer" class="space-y-12">
+            <p class="text-gray-500">Loading vehicle details...</p>
+        </div>
+    </div>
+  </main>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const providerId = urlParams.get('provider_id');
+    const orderId = urlParams.get('order_id');
+
+    if (!providerId) {
+        alert("No provider selected.");
+        window.location.href = 'logisticsPark.html';
+    }
+
+    fetch(`get_provider_vehicles.php?provider_id=${providerId}`)
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('fleetContainer');
+        const title = document.getElementById('providerTitle');
+
+        if (data.success) {
+            title.textContent = data.company_name;
+            
+            if (data.vehicles.length > 0) {
+                container.innerHTML = data.vehicles.map(vehicle => `
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                        <!-- Bigger Picture -->
+                        <div class="md:w-1/2 h-64 md:h-96 bg-gray-100">
+                            ${vehicle.sample_image 
+                                ? `<img src="${vehicle.sample_image}" alt="${vehicle.vehicle_type}" class="w-full h-full object-cover">`
+                                : `<div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                                    </svg>
+                                    <span class="font-bold uppercase tracking-widest mt-4">Vehicle Image Pending</span>
+                                   </div>`
+                            }
+                        </div>
+
+                        <!-- Information -->
+                        <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="bg-green-100 text-primary px-4 py-1 rounded-full font-bold text-xs uppercase tracking-tighter">
+                                    ${vehicle.vehicle_type}
+                                </span>
+                                <span class="text-accent font-extrabold text-sm">
+                                    ${vehicle.vehicle_capacity} KG LOAD CAPACITY
+                                </span>
+                            </div>
+
+                            <h2 class="text-2xl font-bold text-gray-800 mb-6">Service Specifications</h2>
+                            
+                            <div class="grid grid-cols-2 gap-y-6 mb-8 text-sm">
+                                <div>
+                                    <p class="text-gray-400 font-bold uppercase text-[10px]">Operating Region</p>
+                                    <p class="font-bold text-gray-700">${vehicle.region}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-bold uppercase text-[10px]">Subdivision</p>
+                                    <p class="font-bold text-gray-700">${vehicle.subdivision}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-bold uppercase text-[10px]">Registration Date</p>
+                                    <p class="font-bold text-gray-700">${new Date(vehicle.created_at).toLocaleDateString()}</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 font-bold uppercase text-[10px]">Status</p>
+                                    <p class="text-green-600 font-bold flex items-center gap-1">
+                                        <span class="w-2 h-2 bg-green-500 rounded-full"></span> Available Now
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <button onclick="window.location.href='bookTransport.html?vehicle_id=${vehicle.vehicle_id}&provider_id=${vehicle.provider_id}${orderId ? '&order_id='+orderId : ''}'" class="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:bg-secondary transition shadow-md">
+                                    Book Transport
+                                </button>
+                                <button class="px-6 border border-gray-200 rounded-xl hover:bg-gray-50 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = '<p class="text-gray-500 text-center py-20">No vehicles registered for this provider.</p>';
+            }
+        } else {
+            container.innerHTML = `<p class="text-red-500">${data.errors.join(', ')}</p>`;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('fleetContainer').innerHTML = '<p class="text-red-500">Failed to connect to the server.</p>';
+    });
+
+    // Auth session check
+    fetch('fetchUser.php')
+    .then(response => response.json())
+    .then(data => {
+        if (data.username) {
+            // Optionally show logged in user state
+        }
+    });
+</script>
+</body>
+</html>
